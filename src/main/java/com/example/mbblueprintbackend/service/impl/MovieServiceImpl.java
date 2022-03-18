@@ -1,26 +1,21 @@
 package com.example.mbblueprintbackend.service.impl;
 
-import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.service.MovieService;
+import com.example.mbblueprintbackend.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
+    @Autowired
+    MovieRepository movieRepository;
+
     @Override
     public Map<String, Object> getAllMovies() {
 
-        List<Object> movieList = new ArrayList<>();
-        Movie movie = new Movie("xi");
-        movieList.add(movie);
-        Map<String, Object> map = new HashMap<>();
-        map.put("results", movieList);
-
-        return map;
+       return movieRepository.getAllMovies();
     }
 }
