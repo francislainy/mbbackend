@@ -1,12 +1,16 @@
 package com.example.mbblueprintbackend.controller;
 
+import com.example.mbblueprintbackend.service.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import static org.mockito.Mockito.when;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -20,27 +24,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.mbblueprintbackend.model.*;
 
+@Slf4j
 @WebMvcTest(controllers = MovieController.class)
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class MovieControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
+    @MockBean
+    MovieService movieService;
+    
     @Test
-    void getAllMovies() throws Exception {
+    void testGetAllMovies() throws Exception {
 
+        String json = getAllMoviesJson();
+        when(movieService.getAllMovies()).thenReturn(getAllMovies());
+
+        mockMvc.perform(get("/api/mb/movie"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(json));
+    }
+
+    private String getAllMoviesJson() {
+        Map<String, Object> map = getAllMovies();
+
+        return jsonMap2String(map);
+    }
+
+    private Map<String, Object> getAllMovies() {
         List<Object> movieList = new ArrayList<>();
         Movie movie = new Movie("xi");
         movieList.add(movie);
         Map<String, Object> map = new HashMap<>();
         map.put("results", movieList);
-
-        String json = jsonMap2String(map);
-
-        mockMvc.perform(get("/api/mb/movies"))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().json(json));
+        return map;
     }
 
     public static String jsonMap2String(Map<String, Object> jsonObject) {
@@ -53,7 +71,7 @@ class MovieControllerTest {
         try {
             jsonStr = mapper.writeValueAsString(jsonObject);
         } catch (JsonProcessingException e) {
-//            log.error(e.toString());
+            log.error(e.toString());
             throw new RuntimeException(e.getMessage()); // NOSONAR
         }
         return jsonStr;

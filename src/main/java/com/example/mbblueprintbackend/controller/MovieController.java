@@ -1,32 +1,24 @@
 package com.example.mbblueprintbackend.controller;
 
+import com.example.mbblueprintbackend.service.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.mbblueprintbackend.model.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/mb")
 public class MovieController {
 
-    @GetMapping("/movies")
+    @Autowired
+    MovieService movieService;
+
+    @GetMapping("/movie")
     public ResponseEntity<Object> getAllMovies() {
 
-        List<Object> movieList = new ArrayList<>();
-        Movie movie = new Movie("xi");
-        movieList.add(movie);
-        Map<String, Object> map = new HashMap<>();
-        map.put("results", movieList);
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
     }
 
 }
