@@ -9,17 +9,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.mbblueprintbackend.model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/mb")
 public class MovieController {
 
     @GetMapping("/movies")
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        List<Movie> movieList = new ArrayList<>();
+    public ResponseEntity<Object> getAllMovies() {
 
-        return new ResponseEntity<>(movieList, HttpStatus.OK);
+        List<Object> movieList = new ArrayList<>();
+        Movie movie = new Movie("xi");
+        movieList.add(movie);
+        Map<String, Object> map = new HashMap<>();
+        map.put("results", movieList);
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
 }
