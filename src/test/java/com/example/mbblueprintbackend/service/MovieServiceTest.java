@@ -5,10 +5,9 @@ import com.example.mbblueprintbackend.repository.MovieRepository;
 import com.example.mbblueprintbackend.service.impl.MovieServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -19,15 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-@WebMvcTest(MovieService.class)
 class MovieServiceTest {
 
-    @Autowired
+    @InjectMocks
     MovieServiceImpl movieService;
 
-    @MockBean
+    @Mock
     MovieRepository movieRepository;
-
 
     @Test
     void testGetAllMovies() {
