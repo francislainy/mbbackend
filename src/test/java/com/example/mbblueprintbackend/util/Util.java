@@ -22,39 +22,14 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpRequest;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class Util {
 
-    public static Map<String, Object> getAllMovies() {
-        List<Object> movieList = new ArrayList<>();
-        Actor actor = Actor.builder().name("Shakira").build();
-        Room room = Room.builder().title("Bedroom").build();
-        SetLocation setLocation = SetLocation.builder().title("Childhood home").build();
-
-        Movie movie = Movie.builder()
-                .actor(actor)
-                .character("西")
-                .imageUrl("anyUrl")
-                .meaning("West")
-                .pinyin("xī")
-                .room(room)
-                .setLocation(setLocation)
-                .scene("Shakira talking to Kanye West outside the front entrance")
-                .build();
-        movieList.add(movie);
-        Map<String, Object> map = new HashMap<>();
-        map.put("movies", movieList);
-        return map;
-    }
-
-    public static String jsonMap2String(Map<String, Object> jsonObject) {
+    public static String jsonStringFromObject(Object jsonObject) {
         if (jsonObject == null) {
             return "";
         }
@@ -135,4 +110,44 @@ public class Util {
         log.debug(curl + "\n\n " + bodyResponse + "\n ---- \n\n");
     }
 
+    public static Map<String, Object> getAllMovies() {
+        List<Object> movieList = new ArrayList<>();
+        Actor actor = Actor.builder().name("Shakira").build();
+        Room room = Room.builder().title("Bedroom").build();
+        SetLocation setLocation = SetLocation.builder().title("Childhood home").build();
+
+        Movie movie = Movie.builder()
+                .actor(actor)
+                .character("西")
+                .imageUrl("anyUrl")
+                .meaning("anyMeaning")
+                .pinyin("xī")
+                .room(room)
+                .setLocation(setLocation)
+                .scene("Shakira talking to Kanye West outside the front entrance")
+                .build();
+        movieList.add(movie);
+        Map<String, Object> map = new HashMap<>();
+        map.put("movies", movieList);
+        return map;
+    }
+
+    public static Movie getSingleMovie(UUID uuid) {
+
+        Actor actor = Actor.builder().name("Shakira").build();
+        Room room = Room.builder().title("Bedroom").build();
+        SetLocation setLocation = SetLocation.builder().title("Childhood home").build();
+
+        return Movie.builder()
+                .id(uuid)
+                .actor(actor)
+                .character("西")
+                .imageUrl("anyUrl")
+                .meaning("anyMeaning")
+                .pinyin("xī")
+                .room(room)
+                .setLocation(setLocation)
+                .scene("Shakira talking to Kanye West outside the front entrance")
+                .build();
+    }
 }

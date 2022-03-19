@@ -4,10 +4,9 @@ import com.example.mbblueprintbackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/mb")
@@ -21,6 +20,12 @@ public class MovieController {
     public ResponseEntity<Object> getAllMovies() {
 
         return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
+    }
+
+    @GetMapping("/movie/{movieId}")
+    public ResponseEntity<Object> getSingleMovie(@PathVariable UUID movieId) {
+
+        return new ResponseEntity<>(movieService.getSingleMovie(movieId), HttpStatus.OK);
     }
 
 }

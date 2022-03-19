@@ -27,11 +27,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class PactConsumerMBIT {
+class PactConsumerGetMovieIT {
 
     Map<String, String> headers = new HashMap<>();
 
-    String path = "/api/mb/movie";
+    String path = "/api/mb/movie/";
 
     @Pact(provider = PACT_PROVIDER, consumer = PACT_CONSUMER)
     public RequestResponsePact createPact(PactDslWithProvider builder) {
@@ -39,7 +39,6 @@ class PactConsumerMBIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyReturned = new PactDslJsonBody()
-                .eachLike("movies", 5)
                     .stringType("pinyin", "xī")
                     .stringType("character", "西")
                     .stringType("meaning", "West")
@@ -57,13 +56,12 @@ class PactConsumerMBIT {
                     .stringType("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                     .stringType("title", "Bedroom")
                 .closeObject()
-                .closeArray()
                 .close();
 
         return builder
-                .given("A request to create a course work")
-                .uponReceiving("A request to create a course work")
-                .path(path)
+                .given("A request to retrieve a movie")
+                .uponReceiving("A request to retrieve a movie")
+                .pathFromProviderState(path + "${movieId}", path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .method("GET")
                 .headers(headers)
                 .willRespondWith()
@@ -72,7 +70,6 @@ class PactConsumerMBIT {
                 .toPact();
     }
 
-
     @Test
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
     void runTest() {
@@ -80,7 +77,7 @@ class PactConsumerMBIT {
         //Mock url
         RequestSpecification rq = getRequestSpecification().baseUri(MOCK_PACT_URL).headers(headers);
 
-        Response response = rq.get(path);
+        Response response = rq.get(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
         assertEquals(200, response.getStatusCode());
     }

@@ -14,6 +14,8 @@ import static org.mockito.Mockito.when;
 
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,10 +34,23 @@ class MovieControllerTest {
     @Test
     void testGetAllMovies() throws Exception {
 
-        String json = Util.jsonMap2String(Util.getAllMovies());
+        String json = Util.jsonStringFromObject(Util.getAllMovies());
         when(movieService.getAllMovies()).thenReturn(Util.getAllMovies());
 
         mockMvc.perform(get("/api/mb/movie"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(json));
+    }
+
+    @Test
+    void testGetSingleMovie() throws Exception {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        String json = Util.jsonStringFromObject(Util.getSingleMovie(movieId));
+        when(movieService.getSingleMovie(movieId)).thenReturn(Util.getSingleMovie(movieId));
+
+        mockMvc.perform(get("/api/mb/movie/{movieId}", movieId))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(json));
     }
