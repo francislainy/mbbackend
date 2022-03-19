@@ -53,4 +53,25 @@ public class MovieRepository {
                 .scene("Shakira talking to Kanye West outside the front entrance")
                 .build();
     }
+
+    public Movie createMovie(Movie movie) {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Actor actor = Actor.builder().name("Shakira").build();
+        Room room = Room.builder().title("Bedroom").build();
+        SetLocation setLocation = SetLocation.builder().title("Childhood home").build();
+
+        return Movie.builder()
+                .id(movieId)
+                .actor(actor)
+                .character("西")
+                .imageUrl("anyUrl")
+                .meaning("anyMeaning")
+                .pinyin("xī")
+                .room(room)
+                .setLocation(setLocation)
+                .scene("Shakira talking to Kanye West outside the front entrance")
+                .build();
+    }
 }

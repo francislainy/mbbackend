@@ -1,6 +1,9 @@
 package com.example.mbblueprintbackend.service;
 
+import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.model.Movie;
+import com.example.mbblueprintbackend.model.Room;
+import com.example.mbblueprintbackend.model.SetLocation;
 import com.example.mbblueprintbackend.repository.MovieRepository;
 import com.example.mbblueprintbackend.service.impl.MovieServiceImpl;
 import com.example.mbblueprintbackend.util.Util;
@@ -52,6 +55,42 @@ class MovieServiceTest {
                 () -> assertEquals("Shakira", movie.getActor().getName()),
                 () -> assertEquals("Bedroom", movie.getRoom().getTitle()),
                 () -> assertEquals("Shakira talking to Kanye West outside the front entrance", movie.getScene()));
+    }
+
+    @Test
+    void testCreateMovie() {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Actor actor = Actor.builder().name("Shakira").build();
+        Room room = Room.builder().title("Bedroom").build();
+        SetLocation setLocation = SetLocation.builder().title("Childhood home").build();
+
+        Movie movie = Movie.builder()
+                .actor(actor)
+                .character("西")
+                .imageUrl("anyUrl")
+                .meaning("anyMeaning")
+                .pinyin("xī")
+                .room(room)
+                .setLocation(setLocation)
+                .scene("Shakira talking to Kanye West outside the front entrance")
+                .build();
+
+        when(movieRepository.createMovie(movie)).thenReturn(Util.getSingleMovie(movieId));
+
+        Movie movie1 = movieService.createMovie(movie);
+
+        assertAll(
+                () -> assertEquals(movieId.toString(), movie1.getId().toString()),
+                () -> assertEquals("xī", movie1.getPinyin()),
+                () -> assertEquals("西", movie1.getCharacter()),
+                () -> assertEquals("anyMeaning", movie1.getMeaning()),
+                () -> assertEquals("anyUrl", movie1.getImageUrl()),
+                () -> assertEquals("Childhood home", movie1.getSetLocation().getTitle()),
+                () -> assertEquals("Shakira", movie1.getActor().getName()),
+                () -> assertEquals("Bedroom", movie1.getRoom().getTitle()),
+                () -> assertEquals("Shakira talking to Kanye West outside the front entrance", movie1.getScene()));
     }
 
 }

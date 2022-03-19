@@ -1,5 +1,6 @@
 package com.example.mbblueprintbackend.controller;
 
+import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,12 @@ public class MovieController {
     public ResponseEntity<Object> getSingleMovie(@PathVariable UUID movieId) {
 
         return new ResponseEntity<>(movieService.getSingleMovie(movieId), HttpStatus.OK);
+    }
+
+    @PostMapping("/movie")
+    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
+
+        return new ResponseEntity<>(movieService.createMovie(movie), HttpStatus.CREATED);
     }
 
 }

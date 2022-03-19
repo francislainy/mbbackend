@@ -10,4 +10,6 @@ public interface MovieService {
     Map<String, Object> getAllMovies();
 
     Movie getSingleMovie(UUID uuid);
+
+    Movie createMovie(Movie movie);
 }
