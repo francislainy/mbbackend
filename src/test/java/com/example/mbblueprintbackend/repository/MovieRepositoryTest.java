@@ -1,13 +1,15 @@
 package com.example.mbblueprintbackend.repository;
 
-import com.example.mbblueprintbackend.model.Actor;
-import com.example.mbblueprintbackend.model.Movie;
-import com.example.mbblueprintbackend.model.Room;
-import com.example.mbblueprintbackend.model.SetLocation;
+import com.example.mbblueprintbackend.model.*;
 import com.example.mbblueprintbackend.util.Util;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static com.example.mbblueprintbackend.util.Util.jsonStringFromObject;
@@ -19,13 +21,31 @@ class MovieRepositoryTest {
     MovieRepository movieRepository = new MovieRepository();
 
     @Test
-    void testGetAllMovies() {
+    void testGetAllMovies() throws JsonProcessingException {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         assertTrue(movieRepository.getAllMovies().size() > 0);
         HashMap<String, Object> map = ((HashMap<String, Object>) movieRepository.getAllMovies());
+
         String json = jsonStringFromObject(map);
         String jsonExpected = jsonStringFromObject(Util.getAllMovies());
-        assertEquals(jsonExpected, json);
+
+        List<Movie> movieList = (List<Movie>) objectMapper.readValue(json, HashMap.class).get("movies");
+        List<Movie> movieExpectedList = (List<Movie>) objectMapper.readValue(jsonExpected, HashMap.class).get("movies");
+
+        List<Movie> myList = objectMapper.readValue(jsonStringFromObject(movieList), new TypeReference<>() {});
+        List<Movie> myListExpected = objectMapper.readValue(jsonStringFromObject(movieExpectedList), new TypeReference<>(){});
+
+        Movie movie = myList.get(0);
+        Movie movieExpected = myListExpected.get(0);
+        movieExpected.setId(movieId);
+
+        assertEquals(movie, movieExpected);
+        assertEquals(movie.getId(), movieExpected.getId());
     }
 
     @Test
@@ -41,7 +61,7 @@ class MovieRepositoryTest {
 
 
     @Test
-    void testCreateMovie() {
+    void testCreateMovie() throws JsonProcessingException {
 
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 

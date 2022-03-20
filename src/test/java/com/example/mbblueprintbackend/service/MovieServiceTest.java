@@ -7,6 +7,7 @@ import com.example.mbblueprintbackend.model.SetLocation;
 import com.example.mbblueprintbackend.repository.MovieRepository;
 import com.example.mbblueprintbackend.service.impl.MovieServiceImpl;
 import com.example.mbblueprintbackend.util.Util;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,7 +59,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void testCreateMovie() {
+    void testCreateMovie() throws JsonProcessingException {
 
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 

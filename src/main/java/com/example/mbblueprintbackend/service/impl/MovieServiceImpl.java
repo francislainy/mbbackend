@@ -3,6 +3,7 @@ package com.example.mbblueprintbackend.service.impl;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.service.MovieService;
 import com.example.mbblueprintbackend.repository.MovieRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie createMovie(Movie movie) {
+    public Movie createMovie(Movie movie) throws JsonProcessingException {
         return movieRepository.createMovie(movie);
     }
 
