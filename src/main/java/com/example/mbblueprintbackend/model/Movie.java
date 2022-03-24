@@ -1,5 +1,6 @@
 package com.example.mbblueprintbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Builder
 public class Movie {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
     private String pinyin;
     private String character;
@@ -20,7 +22,7 @@ public class Movie {
     private String scene;
     private String imageUrl;
 
-    private SetLocation setLocation;
+    private Location location;
     private Actor actor;
     private Room room;
 }

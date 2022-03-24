@@ -1,7 +1,10 @@
 package com.example.mbblueprintbackend.repository;
 
-import com.example.mbblueprintbackend.model.*;
-import com.example.mbblueprintbackend.util.Util;
+import com.example.mbblueprintbackend.model.Actor;
+import com.example.mbblueprintbackend.model.Movie;
+import com.example.mbblueprintbackend.model.Room;
+import com.example.mbblueprintbackend.model.Location;
+import com.example.mbblueprintbackend.util.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -12,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.mbblueprintbackend.util.Util.jsonStringFromObject;
+import static com.example.mbblueprintbackend.util.Utils.jsonStringFromObject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,7 +35,7 @@ class MovieRepositoryTest {
         HashMap<String, Object> map = ((HashMap<String, Object>) movieRepository.getAllMovies());
 
         String json = jsonStringFromObject(map);
-        String jsonExpected = jsonStringFromObject(Util.getAllMovies());
+        String jsonExpected = jsonStringFromObject(Utils.getAllMovies());
 
         List<Movie> movieList = (List<Movie>) objectMapper.readValue(json, HashMap.class).get("movies");
         List<Movie> movieExpectedList = (List<Movie>) objectMapper.readValue(jsonExpected, HashMap.class).get("movies");
@@ -55,7 +58,7 @@ class MovieRepositoryTest {
 
         Movie movie = movieRepository.getSingleMovie(movieId);
         String json = jsonStringFromObject(movie);
-        String jsonExpected = jsonStringFromObject(Util.getSingleMovie(movieId));
+        String jsonExpected = jsonStringFromObject(Utils.getSingleMovie(movieId));
         assertEquals(jsonExpected, json);
     }
 
@@ -67,7 +70,7 @@ class MovieRepositoryTest {
 
         Actor actor = Actor.builder().name("Shakira").build();
         Room room = Room.builder().title("Bedroom").build();
-        SetLocation setLocation = SetLocation.builder().title("Childhood home").build();
+        Location location = Location.builder().title("Childhood home").build();
 
         Movie movie = Movie.builder()
                 .actor(actor)
@@ -76,7 +79,7 @@ class MovieRepositoryTest {
                 .meaning("anyMeaning")
                 .pinyin("xī")
                 .room(room)
-                .setLocation(setLocation)
+                .location(location)
                 .scene("Shakira talking to Kanye West outside the front entrance")
                 .build();
 

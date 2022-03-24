@@ -1,5 +1,6 @@
 package com.example.mbblueprintbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SetLocation {
+public class Location {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String title;
 }

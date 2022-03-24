@@ -1,5 +1,6 @@
 package com.example.mbblueprintbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,8 @@ import java.util.UUID;
 @Builder
 public class Room {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String title;
 }

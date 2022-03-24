@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbblueprintbackend.util.Utils;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.mbblueprintbackend.config.Constants.*;
-import static com.example.mbblueprintbackend.util.Util.getRequestSpecification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -39,30 +39,27 @@ class PactConsumerGetMoviesIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyReturned = new PactDslJsonBody()
-                .eachLike("movies", 5)
+                .eachLike("movies", 2)
                     .stringType("pinyin", "xī")
                     .stringType("character", "西")
                     .stringType("meaning", "West")
-                    .stringType("scene", "Kanye West talking to Shakira outside the front entrance")
+                    .stringType("scene", "Kanye West talking to Shakira outside the front entrancehdjbfdjhjfgbshjfgfjhgbdj hjsgfhdfghfgdsh")
                     .stringType("imageUrl", "anyUrl")
-                .object("setLocation")
+                .object("location")
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                    .stringType("title", "Childhood home")
                 .closeObject()
                 .object("actor")
-                    .stringType("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                    .stringType("name", "Shakira")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .object("room")
-                    .stringType("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                    .stringType("title", "Bedroom")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .closeArray()
                 .close();
 
         return builder
-                .given("A request to retrieve a list of courses")
-                .uponReceiving("A request to retrieve a list of courses")
+                .given("A request to retrieve a list of movies")
+                .uponReceiving("A request to retrieve a list of movies")
                 .path(path)
                 .method("GET")
                 .headers(headers)
@@ -78,7 +75,7 @@ class PactConsumerGetMoviesIT {
     void runTest() {
 
         //Mock url
-        RequestSpecification rq = getRequestSpecification().baseUri(MOCK_PACT_URL).headers(headers);
+        RequestSpecification rq = Utils.getRequestSpecification().baseUri(MOCK_PACT_URL).headers(headers);
 
         Response response = rq.get(path);
 
