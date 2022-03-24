@@ -1,4 +1,4 @@
-package com.example.mbblueprintbackend.pact.consumer;
+package com.example.mbblueprintbackend.pact.consumer.movie;
 
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
@@ -9,9 +9,9 @@ import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.example.mbblueprintbackend.model.Actor;
+import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.model.Room;
-import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.util.Utils;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;

@@ -18,4 +18,10 @@ public class Actor {
     private UUID id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String associatedPinyinSound;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String group;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String imageUrl;
 }

@@ -18,4 +18,6 @@ public class Location {
     private UUID id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String title;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String associatedPinyinSound;
 }

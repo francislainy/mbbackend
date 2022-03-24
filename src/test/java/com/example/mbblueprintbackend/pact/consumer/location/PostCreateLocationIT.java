@@ -1,11 +1,15 @@
-package com.example.mbblueprintbackend.pact.consumer;
+package com.example.mbblueprintbackend.pact.consumer.location;
 
+import au.com.dius.pact.consumer.dsl.DslPart;
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbblueprintbackend.model.Location;
+import com.example.mbblueprintbackend.util.Utils;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
@@ -15,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.mbblueprintbackend.config.Constants.*;
-import static com.example.mbblueprintbackend.util.Utils.getRequestSpecification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -25,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class DeleteMovieIT {
+class PostCreateLocationIT {
 
     Map<String, String> headers = new HashMap<>();
 
@@ -36,14 +39,27 @@ class DeleteMovieIT {
 
         headers.put("Content-Type", "application/json");
 
+        DslPart bodyGiven = new PactDslJsonBody()
+                .stringType("title", "South London")
+                .stringType("associatedPinyinSound", "OU")
+                .close();
+
+        DslPart bodyReturned = new PactDslJsonBody()
+                .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .stringType("title", "South London")
+                .stringType("associatedPinyinSound", "西")
+                .close();
+
         return builder
-                .given("A request to delete a movie")
-                .uponReceiving("A request to delete a movie")
-                .pathFromProviderState(path + "${movieId}", path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .method("DELETE")
+                .given("A request to create a location")
+                .uponReceiving("A request to create a location")
+                .path(path)
+                .body(bodyGiven)
+                .method("POST")
                 .headers(headers)
                 .willRespondWith()
-                .status(206)
+                .status(200)
+                .body(bodyReturned)
                 .toPact();
     }
 
@@ -51,12 +67,17 @@ class DeleteMovieIT {
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
     void runTest() {
 
+        Location location = Location.builder()
+                .title("South London")
+                .associatedPinyinSound("OU")
+                .build();
+
         //Mock url
-        RequestSpecification rq = getRequestSpecification().baseUri(MOCK_PACT_URL).headers(headers);
-//
-        Response response = rq.delete(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
-//
-        assertEquals(206, response.getStatusCode());
+        RequestSpecification rq = Utils.getRequestSpecification().body(location).baseUri(MOCK_PACT_URL).headers(headers);
+
+        Response response = rq.post(path);
+
+        assertEquals(200, response.getStatusCode());
     }
 
 }

@@ -1,7 +1,5 @@
-package com.example.mbblueprintbackend.pact.consumer;
+package com.example.mbblueprintbackend.pact.consumer.movie;
 
-import au.com.dius.pact.consumer.dsl.DslPart;
-import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
@@ -27,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class GetMovieIT {
+class DeleteMovieIT {
 
     Map<String, String> headers = new HashMap<>();
 
@@ -38,32 +36,14 @@ class GetMovieIT {
 
         headers.put("Content-Type", "application/json");
 
-        DslPart bodyReturned = new PactDslJsonBody()
-                    .stringType("pinyin", "xī")
-                    .stringType("character", "西")
-                    .stringType("meaning", "West")
-                    .stringType("scene", "Shakira talking to Kanye West outside the front entrance")
-                    .stringType("imageUrl", "anyUrl")
-                .object("location")
-                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .closeObject()
-                .object("actor")
-                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .closeObject()
-                .object("room")
-                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .closeObject()
-                .close();
-
         return builder
-                .given("A request to retrieve a movie")
-                .uponReceiving("A request to retrieve a movie")
+                .given("A request to delete a movie")
+                .uponReceiving("A request to delete a movie")
                 .pathFromProviderState(path + "${movieId}", path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .method("GET")
+                .method("DELETE")
                 .headers(headers)
                 .willRespondWith()
-                .status(200)
-                .body(bodyReturned)
+                .status(206)
                 .toPact();
     }
 
@@ -74,9 +54,9 @@ class GetMovieIT {
         //Mock url
         RequestSpecification rq = getRequestSpecification().baseUri(MOCK_PACT_URL).headers(headers);
 
-        Response response = rq.get(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        Response response = rq.delete(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        assertEquals(200, response.getStatusCode());
+        assertEquals(206, response.getStatusCode());
     }
 
 }

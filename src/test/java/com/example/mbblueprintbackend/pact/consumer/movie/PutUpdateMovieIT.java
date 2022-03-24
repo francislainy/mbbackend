@@ -1,4 +1,4 @@
-package com.example.mbblueprintbackend.pact.consumer;
+package com.example.mbblueprintbackend.pact.consumer.movie;
 
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
