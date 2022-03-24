@@ -151,4 +151,29 @@ public class Utils {
                 .scene("Shakira talking to Kanye West outside the front entrance")
                 .build();
     }
+
+    public static Map<String, Object> getAllLocations() {
+        List<Object> locationList = new ArrayList<>();
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Location location = Location.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        locationList.add(location);
+        Map<String, Object> map = new HashMap<>();
+        map.put("locations", locationList);
+        return map;
+    }
+
+    public static Location getSingleLocation(UUID locationId) {
+
+        return Location.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+    }
 }

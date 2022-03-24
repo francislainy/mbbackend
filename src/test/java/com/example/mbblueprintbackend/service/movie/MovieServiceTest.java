@@ -1,11 +1,11 @@
-package com.example.mbblueprintbackend.service;
+package com.example.mbblueprintbackend.service.movie;
 
 import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.model.Room;
-import com.example.mbblueprintbackend.repository.MovieRepository;
-import com.example.mbblueprintbackend.service.impl.MovieServiceImpl;
+import com.example.mbblueprintbackend.repository.movie.MovieRepository;
+import com.example.mbblueprintbackend.service.impl.movie.MovieServiceImpl;
 import com.example.mbblueprintbackend.util.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;

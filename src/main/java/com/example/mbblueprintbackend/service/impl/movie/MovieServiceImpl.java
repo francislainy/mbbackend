@@ -1,8 +1,8 @@
-package com.example.mbblueprintbackend.service.impl;
+package com.example.mbblueprintbackend.service.impl.movie;
 
 import com.example.mbblueprintbackend.model.Movie;
-import com.example.mbblueprintbackend.repository.MovieRepository;
-import com.example.mbblueprintbackend.service.MovieService;
+import com.example.mbblueprintbackend.repository.movie.MovieRepository;
+import com.example.mbblueprintbackend.service.movie.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

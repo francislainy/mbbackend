@@ -1,7 +1,7 @@
-package com.example.mbblueprintbackend.controller;
+package com.example.mbblueprintbackend.controller.movie;
 
 import com.example.mbblueprintbackend.model.Movie;
-import com.example.mbblueprintbackend.service.MovieService;
+import com.example.mbblueprintbackend.service.movie.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

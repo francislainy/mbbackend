@@ -1,9 +1,10 @@
-package com.example.mbblueprintbackend.repository;
+package com.example.mbblueprintbackend.repository.movie;
 
 import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.model.Room;
 import com.example.mbblueprintbackend.model.Location;
+import com.example.mbblueprintbackend.repository.movie.MovieRepository;
 import com.example.mbblueprintbackend.util.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -61,7 +62,6 @@ class MovieRepositoryTest {
         String jsonExpected = jsonStringFromObject(Utils.getSingleMovie(movieId));
         assertEquals(jsonExpected, json);
     }
-
 
     @Test
     void testCreateMovie() throws JsonProcessingException {

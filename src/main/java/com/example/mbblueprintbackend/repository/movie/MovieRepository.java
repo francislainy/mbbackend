@@ -1,4 +1,4 @@
-package com.example.mbblueprintbackend.repository;
+package com.example.mbblueprintbackend.repository.movie;
 
 import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.model.Movie;

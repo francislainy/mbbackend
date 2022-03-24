@@ -1,4 +1,4 @@
-package com.example.mbblueprintbackend.service;
+package com.example.mbblueprintbackend.service.movie;
 
 import com.example.mbblueprintbackend.model.Movie;
 import com.fasterxml.jackson.core.JsonProcessingException;

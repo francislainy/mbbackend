@@ -76,5 +76,22 @@ class ProviderIT {
 
     }
 
+    @State("A request to retrieve a location")
+    Map<String, Object> sampleState4() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("locationId", UUID.randomUUID());
+        return map;
+    }
+
+    @State("A request to retrieve a list of locations")
+    void sampleState5() {
+
+    }
+
+    @State("A request to create a location")
+    void sampleState6() {
+
+    }
+
 }
 

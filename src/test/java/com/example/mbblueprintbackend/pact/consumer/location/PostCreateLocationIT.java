@@ -32,7 +32,7 @@ class PostCreateLocationIT {
 
     Map<String, String> headers = new HashMap<>();
 
-    String path = "/api/mb/movie/";
+    String path = "/api/mb/location/";
 
     @Pact(provider = PACT_PROVIDER, consumer = PACT_CONSUMER)
     public RequestResponsePact createPact(PactDslWithProvider builder) {
@@ -58,7 +58,7 @@ class PostCreateLocationIT {
                 .method("POST")
                 .headers(headers)
                 .willRespondWith()
-                .status(200)
+                .status(201)
                 .body(bodyReturned)
                 .toPact();
     }
@@ -77,7 +77,7 @@ class PostCreateLocationIT {
 
         Response response = rq.post(path);
 
-        assertEquals(200, response.getStatusCode());
+        assertEquals(201, response.getStatusCode());
     }
 
 }
