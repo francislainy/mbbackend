@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class PactConsumerGetMoviesIT {
+class GetMoviesIT {
 
     Map<String, String> headers = new HashMap<>();
 

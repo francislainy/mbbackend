@@ -9,9 +9,10 @@ import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.example.mbblueprintbackend.model.Actor;
-import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.model.Room;
+import com.example.mbblueprintbackend.model.Location;
+import com.example.mbblueprintbackend.util.Utils;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.example.mbblueprintbackend.config.Constants.*;
-import static com.example.mbblueprintbackend.util.Utils.getRequestSpecification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class PactConsumerPutUpdateMovieIT {
+class PostCreateMovieIT {
 
     Map<String, String> headers = new HashMap<>();
 
@@ -79,11 +79,11 @@ class PactConsumerPutUpdateMovieIT {
                 .close();
 
         return builder
-                .given("A request to update a movie")
-                .uponReceiving("A request to update a movie")
-                .pathFromProviderState(path + "${movieId}", path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .given("A request to create a movie")
+                .uponReceiving("A request to create a movie")
+                .path(path)
                 .body(bodyGiven)
-                .method("PUT")
+                .method("POST")
                 .headers(headers)
                 .willRespondWith()
                 .status(200)
@@ -111,9 +111,9 @@ class PactConsumerPutUpdateMovieIT {
                 .build();
 
         //Mock url
-        RequestSpecification rq = getRequestSpecification().body(movie).baseUri(MOCK_PACT_URL).headers(headers);
+        RequestSpecification rq = Utils.getRequestSpecification().body(movie).baseUri(MOCK_PACT_URL).headers(headers);
 
-        Response response = rq.put(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        Response response = rq.post(path);
 
         assertEquals(200, response.getStatusCode());
     }

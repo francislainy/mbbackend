@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class PactConsumerDeleteMovieIT {
+class DeleteMovieIT {
 
     Map<String, String> headers = new HashMap<>();
 

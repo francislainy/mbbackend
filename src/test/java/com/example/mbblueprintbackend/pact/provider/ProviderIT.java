@@ -38,7 +38,7 @@ import static com.example.mbblueprintbackend.util.Utils.logCurlFromPact;
 //@PactBroker(url = BROKER_PACT_URL, authentication = @PactBrokerAuth(token = "${pactbroker.auth.token}"))
 @VerificationReports(value = {"markdown"}, reportDir = "target/pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PactProviderEdIT {
+class ProviderIT {
 
     @LocalServerPort
     int port;
