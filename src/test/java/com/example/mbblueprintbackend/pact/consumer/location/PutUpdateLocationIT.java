@@ -32,7 +32,7 @@ class PutUpdateLocationIT {
 
     Map<String, String> headers = new HashMap<>();
 
-    String path = "/api/mb/movie/";
+    String path = "/api/mb/location/";
 
     @Pact(provider = PACT_PROVIDER, consumer = PACT_CONSUMER)
     public RequestResponsePact createPact(PactDslWithProvider builder) {

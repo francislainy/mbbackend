@@ -47,4 +47,10 @@ public class LocationController {
         return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
 
+    @PutMapping("/location/{locationId}")
+    public ResponseEntity<Object> updateLocation(@PathVariable UUID locationId, @RequestBody Location location) {
+
+        return new ResponseEntity<>(locationService.updateLocation(locationId, location), HttpStatus.OK);
+    }
+
 }

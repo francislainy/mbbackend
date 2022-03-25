@@ -100,4 +100,11 @@ class ProviderIT {
         return map;
     }
 
+    @State("A request to update a location")
+    Map<String, Object> sampleState8() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
+
 }

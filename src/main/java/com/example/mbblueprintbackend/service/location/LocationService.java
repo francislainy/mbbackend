@@ -14,4 +14,6 @@ public interface LocationService {
     void deleteLocation(UUID uuid) throws Exception;
 
     Location createLocation(Location location);
+
+    Location updateLocation(UUID id, Location location);
 }

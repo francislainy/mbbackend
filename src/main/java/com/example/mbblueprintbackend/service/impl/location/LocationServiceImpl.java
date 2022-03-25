@@ -38,15 +38,15 @@ public class LocationServiceImpl implements LocationService {
 
         Optional<LocationEntity> locationEntityOptional = locationRepository.findById(uuid);
 
-        if (locationRepository.findById(uuid).isPresent()) {
+        if (locationEntityOptional.isPresent()) {
 
             LocationEntity locationEntity = locationEntityOptional.get();
 
             return Location.builder()
-                            .id(locationEntity.getId())
-                            .title(locationEntity.getTitle())
-                            .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
-                            .build();
+                    .id(locationEntity.getId())
+                    .title(locationEntity.getTitle())
+                    .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
+                    .build();
         } else {
             return null;
         }
@@ -72,15 +72,41 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void deleteLocation(UUID uuid) throws Exception {
 
-        if (locationRepository.findById(uuid).isPresent()) {
+        Optional<LocationEntity> optionalLocation = locationRepository.findById(uuid);
 
-            LocationEntity locationEntity = locationRepository.findById(uuid).get();
+        if (optionalLocation.isPresent()) {
+
+            LocationEntity locationEntity = optionalLocation.get();
 
             locationRepository.delete(locationEntity);
-        }
-        else {
+        } else {
             throw new Exception();
         }
+    }
+
+    @Override
+    public Location updateLocation(UUID uuid, Location location) {
+
+        Optional<LocationEntity> locationEntityOptional = locationRepository.findById(uuid);
+
+        if (locationEntityOptional.isPresent()) {
+
+            LocationEntity locationEntity = LocationEntity.builder()
+                    .title(location.getTitle())
+                    .associatedPinyinSound(location.getAssociatedPinyinSound())
+                    .build();
+
+            locationEntity = locationRepository.save(locationEntity);
+
+            return Location.builder()
+                    .id(locationEntity.getId())
+                    .title(locationEntity.getTitle())
+                    .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
+                    .build();
+        } else {
+            return null;
+        }
+
     }
 
 }

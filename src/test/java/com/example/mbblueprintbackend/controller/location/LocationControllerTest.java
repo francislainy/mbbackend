@@ -82,7 +82,7 @@ class LocationControllerTest {
     }
 
     @Test
-    void testPostLocation() throws Exception {
+    void testCreateLocation() throws Exception {
 
         Location location = Location.builder()
                 .title("South London")
@@ -123,5 +123,31 @@ class LocationControllerTest {
         mockMvc.perform(delete("/api/mb/location/{locationId}", locationId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    void testUpdateLocation() throws Exception {
+
+        Location location = Location.builder()
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        String json = Utils.jsonStringFromObject(location);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Location location1 = objectMapper.readValue(json, Location.class);
+
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        location1.setId(locationId);
+        String json1 = Utils.jsonStringFromObject(location1);
+
+        when(locationService.updateLocation(locationId, location)).thenReturn(location1);
+
+        mockMvc.perform(put("/api/mb/location/{locationId}", locationId)
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(json1));
     }
 }

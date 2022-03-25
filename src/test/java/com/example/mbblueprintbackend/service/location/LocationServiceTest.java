@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,7 +72,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void deleteLocation() {
+    void testDeleteLocation() {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
@@ -87,11 +88,45 @@ class LocationServiceTest {
     }
 
     @Test
-    void deleteLocation_ThrowsExceptionWhenItemNotFound() {
+    void testDeleteLocation_ThrowsExceptionWhenItemNotFound() {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
         assertThrows(Exception.class, () -> locationService.deleteLocation(locationId));
+    }
+
+    @Test
+    void testUpdateLocation() {
+
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        LocationEntity locationEntity = LocationEntity.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        Optional<LocationEntity> locationEntity1 = Optional.ofNullable(LocationEntity.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build());
+
+        Location location0 = Location.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        when(locationRepository.findById(locationId)).thenReturn(locationEntity1);
+        when(locationRepository.save(any())).thenReturn(locationEntity);
+
+        Location location = locationService.updateLocation(locationId, location0);
+
+        assertAll(
+                () -> assertEquals(locationId.toString(), location.getId().toString()),
+                () -> assertEquals(locationEntity.getTitle(), location.getTitle()),
+                () -> assertEquals(locationEntity.getAssociatedPinyinSound(), location.getAssociatedPinyinSound()));
     }
 
 }
