@@ -137,4 +137,35 @@ class ProviderIT {
         map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
+
+    @State("A request to retrieve a list of rooms")
+    void sampleState14() {
+
+    }
+
+    @State("A request to retrieve a room")
+    Map<String, Object> sampleState15() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roomId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
+
+    @State("A request to create a room")
+    void sampleState16() {
+
+    }
+
+    @State("A request to update a room")
+    Map<String, Object> sampleState17() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roomId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
+
+    @State("A request to delete a room")
+    Map<String, Object> sampleState18() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roomId", UUID.fromString("55615bd0-bf1e-4826-8689-e9d2fb928451"));
+        return map;
+    }
 }
