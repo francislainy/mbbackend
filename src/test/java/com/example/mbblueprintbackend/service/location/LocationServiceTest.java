@@ -1,10 +1,10 @@
 package com.example.mbblueprintbackend.service.location;
 
+import com.example.mbblueprintbackend.entity.location.LocationEntity;
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.repository.location.LocationRepository;
 import com.example.mbblueprintbackend.service.impl.location.LocationServiceImpl;
 import com.example.mbblueprintbackend.util.Utils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +29,7 @@ class LocationServiceTest {
     @Test
     void testGetAllLocations() {
 
-        when(locationRepository.getAllLocations()).thenReturn(Utils.getAllLocations());
+        when(locationRepository.findAll()).thenReturn(Utils.getAllLocations());
 
         assertTrue(locationService.getAllLocations().size() > 0);
     }
@@ -38,7 +39,7 @@ class LocationServiceTest {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        when(locationRepository.getSingleLocation(locationId)).thenReturn(Utils.getSingleLocation(locationId));
+        when(locationRepository.findById(locationId)).thenReturn(Utils.getSingleLocation(locationId));
 
         Location location = locationService.getSingleLocation(locationId);
 
@@ -49,20 +50,24 @@ class LocationServiceTest {
     }
 
     @Test
-    void testCreateLocation() throws JsonProcessingException {
+    void testCreateLocation() {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        Location location = Location.builder().title("Childhood home").build();
+        LocationEntity locationEntity = LocationEntity.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
 
-        when(locationRepository.createLocation(location)).thenReturn(Utils.getSingleLocation(locationId));
+        when(locationRepository.save(any())).thenReturn(locationEntity);
 
-        Location location1 = locationService.createLocation(location);
+        Location location = locationService.createLocation(new Location());
 
         assertAll(
-                () -> assertEquals(locationId.toString(), location1.getId().toString()),
-                () -> assertEquals("South London", location1.getTitle()),
-                () -> assertEquals("Ou", location1.getAssociatedPinyinSound()));
+                () -> assertEquals(locationId.toString(), location.getId().toString()),
+                () -> assertEquals(locationEntity.getTitle(), location.getTitle()),
+                () -> assertEquals(locationEntity.getAssociatedPinyinSound(), location.getAssociatedPinyinSound()));
     }
 
 }

@@ -79,7 +79,7 @@ class ProviderIT {
     @State("A request to retrieve a location")
     Map<String, Object> sampleState4() {
         Map<String, Object> map = new HashMap<>();
-        map.put("locationId", UUID.randomUUID());
+        map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
@@ -94,4 +94,3 @@ class ProviderIT {
     }
 
 }
-

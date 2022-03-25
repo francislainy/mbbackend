@@ -2,6 +2,7 @@ package com.example.mbblueprintbackend.util;
 
 import au.com.dius.pact.core.model.RequestResponseInteraction;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
+import com.example.mbblueprintbackend.entity.location.LocationEntity;
 import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.model.Movie;
@@ -152,28 +153,26 @@ public class Utils {
                 .build();
     }
 
-    public static Map<String, Object> getAllLocations() {
-        List<Object> locationList = new ArrayList<>();
+    public static List<LocationEntity> getAllLocations() {
+        List<LocationEntity> locationList = new ArrayList<>();
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        Location location = Location.builder()
+        LocationEntity location = LocationEntity.builder()
                 .id(locationId)
                 .title("South London")
                 .associatedPinyinSound("Ou")
                 .build();
 
         locationList.add(location);
-        Map<String, Object> map = new HashMap<>();
-        map.put("locations", locationList);
-        return map;
+        return locationList;
     }
 
-    public static Location getSingleLocation(UUID locationId) {
+    public static Optional<LocationEntity> getSingleLocation(UUID locationId) {
 
-        return Location.builder()
+        return Optional.ofNullable(LocationEntity.builder()
                 .id(locationId)
                 .title("South London")
                 .associatedPinyinSound("Ou")
-                .build();
+                .build());
     }
 }

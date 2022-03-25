@@ -2,12 +2,13 @@ package com.example.mbblueprintbackend.controller.location;
 
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.service.location.LocationService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,10 @@ public class LocationController {
     @GetMapping("/location")
     public ResponseEntity<Object> getAllLocation() {
 
-        return new ResponseEntity<>(locationService.getAllLocations(), HttpStatus.OK);
+        HashMap<String, List<Location>> map = new HashMap<>();
+        map.put("locations", locationService.getAllLocations());
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @GetMapping("/location/{locationId}")
@@ -31,7 +35,7 @@ public class LocationController {
     }
 
     @PostMapping("/location")
-    public ResponseEntity<Location> createLocation(@RequestBody Location Location) throws JsonProcessingException {
+    public ResponseEntity<Location> createLocation(@RequestBody Location Location) {
 
         return new ResponseEntity<>(locationService.createLocation(Location), HttpStatus.CREATED);
     }

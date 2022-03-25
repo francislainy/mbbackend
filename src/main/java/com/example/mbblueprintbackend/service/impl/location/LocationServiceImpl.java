@@ -1,13 +1,15 @@
 package com.example.mbblueprintbackend.service.impl.location;
 
+import com.example.mbblueprintbackend.entity.location.LocationEntity;
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.repository.location.LocationRepository;
 import com.example.mbblueprintbackend.service.location.LocationService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,20 +19,54 @@ public class LocationServiceImpl implements LocationService {
     LocationRepository locationRepository;
 
     @Override
-    public Map<String, Object> getAllLocations() {
+    public List<Location> getAllLocations() {
 
-        return locationRepository.getAllLocations();
+        List<Location> locationList = new ArrayList<>();
+
+        locationRepository.findAll().forEach(locationEntity -> locationList.add(
+                Location.builder()
+                        .id(locationEntity.getId())
+                        .title(locationEntity.getTitle())
+                        .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
+                        .build()));
+
+        return locationList;
     }
 
     @Override
     public Location getSingleLocation(UUID uuid) {
 
-        return locationRepository.getSingleLocation(uuid);
+        Optional<LocationEntity> locationEntityOptional = locationRepository.findById(uuid);
+
+        if (locationRepository.findById(uuid).isPresent()) {
+
+            LocationEntity locationEntity = locationEntityOptional.get();
+
+            return Location.builder()
+                            .id(locationEntity.getId())
+                            .title(locationEntity.getTitle())
+                            .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
+                            .build();
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Location createLocation(Location location) throws JsonProcessingException {
-        return locationRepository.createLocation(location);
+    public Location createLocation(Location location) {
+
+        LocationEntity locationEntity = LocationEntity.builder()
+                .title(location.getTitle())
+                .associatedPinyinSound(location.getAssociatedPinyinSound())
+                .build();
+
+        locationEntity = locationRepository.save(locationEntity);
+
+        return Location.builder()
+                .id(locationEntity.getId())
+                .title(locationEntity.getTitle())
+                .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
+                .build();
     }
 
 }

@@ -14,8 +14,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,8 +40,22 @@ class LocationControllerTest {
     @Test
     void testGetAllLocations() throws Exception {
 
-        String json = Utils.jsonStringFromObject(Utils.getAllLocations());
-        when(LocationService.getAllLocations()).thenReturn(Utils.getAllLocations());
+        List<Location> locationList = new ArrayList<>();
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Location location = Location.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        locationList.add(location);
+
+        HashMap<String, List<Location>> map = new HashMap<>();
+        map.put("locations", locationList);
+
+        String json = Utils.jsonStringFromObject(map);
+        when(LocationService.getAllLocations()).thenReturn(locationList);
 
         mockMvc.perform(get("/api/mb/location"))
                 .andExpect(status().is2xxSuccessful())
@@ -49,8 +67,15 @@ class LocationControllerTest {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        String json = Utils.jsonStringFromObject(Utils.getSingleLocation(locationId));
-        when(LocationService.getSingleLocation(locationId)).thenReturn(Utils.getSingleLocation(locationId));
+        Location location = Location.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        String json = Utils.jsonStringFromObject(location);
+
+        when(LocationService.getSingleLocation(any())).thenReturn(location);
 
         mockMvc.perform(get("/api/mb/location/{locationId}", locationId))
                 .andExpect(status().is2xxSuccessful())
