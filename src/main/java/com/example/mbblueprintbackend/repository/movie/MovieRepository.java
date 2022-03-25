@@ -1,9 +1,9 @@
 package com.example.mbblueprintbackend.repository.movie;
 
 import com.example.mbblueprintbackend.model.Actor;
+import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.model.Room;
-import com.example.mbblueprintbackend.model.Location;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;

@@ -153,20 +153,6 @@ public class Utils {
                 .build();
     }
 
-    public static List<LocationEntity> getAllLocations() {
-        List<LocationEntity> locationList = new ArrayList<>();
-        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
-
-        LocationEntity location = LocationEntity.builder()
-                .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
-                .build();
-
-        locationList.add(location);
-        return locationList;
-    }
-
     public static Optional<LocationEntity> getSingleLocation(UUID locationId) {
 
         return Optional.ofNullable(LocationEntity.builder()

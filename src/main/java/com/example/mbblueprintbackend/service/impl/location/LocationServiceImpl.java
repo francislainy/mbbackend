@@ -106,7 +106,6 @@ public class LocationServiceImpl implements LocationService {
         } else {
             return null;
         }
-
     }
 
 }

@@ -42,7 +42,7 @@ class PostCreateActorIT {
         DslPart bodyGiven = new PactDslJsonBody()
                 .stringType("name", "Shakira")
                 .stringType("associatedPinyinSound", "Shi")
-                .stringType("group", "Female I sound")
+                .stringType("family", "Female I sound")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();
 
@@ -50,7 +50,7 @@ class PostCreateActorIT {
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("name", "Shakira")
                 .stringType("associatedPinyinSound", "Shi")
-                .stringType("group", "Female I sound")
+                .stringType("family", "Female I sound")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();
 
@@ -62,7 +62,7 @@ class PostCreateActorIT {
                 .method("POST")
                 .headers(headers)
                 .willRespondWith()
-                .status(200)
+                .status(201)
                 .body(bodyReturned)
                 .toPact();
     }
@@ -74,7 +74,7 @@ class PostCreateActorIT {
         Actor actor = Actor.builder()
                 .name("South London")
                 .associatedPinyinSound("OU")
-                .group("Female I sound")
+                .family("Female I sound")
                 .imageUrl("http://anyimage.com")
                 .build();
 
@@ -83,7 +83,7 @@ class PostCreateActorIT {
 
         Response response = rq.post(path);
 
-        assertEquals(200, response.getStatusCode());
+        assertEquals(201, response.getStatusCode());
     }
 
 }

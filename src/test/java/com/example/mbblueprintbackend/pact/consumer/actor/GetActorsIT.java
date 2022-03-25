@@ -31,7 +31,7 @@ class GetActorsIT {
 
     Map<String, String> headers = new HashMap<>();
 
-    String path = "/api/mb/location";
+    String path = "/api/mb/actor";
 
     @Pact(provider = PACT_PROVIDER, consumer = PACT_CONSUMER)
     public RequestResponsePact createPact(PactDslWithProvider builder) {
@@ -43,7 +43,7 @@ class GetActorsIT {
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                     .stringType("name", "Shakira")
                     .stringType("associatedPinyinSound", "Shi")
-                    .stringType("group", "Female I sound")
+                    .stringType("family", "Female I sound")
                     .stringType("imageUrl", "http://anyimage.com")
                 .closeArray()
                 .close();

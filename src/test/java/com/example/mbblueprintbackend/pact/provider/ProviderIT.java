@@ -59,6 +59,11 @@ class ProviderIT {
         context.setTarget(new HttpTestTarget(BASE_PACT_URL_LOCAL, port, ""));
     }
 
+    @State("A request to retrieve a list of movies")
+    void sampleState2() {
+
+    }
+
     @State("A request to retrieve a movie")
     Map<String, Object> sampleState1() {
         Map<String, Object> map = new HashMap<>();
@@ -66,13 +71,13 @@ class ProviderIT {
         return map;
     }
 
-    @State("A request to retrieve a list of movies")
-    void sampleState2() {
+    @State("A request to create a movie")
+    void sampleState3() {
 
     }
 
-    @State("A request to create a movie")
-    void sampleState3() {
+    @State("A request to retrieve a list of locations")
+    void sampleState5() {
 
     }
 
@@ -81,11 +86,6 @@ class ProviderIT {
         Map<String, Object> map = new HashMap<>();
         map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
-    }
-
-    @State("A request to retrieve a list of locations")
-    void sampleState5() {
-
     }
 
     @State("A request to create a location")
@@ -107,4 +107,34 @@ class ProviderIT {
         return map;
     }
 
+    @State("A request to retrieve a list of actors")
+    void sampleState9() {
+
+    }
+
+    @State("A request to retrieve an actor")
+    Map<String, Object> sampleState10() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
+
+    @State("A request to create an actor")
+    void sampleState11() {
+
+    }
+
+    @State("A request to delete an actor")
+    Map<String, Object> sampleState12() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("actorId", UUID.fromString("347e8d6c-34af-45a6-97e8-0b5545759b75"));
+        return map;
+    }
+
+    @State("A request to update an actor")
+    Map<String, Object> sampleState13() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
 }

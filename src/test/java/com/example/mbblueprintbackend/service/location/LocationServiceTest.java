@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,9 +32,30 @@ class LocationServiceTest {
     @Test
     void testGetAllLocations() {
 
-        when(locationRepository.findAll()).thenReturn(Utils.getAllLocations());
+        List<LocationEntity> locationEntityList = new ArrayList<>();
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        assertTrue(locationService.getAllLocations().size() > 0);
+        LocationEntity locationEntity = LocationEntity.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        locationEntityList.add(locationEntity);
+
+        when(locationRepository.findAll()).thenReturn(locationEntityList);
+
+        List<Location> locationList = locationService.getAllLocations();
+
+        assertTrue(locationList.size() > 0);
+
+        Location location = locationList.get(0);
+
+        assertAll(
+                () -> assertEquals(locationEntity.getId().toString(), location.getId().toString()),
+                () -> assertEquals(locationEntity.getTitle(), location.getTitle()),
+                () -> assertEquals(locationEntity.getAssociatedPinyinSound(), location.getAssociatedPinyinSound()));
+
     }
 
     @Test
@@ -78,8 +101,6 @@ class LocationServiceTest {
 
         LocationEntity locationEntity = LocationEntity.builder()
                 .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
                 .build();
 
         when(locationRepository.findById(any())).thenReturn(java.util.Optional.ofNullable(locationEntity));
@@ -88,7 +109,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void testDeleteLocation_ThrowsExceptionWhenItemNotFound() {
+    void testDeleteLocation_ItemNotFound_ThrowsException() {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 

@@ -42,7 +42,7 @@ class GetActorIT {
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("name", "Shakira")
                 .stringType("associatedPinyinSound", "Shi")
-                .stringType("group", "Female I sound")
+                .stringType("family", "Female I sound")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();
 

@@ -21,7 +21,7 @@ public class Actor {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String associatedPinyinSound;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String group;
+    private String family;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String imageUrl;
 }

@@ -8,7 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import com.example.mbblueprintbackend.model.Location;
+import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.util.Utils;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -28,11 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 @ExtendWith(PactConsumerTestExt.class)
-class PutUpdateLocationIT {
+class PutUpdateActorIT {
 
     Map<String, String> headers = new HashMap<>();
 
-    String path = "/api/mb/movie/";
+    String path = "/api/mb/actor/";
 
     @Pact(provider = PACT_PROVIDER, consumer = PACT_CONSUMER)
     public RequestResponsePact createPact(PactDslWithProvider builder) {
@@ -40,20 +40,24 @@ class PutUpdateLocationIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyGiven = new PactDslJsonBody()
-                .stringType("title", "South London")
+                .stringType("name", "South London")
                 .stringType("associatedPinyinSound", "OU")
+                .stringType("family", "Female I")
+                .stringType("imageUrl", "anyUrl")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .stringType("title", "South London")
-                .stringType("associatedPinyinSound", "西")
+                .stringType("name", "South London")
+                .stringType("associatedPinyinSound", "OU")
+                .stringType("family", "Female I")
+                .stringType("imageUrl", "anyUrl")
                 .close();
 
         return builder
-                .given("A request to update a location")
-                .uponReceiving("A request to update a location")
-                .pathFromProviderState(path + "${locationId}", path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .given("A request to update an actor")
+                .uponReceiving("A request to update an actor")
+                .pathFromProviderState(path + "${actorId}", path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .body(bodyGiven)
                 .method("PUT")
                 .headers(headers)
@@ -67,13 +71,15 @@ class PutUpdateLocationIT {
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
     void runTest() {
 
-        Location location = Location.builder()
-                .title("South London")
+        Actor actor = Actor.builder()
+                .name("South London")
                 .associatedPinyinSound("OU")
+                .family("Female I")
+                .imageUrl("anyUrl")
                 .build();
 
         //Mock url
-        RequestSpecification rq = Utils.getRequestSpecification().body(location).baseUri(MOCK_PACT_URL).headers(headers);
+        RequestSpecification rq = Utils.getRequestSpecification().body(actor).baseUri(MOCK_PACT_URL).headers(headers);
 
         Response response = rq.put(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
