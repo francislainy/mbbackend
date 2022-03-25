@@ -9,7 +9,9 @@ public interface LocationService {
 
     List<Location> getAllLocations();
 
-    Location getSingleLocation(UUID uuid);
+    Location getLocation(UUID uuid);
+
+    void deleteLocation(UUID uuid) throws Exception;
 
     Location createLocation(Location location);
 }

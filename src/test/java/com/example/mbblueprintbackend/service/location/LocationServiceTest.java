@@ -41,7 +41,7 @@ class LocationServiceTest {
 
         when(locationRepository.findById(locationId)).thenReturn(Utils.getSingleLocation(locationId));
 
-        Location location = locationService.getSingleLocation(locationId);
+        Location location = locationService.getLocation(locationId);
 
         assertAll(
                 () -> assertEquals(locationId.toString(), location.getId().toString()),
@@ -68,6 +68,30 @@ class LocationServiceTest {
                 () -> assertEquals(locationId.toString(), location.getId().toString()),
                 () -> assertEquals(locationEntity.getTitle(), location.getTitle()),
                 () -> assertEquals(locationEntity.getAssociatedPinyinSound(), location.getAssociatedPinyinSound()));
+    }
+
+    @Test
+    void deleteLocation() {
+
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        LocationEntity locationEntity = LocationEntity.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        when(locationRepository.findById(any())).thenReturn(java.util.Optional.ofNullable(locationEntity));
+
+        assertDoesNotThrow(() -> locationService.deleteLocation(locationId));
+    }
+
+    @Test
+    void deleteLocation_ThrowsExceptionWhenItemNotFound() {
+
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        assertThrows(Exception.class, () -> locationService.deleteLocation(locationId));
     }
 
 }

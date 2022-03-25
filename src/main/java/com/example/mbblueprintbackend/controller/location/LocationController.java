@@ -31,13 +31,20 @@ public class LocationController {
     @GetMapping("/location/{locationId}")
     public ResponseEntity<Object> getSingleLocation(@PathVariable UUID locationId) {
 
-        return new ResponseEntity<>(locationService.getSingleLocation(locationId), HttpStatus.OK);
+        return new ResponseEntity<>(locationService.getLocation(locationId), HttpStatus.OK);
     }
 
     @PostMapping("/location")
-    public ResponseEntity<Location> createLocation(@RequestBody Location Location) {
+    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
 
-        return new ResponseEntity<>(locationService.createLocation(Location), HttpStatus.CREATED);
+        return new ResponseEntity<>(locationService.createLocation(location), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/location/{locationId}")
+    public ResponseEntity<Object> deleteLocation(@PathVariable UUID locationId) throws Exception {
+
+        locationService.deleteLocation(locationId);
+        return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
 
 }

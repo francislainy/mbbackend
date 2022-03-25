@@ -93,4 +93,11 @@ class ProviderIT {
 
     }
 
+    @State("A request to delete a location")
+    Map<String, Object> sampleState7() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("locationId", UUID.fromString("121dba90-338d-4d41-991d-6f43fcd9336e"));
+        return map;
+    }
+
 }

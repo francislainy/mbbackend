@@ -21,8 +21,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,7 +34,7 @@ class LocationControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    LocationService LocationService;
+    LocationService locationService;
 
     @Test
     void testGetAllLocations() throws Exception {
@@ -55,7 +54,7 @@ class LocationControllerTest {
         map.put("locations", locationList);
 
         String json = Utils.jsonStringFromObject(map);
-        when(LocationService.getAllLocations()).thenReturn(locationList);
+        when(locationService.getAllLocations()).thenReturn(locationList);
 
         mockMvc.perform(get("/api/mb/location"))
                 .andExpect(status().is2xxSuccessful())
@@ -75,7 +74,7 @@ class LocationControllerTest {
 
         String json = Utils.jsonStringFromObject(location);
 
-        when(LocationService.getSingleLocation(any())).thenReturn(location);
+        when(locationService.getLocation(any())).thenReturn(location);
 
         mockMvc.perform(get("/api/mb/location/{locationId}", locationId))
                 .andExpect(status().is2xxSuccessful())
@@ -99,12 +98,30 @@ class LocationControllerTest {
         location1.setId(locationId);
         String json1 = Utils.jsonStringFromObject(location1);
 
-        when(LocationService.createLocation(location)).thenReturn(location1);
+        when(locationService.createLocation(location)).thenReturn(location1);
 
         mockMvc.perform(post("/api/mb/location")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(json1));
+    }
+
+    @Test
+    void testDeleteLocation() throws Exception {
+
+        UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Location location = Location.builder()
+                .id(locationId)
+                .title("South London")
+                .associatedPinyinSound("Ou")
+                .build();
+
+        when(locationService.getLocation(locationId)).thenReturn(location);
+
+        mockMvc.perform(delete("/api/mb/location/{locationId}", locationId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
     }
 }

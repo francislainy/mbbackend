@@ -34,7 +34,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location getSingleLocation(UUID uuid) {
+    public Location getLocation(UUID uuid) {
 
         Optional<LocationEntity> locationEntityOptional = locationRepository.findById(uuid);
 
@@ -67,6 +67,20 @@ public class LocationServiceImpl implements LocationService {
                 .title(locationEntity.getTitle())
                 .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
                 .build();
+    }
+
+    @Override
+    public void deleteLocation(UUID uuid) throws Exception {
+
+        if (locationRepository.findById(uuid).isPresent()) {
+
+            LocationEntity locationEntity = locationRepository.findById(uuid).get();
+
+            locationRepository.delete(locationEntity);
+        }
+        else {
+            throw new Exception();
+        }
     }
 
 }
