@@ -1,7 +1,7 @@
 package com.example.mbblueprintbackend.controller.actor;
 
 import com.example.mbblueprintbackend.model.Actor;
-import com.example.mbblueprintbackend.service.location.ActorService;
+import com.example.mbblueprintbackend.service.actor.ActorService;
 import com.example.mbblueprintbackend.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

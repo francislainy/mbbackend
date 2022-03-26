@@ -1,4 +1,4 @@
-package com.example.mbblueprintbackend.service.location;
+package com.example.mbblueprintbackend.service.actor;
 
 import com.example.mbblueprintbackend.model.Actor;
 

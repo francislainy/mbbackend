@@ -1,7 +1,7 @@
 package com.example.mbblueprintbackend.controller.actor;
 
 import com.example.mbblueprintbackend.model.Actor;
-import com.example.mbblueprintbackend.service.location.ActorService;
+import com.example.mbblueprintbackend.service.actor.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

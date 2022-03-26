@@ -168,4 +168,36 @@ class ProviderIT {
         map.put("roomId", UUID.fromString("55615bd0-bf1e-4826-8689-e9d2fb928451"));
         return map;
     }
+
+    @State("A request to retrieve a list of characters")
+    void sampleState19() {
+
+    }
+
+    @State("A request to retrieve a character")
+    Map<String, Object> sampleState20() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("characterId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
+
+    @State("A request to create a character")
+    void sampleState21() {
+
+    }
+
+    @State("A request to update a character")
+    Map<String, Object> sampleState22() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("characterId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        return map;
+    }
+
+    @State("A request to delete a character")
+    Map<String, Object> sampleState23() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("characterId", UUID.fromString("674b1aa7-a3b7-4b1f-9c15-a3083b99c40d"));
+        return map;
+    }
+
 }

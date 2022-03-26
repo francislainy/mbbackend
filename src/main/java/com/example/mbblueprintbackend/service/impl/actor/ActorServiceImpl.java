@@ -3,7 +3,7 @@ package com.example.mbblueprintbackend.service.impl.actor;
 import com.example.mbblueprintbackend.entity.actor.ActorEntity;
 import com.example.mbblueprintbackend.model.Actor;
 import com.example.mbblueprintbackend.repository.actor.ActorRepository;
-import com.example.mbblueprintbackend.service.location.ActorService;
+import com.example.mbblueprintbackend.service.actor.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
