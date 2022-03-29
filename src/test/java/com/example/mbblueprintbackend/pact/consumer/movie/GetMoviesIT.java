@@ -39,12 +39,12 @@ class GetMoviesIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyReturned = new PactDslJsonBody()
-                .eachLike("movies", 2)
-                    .stringType("pinyin", "xī")
-                    .stringType("character", "西")
-                    .stringType("meaning", "West")
+                .eachLike("movies", 30)
                     .stringType("scene", "Kanye West talking to Shakira outside the front entrancehdjbfdjhjfgbshjfgfjhgbdj hjsgfhdfghfgdsh")
                     .stringType("imageUrl", "anyUrl")
+                .object("character")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .closeObject()
                 .object("location")
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()

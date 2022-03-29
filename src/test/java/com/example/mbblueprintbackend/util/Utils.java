@@ -4,6 +4,7 @@ import au.com.dius.pact.core.model.RequestResponseInteraction;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import com.example.mbblueprintbackend.entity.location.LocationEntity;
 import com.example.mbblueprintbackend.model.Actor;
+import com.example.mbblueprintbackend.model.Character;
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.model.Room;
@@ -120,10 +121,8 @@ public class Utils {
 
         Movie movie = Movie.builder()
                 .actor(actor)
-                .character("西")
+                .character(new Character())
                 .imageUrl("anyUrl")
-                .meaning("anyMeaning")
-                .pinyin("xī")
                 .room(room)
                 .location(location)
                 .scene("Shakira talking to Kanye West outside the front entrance")
@@ -143,10 +142,8 @@ public class Utils {
         return Movie.builder()
                 .id(uuid)
                 .actor(actor)
-                .character("西")
+                .character(new Character())
                 .imageUrl("anyUrl")
-                .meaning("anyMeaning")
-                .pinyin("xī")
                 .room(room)
                 .location(location)
                 .scene("Shakira talking to Kanye West outside the front entrance")

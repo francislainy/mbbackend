@@ -37,13 +37,12 @@ class GetMovieIT {
     public RequestResponsePact createPact(PactDslWithProvider builder) {
 
         headers.put("Content-Type", "application/json");
-
         DslPart bodyReturned = new PactDslJsonBody()
-                    .stringType("pinyin", "xī")
-                    .stringType("character", "西")
-                    .stringType("meaning", "West")
-                    .stringType("scene", "Shakira talking to Kanye West outside the front entrance")
-                    .stringType("imageUrl", "anyUrl")
+                .stringType("scene", "Kanye West talking to Shakira outside the front entrancehdjbfdjhjfgbshjfgfjhgbdj hjsgfhdfghfgdsh")
+                .stringType("imageUrl", "anyUrl")
+                .object("character")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .closeObject()
                 .object("location")
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()

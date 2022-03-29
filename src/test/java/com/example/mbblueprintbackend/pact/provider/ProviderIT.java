@@ -67,13 +67,27 @@ class ProviderIT {
     @State("A request to retrieve a movie")
     Map<String, Object> sampleState1() {
         Map<String, Object> map = new HashMap<>();
-        map.put("movieId", UUID.randomUUID());
+        map.put("movieId", UUID.fromString("6f6d4899-297f-4a02-b646-105a4208fe94"));
         return map;
     }
 
     @State("A request to create a movie")
     void sampleState3() {
 
+    }
+
+    @State("A request to update a movie")
+    Map<String, Object> updateMovie() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("movieId", UUID.fromString("6f6d4899-297f-4a02-b646-105a4208fe94"));
+        return map;
+    }
+
+    @State("A request to delete a movie")
+    Map<String, Object> deleteMovie() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("movieId", UUID.fromString("bdad926e-2db7-43b9-8b32-3650c7af5ced"));
+        return map;
     }
 
     @State("A request to retrieve a list of locations")

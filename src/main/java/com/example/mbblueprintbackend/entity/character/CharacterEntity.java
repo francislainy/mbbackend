@@ -1,11 +1,13 @@
 package com.example.mbblueprintbackend.entity.character;
 
+import com.example.mbblueprintbackend.entity.movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,4 +28,6 @@ public class CharacterEntity {
     @Column(name = "meaning")
     private String meaning;
 
+    @OneToMany(mappedBy = "character")
+    private Set<MovieEntity> movie;
 }

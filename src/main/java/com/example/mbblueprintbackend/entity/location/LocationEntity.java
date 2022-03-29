@@ -1,11 +1,13 @@
 package com.example.mbblueprintbackend.entity.location;
 
+import com.example.mbblueprintbackend.entity.movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +25,7 @@ public class LocationEntity {
     private String title;
     @Column(name = "associatedPinyinSound")
     private String associatedPinyinSound;
+
+    @OneToMany(mappedBy = "location")
+    private Set<MovieEntity> movie;
 }

@@ -1,16 +1,18 @@
 package com.example.mbblueprintbackend.service.movie;
 
 import com.example.mbblueprintbackend.model.Movie;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 public interface MovieService {
 
-    Map<String, Object> getAllMovies();
+    List<Movie> getAllMovies();
 
-    Movie getSingleMovie(UUID uuid);
+    Movie getMovie(UUID movieId);
 
-    Movie createMovie(Movie movie) throws JsonProcessingException;
-}
+    void deleteMovie(UUID movieId) throws Exception;
+
+    Movie createMovie(Movie movie);
+
+    Movie updateMovie(UUID id, Movie movie);}

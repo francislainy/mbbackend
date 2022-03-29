@@ -16,12 +16,10 @@ public class Movie {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
-    private String pinyin;
-    private String character;
-    private String meaning;
     private String scene;
     private String imageUrl;
 
+    private Character character;
     private Location location;
     private Actor actor;
     private Room room;
