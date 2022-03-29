@@ -60,19 +60,19 @@ class ProviderIT {
     }
 
     @State("A request to retrieve a list of movies")
-    void sampleState2() {
+    void getMovies() {
 
     }
 
     @State("A request to retrieve a movie")
-    Map<String, Object> sampleState1() {
+    Map<String, Object> getMovie() {
         Map<String, Object> map = new HashMap<>();
         map.put("movieId", UUID.fromString("6f6d4899-297f-4a02-b646-105a4208fe94"));
         return map;
     }
 
     @State("A request to create a movie")
-    void sampleState3() {
+    void createMovie() {
 
     }
 
@@ -91,124 +91,124 @@ class ProviderIT {
     }
 
     @State("A request to retrieve a list of locations")
-    void sampleState5() {
+    void getLocations() {
 
     }
 
     @State("A request to retrieve a location")
-    Map<String, Object> sampleState4() {
+    Map<String, Object> getLocation() {
         Map<String, Object> map = new HashMap<>();
         map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to create a location")
-    void sampleState6() {
+    void createLocation() {
 
     }
 
     @State("A request to delete a location")
-    Map<String, Object> sampleState7() {
+    Map<String, Object> deleteLocation() {
         Map<String, Object> map = new HashMap<>();
         map.put("locationId", UUID.fromString("121dba90-338d-4d41-991d-6f43fcd9336e"));
         return map;
     }
 
     @State("A request to update a location")
-    Map<String, Object> sampleState8() {
+    Map<String, Object> updateLocation() {
         Map<String, Object> map = new HashMap<>();
         map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to retrieve a list of actors")
-    void sampleState9() {
+    void getActors() {
 
     }
 
     @State("A request to retrieve an actor")
-    Map<String, Object> sampleState10() {
+    Map<String, Object> getActor() {
         Map<String, Object> map = new HashMap<>();
         map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to create an actor")
-    void sampleState11() {
+    void createActor() {
 
     }
 
     @State("A request to delete an actor")
-    Map<String, Object> sampleState12() {
+    Map<String, Object> deleteActor() {
         Map<String, Object> map = new HashMap<>();
         map.put("actorId", UUID.fromString("347e8d6c-34af-45a6-97e8-0b5545759b75"));
         return map;
     }
 
     @State("A request to update an actor")
-    Map<String, Object> sampleState13() {
+    Map<String, Object> updateActor() {
         Map<String, Object> map = new HashMap<>();
         map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to retrieve a list of rooms")
-    void sampleState14() {
+    void getRooms() {
 
     }
 
     @State("A request to retrieve a room")
-    Map<String, Object> sampleState15() {
+    Map<String, Object> getRoom() {
         Map<String, Object> map = new HashMap<>();
         map.put("roomId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to create a room")
-    void sampleState16() {
+    void createRoom() {
 
     }
 
     @State("A request to update a room")
-    Map<String, Object> sampleState17() {
+    Map<String, Object> updateRoom() {
         Map<String, Object> map = new HashMap<>();
         map.put("roomId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to delete a room")
-    Map<String, Object> sampleState18() {
+    Map<String, Object> deleteRoom() {
         Map<String, Object> map = new HashMap<>();
         map.put("roomId", UUID.fromString("55615bd0-bf1e-4826-8689-e9d2fb928451"));
         return map;
     }
 
     @State("A request to retrieve a list of characters")
-    void sampleState19() {
+    void getCharacters() {
 
     }
 
     @State("A request to retrieve a character")
-    Map<String, Object> sampleState20() {
+    Map<String, Object> getCharacter() {
         Map<String, Object> map = new HashMap<>();
         map.put("characterId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to create a character")
-    void sampleState21() {
+    void createCharacter() {
 
     }
 
     @State("A request to update a character")
-    Map<String, Object> sampleState22() {
+    Map<String, Object> updateCharacter() {
         Map<String, Object> map = new HashMap<>();
         map.put("characterId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
         return map;
     }
 
     @State("A request to delete a character")
-    Map<String, Object> sampleState23() {
+    Map<String, Object> deleteCharacter() {
         Map<String, Object> map = new HashMap<>();
         map.put("characterId", UUID.fromString("674b1aa7-a3b7-4b1f-9c15-a3083b99c40d"));
         return map;
