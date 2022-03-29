@@ -45,16 +45,18 @@ class PostCreateMovieIT {
                 .stringType("scene", "Shakira talking to Kanye West outside the front entrance")
                 .stringType("imageUrl", "anyUrl")
                 .object("character")
-                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .stringType("hanzi", "西")
+                .stringType("pinyin", "xi")
+                .stringType("meaning", "West")
                 .closeObject()
                 .object("location")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .object("actor")
-                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "4efff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .object("room")
-                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "3afff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .close();
 
@@ -63,16 +65,23 @@ class PostCreateMovieIT {
                 .stringType("scene", "Shakira talking to Kanye West outside the front entrance")
                 .stringType("imageUrl", "anyUrl")
                 .object("character")
-                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "2dfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .stringType("hanzi", "西")
+                .stringType("pinyin", "xi")
+                .stringType("meaning", "West")
                 .closeObject()
                 .object("location")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .stringType("title", "Childhood home")
+                .stringType("associatedPinyinSound", "Shi")
                 .closeObject()
                 .object("actor")
-                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "4efff94a-b70e-4b39-bd2a-be1c0f898589")
+                .stringType("name", "Shakira")
                 .closeObject()
                 .object("room")
-                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "3afff94a-b70e-4b39-bd2a-be1c0f898589")
+                .stringType("title", "Bedroom")
                 .closeObject()
                 .close();
 
@@ -96,7 +105,11 @@ class PostCreateMovieIT {
         Actor actor = Actor.builder().id(UUID.fromString("4efff94a-b70e-4b39-bd2a-be1c0f898589")).build();
         Room room = Room.builder().id(UUID.fromString("3afff94a-b70e-4b39-bd2a-be1c0f898589")).build();
         Location location = Location.builder().id(UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589")).build();
-        Character character = Character.builder().id(UUID.fromString("2dfff94a-b70e-4b39-bd2a-be1c0f898589")).build();
+        Character character = Character.builder()
+                .hanzi("西")
+                .pinyin("xi")
+                .meaning("meaning")
+                .build();
 
         Movie movie = Movie.builder()
                 .actor(actor)

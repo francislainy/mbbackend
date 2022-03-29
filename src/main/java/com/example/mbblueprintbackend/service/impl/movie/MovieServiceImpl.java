@@ -7,7 +7,11 @@ import com.example.mbblueprintbackend.entity.movie.MovieEntity;
 import com.example.mbblueprintbackend.entity.room.RoomEntity;
 import com.example.mbblueprintbackend.model.Character;
 import com.example.mbblueprintbackend.model.*;
+import com.example.mbblueprintbackend.repository.actor.ActorRepository;
+import com.example.mbblueprintbackend.repository.character.CharacterRepository;
+import com.example.mbblueprintbackend.repository.location.LocationRepository;
 import com.example.mbblueprintbackend.repository.movie.MovieRepository;
+import com.example.mbblueprintbackend.repository.room.RoomRepository;
 import com.example.mbblueprintbackend.service.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,27 +27,28 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    CharacterRepository characterRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    LocationRepository locationRepository;
+
+    @Autowired
+    RoomRepository roomRepository;
+
     @Override
     public List<Movie> getAllMovies() {
         List<Movie> movieList = new ArrayList<>();
 
         movieRepository.findAll().forEach(movieEntity -> {
 
-            Character character = Character.builder()
-                    .id(movieEntity.getCharacter().getId())
-                    .build();
-
-            Actor actor = Actor.builder()
-                    .id(movieEntity.getCharacter().getId())
-                    .build();
-
-            Location location = Location.builder()
-                    .id(movieEntity.getLocation().getId())
-                    .build();
-
-            Room room = Room.builder()
-                    .id(movieEntity.getRoom().getId())
-                    .build();
+            Character character = getCharacter(movieEntity);
+            Actor actor = getActor(movieEntity);
+            Location location = getLocation(movieEntity);
+            Room room = getRoom(movieEntity);
 
             movieList.add(
                     Movie.builder()
@@ -70,21 +75,13 @@ public class MovieServiceImpl implements MovieService {
 
             MovieEntity movieEntity = movieEntityOptional.get();
 
-            Character character = Character.builder()
-                    .id(movieEntity.getCharacter().getId())
-                    .build();
+            Character character = getCharacter(movieEntity);
 
-            Actor actor = Actor.builder()
-                    .id(movieEntity.getCharacter().getId())
-                    .build();
+            Actor actor = getActor(movieEntity);
 
-            Location location = Location.builder()
-                    .id(movieEntity.getLocation().getId())
-                    .build();
+            Location location = getLocation(movieEntity);
 
-            Room room = Room.builder()
-                    .id(movieEntity.getRoom().getId())
-                    .build();
+            Room room = getRoom(movieEntity);
 
             return Movie.builder()
                     .id(movieEntity.getId())
@@ -120,8 +117,14 @@ public class MovieServiceImpl implements MovieService {
     public Movie createMovie(Movie movie) {
 
         CharacterEntity characterEntity = CharacterEntity.builder()
-                .id(movie.getCharacter().getId())
+                .hanzi(movie.getCharacter().getHanzi())
+                .pinyin(movie.getCharacter().getPinyin())
+                .meaning(movie.getCharacter().getMeaning())
                 .build();
+
+        characterEntity = characterRepository.save(characterEntity);
+
+//        actorRepository.findById(movie.getActor().getId());
 
         ActorEntity actorEntity = ActorEntity.builder()
                 .id(movie.getActor().getId())
@@ -150,12 +153,26 @@ public class MovieServiceImpl implements MovieService {
                 .id(movieEntity.getId())
                 .scene(movieEntity.getScene())
                 .imageUrl(movieEntity.getImageUrl())
-                .character(Character.builder().id(movieEntity.getCharacter().getId()).build())
-                .actor(Actor.builder().id(movieEntity.getActor().getId()).build())
-                .location(Location.builder().id(movieEntity.getLocation().getId()).build())
-                .room(Room.builder().id(movieEntity.getRoom().getId()).build())
+                .character(Character.builder()
+                        .id(movieEntity.getCharacter().getId())
+                        .hanzi(movieEntity.getCharacter().getHanzi())
+                        .pinyin(movieEntity.getCharacter().getPinyin())
+                        .meaning(movieEntity.getCharacter().getMeaning())
+                        .build())
+                .actor(Actor.builder()
+                        .id(movieEntity.getActor().getId())
+                        .name(getActor(movieEntity).getName())
+                        .build())
+                .location(Location.builder()
+                        .id(movieEntity.getLocation().getId())
+                        .title(getLocation(movieEntity).getTitle())
+                        .associatedPinyinSound(getLocation(movieEntity).getAssociatedPinyinSound())
+                        .build())
+                .room(Room.builder()
+                        .id(movieEntity.getRoom().getId())
+                        .title(getRoom(movieEntity).getTitle())
+                        .build())
                 .build();
-
     }
 
     @Override
@@ -205,4 +222,63 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
+    private Room getRoom(MovieEntity movieEntity) {
+        Room room = Room.builder()
+                .id(movieEntity.getRoom().getId())
+                .build();
+
+        Optional<RoomEntity> roomEntityOptional = roomRepository.findById(room.getId());
+
+        if (roomEntityOptional.isPresent()) {
+            RoomEntity roomEntity = roomEntityOptional.get();
+            room.setTitle(roomEntity.getTitle());
+        }
+        return room;
+    }
+
+    private Location getLocation(MovieEntity movieEntity) {
+        Location location = Location.builder()
+                .id(movieEntity.getLocation().getId())
+                .build();
+
+        Optional<LocationEntity> locationEntityOptional = locationRepository.findById(location.getId());
+
+        if (locationEntityOptional.isPresent()) {
+            LocationEntity locationEntity = locationEntityOptional.get();
+            location.setTitle(locationEntity.getTitle());
+            location.setAssociatedPinyinSound(locationEntity.getAssociatedPinyinSound());
+        }
+        return location;
+    }
+
+    private Actor getActor(MovieEntity movieEntity) {
+        Actor actor = Actor.builder()
+                .id(movieEntity.getActor().getId())
+                .build();
+
+        Optional<ActorEntity> actorEntityOptional = actorRepository.findById(actor.getId());
+
+        if (actorEntityOptional.isPresent()) {
+            ActorEntity actorEntity = actorEntityOptional.get();
+            actor.setName(actorEntity.getName());
+        }
+        return actor;
+    }
+
+    private Character getCharacter(MovieEntity movieEntity) {
+        Character character = Character.builder()
+                .id(movieEntity.getCharacter().getId())
+                .build();
+
+        Optional<CharacterEntity> characterEntityOptional = characterRepository.findById(character.getId());
+
+        if (characterEntityOptional.isPresent()) {
+            CharacterEntity characterEntity = characterEntityOptional.get();
+
+            character.setHanzi(characterEntity.getHanzi());
+            character.setPinyin(characterEntity.getPinyin());
+            character.setMeaning(characterEntity.getMeaning());
+        }
+        return character;
+    }
 }
