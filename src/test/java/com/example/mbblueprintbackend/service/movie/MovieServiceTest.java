@@ -250,11 +250,11 @@ class MovieServiceTest {
         when(characterRepository.save(any())).thenReturn(characterEntity);
         when(movieRepository.save(any())).thenReturn(movieEntity);
         when(actorRepository.findById(any())).thenReturn(Optional.ofNullable(ActorEntity.builder()
-                .id(roomId)
+                .id(actorId)
                 .name("anyName")
                 .build()));
         when(locationRepository.findById(any())).thenReturn(Optional.ofNullable(LocationEntity.builder()
-                .id(roomId)
+                .id(locationId)
                 .title("anyTitle")
                 .associatedPinyinSound("anySound")
                 .build()));

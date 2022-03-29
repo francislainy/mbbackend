@@ -124,8 +124,6 @@ public class MovieServiceImpl implements MovieService {
 
         characterEntity = characterRepository.save(characterEntity);
 
-//        actorRepository.findById(movie.getActor().getId());
-
         ActorEntity actorEntity = ActorEntity.builder()
                 .id(movie.getActor().getId())
                 .build();
