@@ -4,7 +4,6 @@ import com.example.mbblueprintbackend.entity.location.LocationEntity;
 import com.example.mbblueprintbackend.model.Location;
 import com.example.mbblueprintbackend.repository.location.LocationRepository;
 import com.example.mbblueprintbackend.service.impl.location.LocationServiceImpl;
-import com.example.mbblueprintbackend.util.Utils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,8 +36,8 @@ class LocationServiceTest {
 
         LocationEntity locationEntity = LocationEntity.builder()
                 .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
                 .build();
 
         locationEntityList.add(locationEntity);
@@ -63,14 +62,20 @@ class LocationServiceTest {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        when(locationRepository.findById(locationId)).thenReturn(Utils.getSingleLocation(locationId));
+        Optional<LocationEntity> optionalLocationEntity = Optional.ofNullable(LocationEntity.builder()
+                .id(locationId)
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
+                .build());
+
+        when(locationRepository.findById(locationId)).thenReturn(optionalLocationEntity);
 
         Location location = locationService.getLocation(locationId);
 
         assertAll(
                 () -> assertEquals(locationId.toString(), location.getId().toString()),
-                () -> assertEquals("South London", location.getTitle()),
-                () -> assertEquals("Ou", location.getAssociatedPinyinSound()));
+                () -> assertEquals("anyTitle", location.getTitle()),
+                () -> assertEquals("anySound", location.getAssociatedPinyinSound()));
     }
 
     @Test
@@ -80,8 +85,8 @@ class LocationServiceTest {
 
         LocationEntity locationEntity = LocationEntity.builder()
                 .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
                 .build();
 
         when(locationRepository.save(any())).thenReturn(locationEntity);
@@ -123,20 +128,20 @@ class LocationServiceTest {
 
         LocationEntity locationEntity = LocationEntity.builder()
                 .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
                 .build();
 
         Optional<LocationEntity> locationEntity1 = Optional.ofNullable(LocationEntity.builder()
                 .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
                 .build());
 
         Location location0 = Location.builder()
                 .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
                 .build();
 
         when(locationRepository.findById(locationId)).thenReturn(locationEntity1);

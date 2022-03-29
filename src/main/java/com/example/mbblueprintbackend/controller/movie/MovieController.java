@@ -1,6 +1,5 @@
 package com.example.mbblueprintbackend.controller.movie;
 
-import com.example.mbblueprintbackend.model.Character;
 import com.example.mbblueprintbackend.model.Movie;
 import com.example.mbblueprintbackend.service.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;

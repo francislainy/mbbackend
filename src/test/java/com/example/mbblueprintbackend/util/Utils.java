@@ -2,12 +2,6 @@ package com.example.mbblueprintbackend.util;
 
 import au.com.dius.pact.core.model.RequestResponseInteraction;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
-import com.example.mbblueprintbackend.entity.location.LocationEntity;
-import com.example.mbblueprintbackend.model.Actor;
-import com.example.mbblueprintbackend.model.Character;
-import com.example.mbblueprintbackend.model.Location;
-import com.example.mbblueprintbackend.model.Movie;
-import com.example.mbblueprintbackend.model.Room;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +18,6 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpRequest;
 
 import java.lang.reflect.Type;
-import java.util.*;
 
 import static io.restassured.RestAssured.given;
 
@@ -113,49 +106,4 @@ public class Utils {
         System.out.println((curl + "\n\n " + bodyResponse + "\n ---- \n\n"));
     }
 
-    public static Map<String, Object> getAllMovies() {
-        List<Object> movieList = new ArrayList<>();
-        Actor actor = Actor.builder().name("Shakira").build();
-        Room room = Room.builder().title("Bedroom").build();
-        Location location = Location.builder().title("Childhood home").build();
-
-        Movie movie = Movie.builder()
-                .actor(actor)
-                .character(new Character())
-                .imageUrl("anyUrl")
-                .room(room)
-                .location(location)
-                .scene("Shakira talking to Kanye West outside the front entrance")
-                .build();
-        movieList.add(movie);
-        Map<String, Object> map = new HashMap<>();
-        map.put("movies", movieList);
-        return map;
-    }
-
-    public static Movie getSingleMovie(UUID uuid) {
-
-        Actor actor = Actor.builder().id(UUID.fromString("6b00f4e7-c499-4fd6-907d-ec0e8b9934b2")).build();
-        Room room = Room.builder().id(UUID.fromString("40325c6e-047f-452d-9a9a-f93111510764")).build();
-        Location location = Location.builder().id(UUID.fromString("c7b6f5b7-747b-490f-99d2-f6e3ebdbc060")).build();
-
-        return Movie.builder()
-                .id(uuid)
-                .actor(actor)
-                .character(new Character())
-                .imageUrl("anyUrl")
-                .room(room)
-                .location(location)
-                .scene("Shakira talking to Kanye West outside the front entrance")
-                .build();
-    }
-
-    public static Optional<LocationEntity> getSingleLocation(UUID locationId) {
-
-        return Optional.ofNullable(LocationEntity.builder()
-                .id(locationId)
-                .title("South London")
-                .associatedPinyinSound("Ou")
-                .build());
-    }
 }
