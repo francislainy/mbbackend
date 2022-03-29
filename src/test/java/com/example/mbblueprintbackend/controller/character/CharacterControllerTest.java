@@ -44,7 +44,7 @@ class CharacterControllerTest {
 
         Character character = Character.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
@@ -69,7 +69,7 @@ class CharacterControllerTest {
 
         Character character = Character.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
@@ -87,7 +87,7 @@ class CharacterControllerTest {
     void testCreateCharacter() throws Exception {
 
         Character character = Character.builder()
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
@@ -130,7 +130,7 @@ class CharacterControllerTest {
     void testUpdateCharacter() throws Exception {
 
         Character character = Character.builder()
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();

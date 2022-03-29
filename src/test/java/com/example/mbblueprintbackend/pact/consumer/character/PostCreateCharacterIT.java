@@ -40,13 +40,13 @@ class PostCreateCharacterIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyGiven = new PactDslJsonBody()
-                .stringType("character", "西")
+                .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
-                .stringType("character", "西")
+                .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .close();
@@ -69,7 +69,7 @@ class PostCreateCharacterIT {
     void runTest() {
 
         Character character = Character.builder()
-                .character("西")
+                .hanzi("西")
                 .pinyin("xi")
                 .meaning("West")
                 .build();

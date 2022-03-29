@@ -21,8 +21,8 @@ public class CharacterEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
-    @Column(name = "character")
-    private String character;
+    @Column(name = "hanzi")
+    private String hanzi;
     @Column(name = "pinyin")
     private String pinyin;
     @Column(name = "meaning")

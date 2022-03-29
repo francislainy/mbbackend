@@ -17,7 +17,7 @@ public class Character {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String character;
+    private String hanzi;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String pinyin;
     @JsonInclude(JsonInclude.Include.NON_NULL)

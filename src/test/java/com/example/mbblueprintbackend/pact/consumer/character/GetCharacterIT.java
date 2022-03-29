@@ -39,7 +39,7 @@ class GetCharacterIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyReturned = new PactDslJsonBody()
-                .stringType("character", "西")
+                .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .close();

@@ -26,7 +26,7 @@ public class CharacterServiceImpl implements CharacterService {
         characterRepository.findAll().forEach(characterEntity -> characterList.add(
                 Character.builder()
                         .id(characterEntity.getId())
-                        .character(characterEntity.getCharacter())
+                        .hanzi(characterEntity.getHanzi())
                         .pinyin(characterEntity.getPinyin())
                         .meaning(characterEntity.getMeaning())
                         .build()));
@@ -45,7 +45,7 @@ public class CharacterServiceImpl implements CharacterService {
 
             return Character.builder()
                     .id(characterEntity.getId())
-                    .character(characterEntity.getCharacter())
+                    .hanzi(characterEntity.getHanzi())
                     .pinyin(characterEntity.getPinyin())
                     .meaning(characterEntity.getMeaning())
                     .build();
@@ -58,7 +58,7 @@ public class CharacterServiceImpl implements CharacterService {
     public Character createCharacter(Character character) {
 
         CharacterEntity characterEntity = CharacterEntity.builder()
-                .character(character.getCharacter())
+                .hanzi(character.getHanzi())
                 .pinyin(character.getPinyin())
                 .meaning(character.getMeaning())
                 .build();
@@ -67,7 +67,7 @@ public class CharacterServiceImpl implements CharacterService {
 
         return Character.builder()
                 .id(characterEntity.getId())
-                .character(characterEntity.getCharacter())
+                .hanzi(characterEntity.getHanzi())
                 .pinyin(characterEntity.getPinyin())
                 .meaning(characterEntity.getMeaning())
                 .build();
@@ -96,7 +96,7 @@ public class CharacterServiceImpl implements CharacterService {
         if (characterEntityOptional.isPresent()) {
 
             CharacterEntity characterEntity = CharacterEntity.builder()
-                    .character(character.getCharacter())
+                    .hanzi(character.getHanzi())
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
                     .build();
@@ -105,7 +105,7 @@ public class CharacterServiceImpl implements CharacterService {
 
             return Character.builder()
                     .id(characterEntity.getId())
-                    .character(character.getCharacter())
+                    .hanzi(character.getHanzi())
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
                     .build();

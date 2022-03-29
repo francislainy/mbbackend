@@ -40,14 +40,14 @@ class PutUpdateCharacterIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyGiven = new PactDslJsonBody()
-                .stringType("character", "西")
+                .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .stringType("character", "西")
+                .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .close();
@@ -70,7 +70,7 @@ class PutUpdateCharacterIT {
     void runTest() {
 
         Character character = Character.builder()
-                .character("西")
+                .hanzi("西")
                 .pinyin("xi")
                 .meaning("West")
                 .build();

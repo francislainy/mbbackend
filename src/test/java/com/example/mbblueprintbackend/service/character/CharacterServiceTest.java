@@ -36,7 +36,7 @@ class CharacterServiceTest {
 
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
@@ -53,19 +53,19 @@ class CharacterServiceTest {
 
         assertAll(
                 () -> assertEquals(characterEntity.getId().toString(), character.getId().toString()),
-                () -> assertEquals(characterEntity.getCharacter(), character.getCharacter()),
+                () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
     }
 
     @Test
-    void testGetSingleCharacter() {
+    void testGetCharacter() {
 
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
         Optional<CharacterEntity> optionalLocationEntity = Optional.ofNullable(CharacterEntity.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build());
@@ -76,7 +76,7 @@ class CharacterServiceTest {
 
         assertAll(
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
-                () -> assertEquals("anyCharacter", character.getCharacter()),
+                () -> assertEquals("anyHanzi", character.getHanzi()),
                 () -> assertEquals("anyPinyin", character.getPinyin()),
                 () -> assertEquals("anyMeaning", character.getMeaning()));
     }
@@ -88,7 +88,7 @@ class CharacterServiceTest {
 
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
@@ -99,7 +99,7 @@ class CharacterServiceTest {
 
         assertAll(
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
-                () -> assertEquals(characterEntity.getCharacter(), character.getCharacter()),
+                () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
     }
@@ -133,21 +133,21 @@ class CharacterServiceTest {
 
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
 
         Optional<CharacterEntity> characterEntity1 = Optional.ofNullable(CharacterEntity.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build());
 
         Character character0 = Character.builder()
                 .id(characterId)
-                .character("anyCharacter")
+                .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .build();
@@ -159,7 +159,7 @@ class CharacterServiceTest {
 
         assertAll(
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
-                () -> assertEquals(characterEntity.getCharacter(), character.getCharacter()),
+                () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
     }

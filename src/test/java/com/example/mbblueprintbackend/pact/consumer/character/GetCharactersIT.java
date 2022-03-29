@@ -40,7 +40,7 @@ class GetCharactersIT {
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .eachLike("characters", 2)
-                    .stringType("character", "西")
+                    .stringType("hanzi", "西")
                     .stringType("pinyin", "xi")
                     .stringType("meaning", "West")
                 .closeArray()
