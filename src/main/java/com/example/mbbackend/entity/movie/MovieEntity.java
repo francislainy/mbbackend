@@ -5,19 +5,17 @@ import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.location.LocationEntity;
 import com.example.mbbackend.entity.room.RoomEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "movie")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +35,7 @@ public class MovieEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "actor_id", referencedColumnName = "id")
     private ActorEntity actor;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private RoomEntity room;
