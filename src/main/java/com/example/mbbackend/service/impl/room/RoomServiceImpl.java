@@ -73,11 +73,22 @@ public class RoomServiceImpl implements RoomService {
 
         if (optionalRoom.isPresent()) {
 
-            RoomEntity roomEntity = optionalRoom.get();
+            RoomEntity roomEntity = null;
+            try {
+                roomEntity = optionalRoom.get();
+            } catch (StackOverflowError e) {
+//                throw new Exception(e.getMessage());
+                System.out.println("here");
+            }
 
-            roomRepository.delete(roomEntity);
+            try {
+                roomRepository.delete(roomEntity);
+            } catch (Exception e) {
+                throw new Exception(e.getMessage());
+            }
+
         } else {
-            throw new Exception();
+            throw new Exception("Item not present");
         }
     }
 

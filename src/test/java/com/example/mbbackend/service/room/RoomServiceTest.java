@@ -1,5 +1,9 @@
 package com.example.mbbackend.service.room;
 
+import com.example.mbbackend.entity.actor.ActorEntity;
+import com.example.mbbackend.entity.character.CharacterEntity;
+import com.example.mbbackend.entity.location.LocationEntity;
+import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.entity.room.RoomEntity;
 import com.example.mbbackend.model.Room;
 import com.example.mbbackend.repository.room.RoomRepository;
@@ -10,10 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,7 +57,7 @@ class RoomServiceTest {
     }
 
     @Test
-    void testGetSingleRoom() {
+    void testGetRoom() {
 
         UUID roomId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
@@ -114,6 +115,61 @@ class RoomServiceTest {
 
         assertThrows(Exception.class, () -> roomService.deleteRoom(roomId));
     }
+
+    @Test
+    void testDeleteRoomBelongsToAMovie() {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID characterId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID actorId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID locationId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID roomId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        RoomEntity roomEntity = RoomEntity.builder()
+                .id(roomId)
+                .build();
+
+        Optional<CharacterEntity> optionalCharacterEntity = Optional.ofNullable(CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build());
+
+        CharacterEntity characterEntity = optionalCharacterEntity.get();
+
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(movieId)
+                .scene("anyScene")
+                .imageUrl("anyUrl")
+                .character(CharacterEntity.builder()
+                        .id(characterId)
+                        .hanzi(characterEntity.getHanzi())
+                        .pinyin(characterEntity.getPinyin())
+                        .meaning(characterEntity.getMeaning())
+                        .build())
+                .actor(ActorEntity.builder()
+                        .id(actorId)
+                        .name("anyName")
+                        .build())
+                .location(LocationEntity.builder()
+                        .id(locationId)
+                        .title("anyTitle")
+                        .associatedPinyinSound("anySound")
+                        .build())
+                .room(roomEntity)
+                .build();
+
+        java.util.Set<MovieEntity> movieEntityList = new HashSet<>();
+        movieEntityList.add(movieEntity);
+
+        roomEntity.setMovie(movieEntityList);
+
+        when(roomRepository.findById(any())).thenReturn(Optional.of(roomEntity));
+
+        assertDoesNotThrow(() -> roomService.deleteRoom(roomId));
+    }
+
 
     @Test
     void testUpdateRoom() {

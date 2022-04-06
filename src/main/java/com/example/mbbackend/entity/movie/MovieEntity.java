@@ -14,8 +14,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
+//@Getter
+//@Setter
+@Data
 public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
