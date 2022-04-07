@@ -69,7 +69,13 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void deleteRoom(UUID roomId) throws Exception {
 
-        Optional<RoomEntity> optionalRoom = roomRepository.findById(roomId);
+        Optional<RoomEntity> optionalRoom = null;
+        try {
+            optionalRoom = roomRepository.findById(roomId);
+        } catch (StackOverflowError e) {
+            System.err.println("blabla!");
+            e.printStackTrace();
+        }
 
         if (optionalRoom.isPresent()) {
 
@@ -87,9 +93,11 @@ public class RoomServiceImpl implements RoomService {
                 throw new Exception(e.getMessage());
             }
 
-        } else {
-            throw new Exception("Item not present");
         }
+
+//        else {
+//            throw new Exception("Item not present");
+//        }
     }
 
     @Override
