@@ -65,14 +65,17 @@ public class RoomServiceImpl implements RoomService {
                 .build();
     }
 
+// Good
+// a75f1e37-8e4b-4aaf-85d2-d483e5a08e9f
+
 
     @Override
     public void deleteRoom(UUID roomId) throws Exception {
 
         Optional<RoomEntity> optionalRoom = null;
         try {
-            optionalRoom = roomRepository.findById(roomId);
-        } catch (StackOverflowError e) {
+            optionalRoom = Optional.ofNullable(roomRepository.findById(roomId).orElseThrow(() -> new StackOverflowError("")));
+        } catch (Exception e) {
             System.err.println("blabla!");
             e.printStackTrace();
         }
@@ -89,6 +92,7 @@ public class RoomServiceImpl implements RoomService {
 
             try {
                 roomRepository.delete(roomEntity);
+//                System.out.println("to delete");
             } catch (Exception e) {
                 throw new Exception(e.getMessage());
             }

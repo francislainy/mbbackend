@@ -179,7 +179,7 @@ class ProviderIT {
     @State("A request to delete a room")
     Map<String, Object> deleteRoom() {
         Map<String, Object> map = new HashMap<>();
-        map.put("roomId", UUID.fromString("55615bd0-bf1e-4826-8689-e9d2fb928451"));
+        map.put("roomId", UUID.fromString("4c84c1c6-8f10-4ace-8844-299bed254602"));
         return map;
     }
 
