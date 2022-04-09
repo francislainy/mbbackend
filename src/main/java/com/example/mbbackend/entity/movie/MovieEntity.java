@@ -35,7 +35,6 @@ public class MovieEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "actor_id", referencedColumnName = "id")
     private ActorEntity actor;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private RoomEntity room;

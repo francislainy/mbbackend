@@ -26,6 +26,6 @@ public class LocationEntity {
     @Column(name = "associatedPinyinSound")
     private String associatedPinyinSound;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieEntity> movie;
 }

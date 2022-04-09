@@ -28,6 +28,6 @@ public class CharacterEntity {
     @Column(name = "meaning")
     private String meaning;
 
-    @OneToMany(mappedBy = "character")
+    @OneToMany(mappedBy = "character", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieEntity> movie;
 }
