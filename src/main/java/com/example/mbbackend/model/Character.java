@@ -22,4 +22,7 @@ public class Character {
     private String pinyin;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String meaning;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Movie movie;
 }

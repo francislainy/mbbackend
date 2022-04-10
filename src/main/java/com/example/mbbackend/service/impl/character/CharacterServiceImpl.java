@@ -1,22 +1,25 @@
 package com.example.mbbackend.service.impl.character;
 
 import com.example.mbbackend.entity.character.CharacterEntity;
+import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.model.Character;
+import com.example.mbbackend.model.Movie;
 import com.example.mbbackend.repository.character.CharacterRepository;
+import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.service.character.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
     @Autowired
     CharacterRepository characterRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
 
     @Override
     public List<Character> getAllCharacters() {
@@ -63,13 +66,32 @@ public class CharacterServiceImpl implements CharacterService {
                 .meaning(character.getMeaning())
                 .build();
 
+        MovieEntity movieEntity = MovieEntity.builder()
+                .scene("")
+                .imageUrl("")
+                .character(characterEntity)
+                .actor(null)
+                .location(null)
+                .room(null)
+                .build();
+
         characterEntity = characterRepository.save(characterEntity);
+        movieEntity = movieRepository.save(movieEntity);
 
         return Character.builder()
                 .id(characterEntity.getId())
                 .hanzi(characterEntity.getHanzi())
                 .pinyin(characterEntity.getPinyin())
                 .meaning(characterEntity.getMeaning())
+                .movie(Movie.builder()
+                        .id(movieEntity.getId())
+                        .character(Character.builder()
+                                .id(characterEntity.getId())
+                                .hanzi(characterEntity.getHanzi())
+                                .pinyin(characterEntity.getPinyin())
+                                .meaning(characterEntity.getMeaning())
+                                .build())
+                        .build())
                 .build();
     }
 

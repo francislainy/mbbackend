@@ -123,6 +123,54 @@ class MovieServiceTest {
     }
 
     @Test
+    void testGetAllMoviesWhenNullProperties() {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID characterId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        CharacterEntity characterEntity = CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build();
+
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(movieId)
+                .scene("anyScene")
+                .imageUrl("anyUrl")
+                .actor(null)
+                .character(characterEntity)
+                .location(null)
+                .room(null)
+                .build();
+
+        List<MovieEntity> movieEntityList = new ArrayList<>();
+        movieEntityList.add(movieEntity);
+
+        when(characterRepository.findById(characterId)).thenReturn(Optional.ofNullable(characterEntity));
+        when(movieRepository.findAll()).thenReturn(movieEntityList);
+
+        List<Movie> movieList = movieService.getAllMovies();
+
+        assertTrue(movieList.size() > 0);
+
+        Movie movie = movieList.get(0);
+
+        assertAll(
+                () -> assertEquals(movieEntity.getId().toString(), movie.getId().toString()),
+                () -> assertEquals(movieEntity.getScene(), movie.getScene()),
+                () -> assertEquals(movieEntity.getImageUrl(), movie.getImageUrl()),
+                () -> assertEquals(movieEntity.getCharacter().getId(), movie.getCharacter().getId()),
+                () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
+                () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
+                () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertNull(movieEntity.getActor()),
+                () -> assertNull(movieEntity.getLocation()),
+                () -> assertNull(movieEntity.getRoom()));
+    }
+
+    @Test
     void testGetMovie() {
 
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");

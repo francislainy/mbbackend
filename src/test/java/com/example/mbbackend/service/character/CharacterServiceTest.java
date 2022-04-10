@@ -1,8 +1,10 @@
 package com.example.mbbackend.service.character;
 
 import com.example.mbbackend.entity.character.CharacterEntity;
+import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.repository.character.CharacterRepository;
+import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.service.impl.character.CharacterServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,9 @@ class CharacterServiceTest {
 
     @Mock
     CharacterRepository characterRepository;
+
+    @Mock
+    MovieRepository movieRepository;
 
     @Test
     void testGetAllCharacters() {
@@ -93,7 +98,18 @@ class CharacterServiceTest {
                 .meaning("anyMeaning")
                 .build();
 
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(UUID.randomUUID())
+                .scene("")
+                .imageUrl("")
+                .character(characterEntity)
+                .actor(null)
+                .location(null)
+                .room(null)
+                .build();
+
         when(characterRepository.save(any())).thenReturn(characterEntity);
+        when(movieRepository.save(any())).thenReturn(movieEntity);
 
         Character character = characterService.createCharacter(new Character());
 
@@ -101,7 +117,13 @@ class CharacterServiceTest {
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
                 () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
-                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
+                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertNotNull(character.getMovie()),
+                () -> assertNotNull(character.getMovie().getId()),
+                () -> assertEquals(character.getId(), character.getMovie().getCharacter().getId()),
+                () -> assertEquals(characterEntity.getHanzi(), character.getMovie().getCharacter().getHanzi()),
+                () -> assertEquals(characterEntity.getPinyin(), character.getMovie().getCharacter().getPinyin()),
+                () -> assertEquals(characterEntity.getMeaning(), character.getMovie().getCharacter().getMeaning()));
     }
 
     @Test

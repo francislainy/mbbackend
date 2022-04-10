@@ -45,11 +45,22 @@ class PostCreateCharacterIT {
                 .stringType("meaning", "West")
                 .close();
 
+        // @formatter:off
         DslPart bodyReturned = new PactDslJsonBody()
                 .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .object("movie")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .object("character")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                    .stringType("hanzi", "西")
+                    .stringType("pinyin", "xi")
+                    .stringType("meaning", "West")
+                .closeObject()
+                .closeObject()
                 .close();
+        // @formatter:on
 
         return builder
                 .given("A request to create a character")

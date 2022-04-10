@@ -221,6 +221,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Room getRoom(MovieEntity movieEntity) {
+
+        if (movieEntity.getRoom() == null) {
+            return null;
+        }
+
         Room room = Room.builder()
                 .id(movieEntity.getRoom().getId())
                 .build();
@@ -235,6 +240,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Location getLocation(MovieEntity movieEntity) {
+
+        if (movieEntity.getLocation() == null) {
+            return null;
+        }
+
         Location location = Location.builder()
                 .id(movieEntity.getLocation().getId())
                 .build();
@@ -250,6 +260,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Actor getActor(MovieEntity movieEntity) {
+
+        if (movieEntity.getActor() == null) {
+            return null;
+        }
+
         Actor actor = Actor.builder()
                 .id(movieEntity.getActor().getId())
                 .build();
@@ -264,6 +279,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Character getCharacter(MovieEntity movieEntity) {
+
         Character character = Character.builder()
                 .id(movieEntity.getCharacter().getId())
                 .build();
