@@ -8,10 +8,6 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.VerificationReports;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
-import com.example.mbbackend.util.ApiRequests;
-import com.example.mbbackend.util.Utils;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.apache.hc.core5.http.HttpRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
@@ -25,7 +21,6 @@ import java.util.UUID;
 
 import static com.example.mbbackend.config.Constants.*;
 import static com.example.mbbackend.util.Utils.logCurlFromPact;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * As per https://developers.google.com/classroom/reference/rest

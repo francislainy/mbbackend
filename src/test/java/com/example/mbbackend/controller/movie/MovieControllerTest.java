@@ -4,7 +4,6 @@ import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.model.*;
 import com.example.mbbackend.repository.character.CharacterRepository;
-import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.service.movie.MovieService;
 import com.example.mbbackend.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
