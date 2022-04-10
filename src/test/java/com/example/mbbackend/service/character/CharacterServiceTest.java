@@ -127,6 +127,36 @@ class CharacterServiceTest {
     }
 
     @Test
+    void testCreateCharacterBlockedWhenCharacterHanziAlreadyExists() {
+
+        UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        CharacterEntity characterEntity = CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build();
+
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(UUID.randomUUID())
+                .scene("")
+                .imageUrl("")
+                .character(characterEntity)
+                .actor(null)
+                .location(null)
+                .room(null)
+                .build();
+
+        when(characterRepository.findCharacterEntityByHanzi(any())).thenReturn(Optional.of(characterEntity));
+
+        Character character = characterService.createCharacter(new Character());
+
+        assertAll(
+                () -> assertNull(character));
+    }
+
+    @Test
     void testDeleteCharacter() {
 
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");

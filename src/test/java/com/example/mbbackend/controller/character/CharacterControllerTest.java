@@ -1,6 +1,8 @@
 package com.example.mbbackend.controller.character;
 
+import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.model.Character;
+import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.service.character.CharacterService;
 import com.example.mbbackend.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,10 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -35,6 +34,9 @@ class CharacterControllerTest {
 
     @MockBean
     CharacterService characterService;
+
+    @MockBean
+    CharacterRepository characterRepository;
 
     @Test
     void testGetAllCharacters() throws Exception {
@@ -108,6 +110,35 @@ class CharacterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(json1));
+    }
+
+    @Test
+    void testCreateCharacterBlockedCharacterHanziAlreadyExists() throws Exception {
+
+        Character character = Character.builder()
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build();
+
+        String json = Utils.jsonStringFromObject(character);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Character character1 = objectMapper.readValue(json, Character.class);
+
+        UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        character1.setId(characterId);
+
+        when(characterRepository.findCharacterEntityByHanzi(any())).thenReturn(Optional.of(CharacterEntity.builder()
+                .hanzi(character.getHanzi())
+                .build()));
+
+        when(characterService.createCharacter(character)).thenReturn(character1);
+
+        mockMvc.perform(post("/api/mb/character")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test

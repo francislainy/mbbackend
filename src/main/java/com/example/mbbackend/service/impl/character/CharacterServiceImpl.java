@@ -60,6 +60,12 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public Character createCharacter(Character character) {
 
+        Optional<CharacterEntity> characterHanzi = characterRepository.findCharacterEntityByHanzi(character.getHanzi());
+
+        if (characterHanzi.isPresent()) {
+            return null;
+        }
+
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .hanzi(character.getHanzi())
                 .pinyin(character.getPinyin())

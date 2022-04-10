@@ -1,6 +1,7 @@
 package com.example.mbbackend.controller.character;
 
 import com.example.mbbackend.model.Character;
+import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.service.character.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class CharacterController {
     @Autowired
     CharacterService characterService;
 
+    @Autowired
+    CharacterRepository characterRepository;
+
     @GetMapping("/character")
     public ResponseEntity<Object> getAllCharacter() {
 
@@ -36,6 +40,10 @@ public class CharacterController {
 
     @PostMapping("/character")
     public ResponseEntity<Character> createCharacter(@RequestBody Character character) {
+
+        if (characterRepository.findCharacterEntityByHanzi(character.getHanzi()).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(characterService.createCharacter(character), HttpStatus.CREATED);
     }
