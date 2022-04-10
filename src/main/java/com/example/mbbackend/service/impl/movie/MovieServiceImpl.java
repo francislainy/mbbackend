@@ -116,6 +116,12 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie createMovie(Movie movie) {
 
+        Optional<CharacterEntity> characterHanzi = characterRepository.findCharacterEntityByHanzi(movie.getCharacter().getHanzi());
+
+        if (characterHanzi.isPresent()) {
+            return null;
+        }
+
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .hanzi(movie.getCharacter().getHanzi())
                 .pinyin(movie.getCharacter().getPinyin())

@@ -341,6 +341,66 @@ class MovieServiceTest {
     }
 
     @Test
+    void testCreateMovieBlockedWhenCharacterAlreadyExists() {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID characterId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID actorId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID locationId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID roomId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Optional<CharacterEntity> optionalCharacterEntity = Optional.ofNullable(CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build());
+
+        CharacterEntity characterEntity = optionalCharacterEntity.get();
+
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(movieId)
+                .scene("anyScene")
+                .imageUrl("anyUrl")
+                .character(CharacterEntity.builder()
+                        .id(characterId)
+                        .hanzi(characterEntity.getHanzi())
+                        .pinyin(characterEntity.getPinyin())
+                        .meaning(characterEntity.getMeaning())
+                        .build())
+                .actor(ActorEntity.builder()
+                        .id(actorId)
+                        .name("anyName")
+                        .build())
+                .location(LocationEntity.builder()
+                        .id(locationId)
+                        .title("anyTitle")
+                        .associatedPinyinSound("anySound")
+                        .build())
+                .room(RoomEntity.builder()
+                        .id(roomId)
+                        .title("anyTitle")
+                        .build())
+                .build();
+
+        when(characterRepository.findCharacterEntityByHanzi(any())).thenReturn(Optional.of(characterEntity));
+
+        Movie movie0 = Movie.builder()
+                .id(movieId)
+                .scene(movieEntity.getScene())
+                .imageUrl(movieEntity.getScene())
+                .character(Character.builder().id(characterId).build())
+                .actor(Actor.builder().id(actorId).build())
+                .location(Location.builder().id(locationId).build())
+                .room(Room.builder().id(roomId).build())
+                .build();
+
+        Movie movie = movieService.createMovie(movie0);
+
+        assertAll(() -> assertNull(movie));
+    }
+
+    @Test
     void testDeleteMovie() {
 
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");

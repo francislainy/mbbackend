@@ -1,7 +1,10 @@
 package com.example.mbbackend.controller.movie;
 
+import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.model.*;
+import com.example.mbbackend.repository.character.CharacterRepository;
+import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.service.movie.MovieService;
 import com.example.mbbackend.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,10 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -36,6 +36,9 @@ class MovieControllerTest {
 
     @MockBean
     MovieService movieService;
+
+    @MockBean
+    CharacterRepository characterRepository;
 
     @Test
     void testGetAllMovies() throws Exception {
@@ -178,6 +181,59 @@ class MovieControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(json1));
+    }
+
+    @Test
+    void testPostMovieBlockedCharacterAlreadyExists() throws Exception {
+
+        UUID actorId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID characterId = UUID.fromString("2bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID locationId = UUID.fromString("3cfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID roomId = UUID.fromString("4dfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Actor actor = Actor.builder()
+                .id(actorId)
+                .build();
+
+        Character character = Character.builder()
+                .id(characterId)
+                .build();
+
+        Location location = Location.builder()
+                .id(locationId)
+                .build();
+
+        Room room = Room.builder()
+                .id(roomId)
+                .build();
+
+        Movie movie = Movie.builder()
+                .id(roomId)
+                .scene("anyScene")
+                .imageUrl("anyUrl")
+                .actor(actor)
+                .character(character)
+                .location(location)
+                .room(room)
+                .build();
+
+        String json = Utils.jsonStringFromObject(movie);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Movie movie1 = objectMapper.readValue(json, Movie.class);
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        movie1.setId(movieId);
+
+        when(characterRepository.findCharacterEntityByHanzi(any())).thenReturn(Optional.of(CharacterEntity.builder()
+                .hanzi(character.getHanzi())
+                .build()));
+        when(movieService.createMovie(movie)).thenReturn(movie1);
+
+        mockMvc.perform(post("/api/mb/movie")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
     }
 
     @Test

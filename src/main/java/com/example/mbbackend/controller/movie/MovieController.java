@@ -1,6 +1,7 @@
 package com.example.mbbackend.controller.movie;
 
 import com.example.mbbackend.model.Movie;
+import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.service.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
+    @Autowired
+    CharacterRepository characterRepository;
+
     @GetMapping("/movie")
     public ResponseEntity<Object> getAllMovies() {
 
@@ -36,6 +40,10 @@ public class MovieController {
 
     @PostMapping("/movie")
     public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
+
+        if (characterRepository.findCharacterEntityByHanzi(movie.getCharacter().getHanzi()).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(movieService.createMovie(movie), HttpStatus.CREATED);
     }
