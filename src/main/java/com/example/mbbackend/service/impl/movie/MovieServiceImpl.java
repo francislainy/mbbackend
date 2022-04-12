@@ -16,10 +16,7 @@ import com.example.mbbackend.service.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -181,46 +178,45 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie updateMovie(UUID uuid, Movie movie) {
-        Optional<MovieEntity> characterEntityOptional = movieRepository.findById(uuid);
+        Optional<MovieEntity> movieEntityOptional = movieRepository.findById(uuid);
 
-        if (characterEntityOptional.isPresent()) {
+        if (movieEntityOptional.isPresent()) {
 
-            CharacterEntity characterEntity = CharacterEntity.builder()
-                    .id(movie.getCharacter().getId())
-                    .build();
+            CharacterEntity characterEntity = characterRepository.findById(movie.getCharacter().getId()).get(); //todo: update test. Checking saving location, room and actor. Probably optional.get.
 
-            ActorEntity actorEntity = ActorEntity.builder()
-                    .id(movie.getActor().getId())
-                    .build();
+            ActorEntity actorEntity = actorRepository.findById(movie.getActor().getId()).get();
 
-            LocationEntity locationEntity = LocationEntity.builder()
-                    .id(movie.getLocation().getId())
-                    .build();
+            LocationEntity locationEntity = locationRepository.findById(movie.getLocation().getId()).get();
 
-            RoomEntity roomEntity = RoomEntity.builder()
-                    .id(movie.getRoom().getId())
-                    .build();
+            RoomEntity roomEntity = roomRepository.findById(movie.getRoom().getId()).get();
 
-            MovieEntity movieEntity = MovieEntity.builder()
-                    .scene(movie.getScene())
-                    .imageUrl(movie.getImageUrl())
-                    .character(characterEntity)
-                    .actor(actorEntity)
-                    .location(locationEntity)
-                    .room(roomEntity)
-                    .build();
+            MovieEntity movieEntity = movieEntityOptional.get();
+
+            movieEntity.setId(uuid);
+            movieEntity.setScene(movie.getScene());
+            movieEntity.setImageUrl(movieEntityOptional.get().getImageUrl());
+            movieEntity.setCharacter(characterEntity);
+            movieEntity.setActor(actorEntity);
+            movieEntity.setLocation(locationEntity);
+            movieEntity.setRoom(roomEntity);
 
             movieEntity = movieRepository.save(movieEntity);
 
-            return Movie.builder()
+            Movie build = Movie.builder()
                     .id(movieEntity.getId())
                     .scene(movieEntity.getScene())
                     .imageUrl(movieEntity.getImageUrl())
-                    .character(Character.builder().id(movieEntity.getCharacter().getId()).build())
+                    .character(Character.builder()
+                            .id(movieEntity.getCharacter().getId())
+                            .hanzi(movieEntity.getCharacter().getHanzi())
+                            .pinyin(movieEntity.getCharacter().getPinyin())
+                            .meaning(movieEntity.getCharacter().getMeaning())
+                            .build())
                     .actor(Actor.builder().id(movieEntity.getActor().getId()).build())
                     .location(Location.builder().id(movieEntity.getLocation().getId()).build())
                     .room(Room.builder().id(movieEntity.getRoom().getId()).build())
                     .build();
+            return build;
         } else {
             return null;
         }

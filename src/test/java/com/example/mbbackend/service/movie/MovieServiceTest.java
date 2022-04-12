@@ -431,37 +431,39 @@ class MovieServiceTest {
         UUID locationId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
         UUID roomId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
 
+        CharacterEntity characterEntity = CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build();
+
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(movieId)
                 .scene("anyScene")
                 .imageUrl("anyUrl")
-                .character(CharacterEntity.builder().id(characterId).build())
+                .character(characterEntity)
                 .actor(ActorEntity.builder().id(actorId).build())
                 .location(LocationEntity.builder().id(locationId).build())
                 .room(RoomEntity.builder().id(roomId).build())
                 .build();
-
-        Optional<MovieEntity> movieEntity1 = Optional.ofNullable(MovieEntity.builder()
-                .id(movieId)
-                .scene("anyScene")
-                .imageUrl("anyUrl")
-                .character(CharacterEntity.builder().id(characterId).build())
-                .actor(ActorEntity.builder().id(actorId).build())
-                .location(LocationEntity.builder().id(locationId).build())
-                .room(RoomEntity.builder().id(roomId).build())
-                .build());
 
         Movie movie0 = Movie.builder()
                 .id(movieId)
                 .scene("anyScene")
                 .imageUrl("anyUrl")
-                .character(Character.builder().id(characterId).build())
+                .character(Character.builder()
+                        .id(characterId)
+                        .hanzi(characterEntity.getHanzi())
+                        .pinyin(characterEntity.getPinyin())
+                        .meaning(characterEntity.getMeaning())
+                        .build())
                 .actor(Actor.builder().id(actorId).build())
                 .location(Location.builder().id(locationId).build())
                 .room(Room.builder().id(roomId).build())
                 .build();
 
-        when(movieRepository.findById(movieId)).thenReturn(movieEntity1);
+        when(movieRepository.findById(movieId)).thenReturn(Optional.ofNullable(movieEntity));
         when(movieRepository.save(any())).thenReturn(movieEntity);
 
         Movie movie = movieService.updateMovie(movieId, movie0);
@@ -470,6 +472,9 @@ class MovieServiceTest {
                 () -> assertEquals(movieId.toString(), movie.getId().toString()),
                 () -> assertEquals(movieEntity.getScene(), movie.getScene()),
                 () -> assertEquals(movieEntity.getCharacter().getId(), movie.getCharacter().getId()),
+                () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
+                () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
+                () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
                 () -> assertEquals(movieEntity.getActor().getId(), movie.getActor().getId()),
                 () -> assertEquals(movieEntity.getLocation().getId(), movie.getLocation().getId()),
                 () -> assertEquals(movieEntity.getRoom().getId(), movie.getRoom().getId()));
