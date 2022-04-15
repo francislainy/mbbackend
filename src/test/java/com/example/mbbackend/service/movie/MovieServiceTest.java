@@ -463,6 +463,10 @@ class MovieServiceTest {
                 .room(Room.builder().id(roomId).build())
                 .build();
 
+        when(characterRepository.findById(characterId)).thenReturn(Optional.ofNullable(characterEntity));
+        when(actorRepository.findById(actorId)).thenReturn(Optional.ofNullable(ActorEntity.builder().id(actorId).build()));
+        when(locationRepository.findById(locationId)).thenReturn(Optional.ofNullable(LocationEntity.builder().id(locationId).build()));
+        when(roomRepository.findById(roomId)).thenReturn(Optional.ofNullable(RoomEntity.builder().id(roomId).build()));
         when(movieRepository.findById(movieId)).thenReturn(Optional.ofNullable(movieEntity));
         when(movieRepository.save(any())).thenReturn(movieEntity);
 
