@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -93,14 +94,17 @@ class ActorServiceTest {
         ActorEntity actorEntity = ActorEntity.builder()
                 .id(actorId)
                 .name("anyName")
-                .associatedPinyinSound("anySound")
+                .associatedPinyinSound("ji")
                 .family(ActorFamily.FEMALE)
                 .imageUrl("imageUrl")
                 .build();
 
         when(actorRepository.save(any())).thenReturn(actorEntity);
 
-        Actor actor = actorService.createActor(new Actor());
+        Actor actor = actorService.createActor(Actor.builder()
+                .associatedPinyinSound(actorEntity.getAssociatedPinyinSound())
+                .family(actorEntity.getFamily())
+                .build());
 
         assertAll(
                 () -> assertEquals(actorId.toString(), actor.getId().toString()),
@@ -108,6 +112,12 @@ class ActorServiceTest {
                 () -> assertEquals(actorEntity.getAssociatedPinyinSound(), actor.getAssociatedPinyinSound()),
                 () -> assertEquals(actorEntity.getFamily(), actor.getFamily()),
                 () -> assertEquals(actorEntity.getImageUrl(), actor.getImageUrl()));
+    }
+
+    @Test
+    void testCheckActor() {
+
+        assertTrue(actorService.checkValidSoundForActor("ji", ActorFamily.FEMALE));
     }
 
     @Test

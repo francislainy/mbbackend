@@ -1,5 +1,6 @@
 package com.example.mbbackend.service.impl.actor;
 
+import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.repository.actor.ActorRepository;
@@ -7,10 +8,7 @@ import com.example.mbbackend.service.actor.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ActorServiceImpl implements ActorService {
@@ -58,6 +56,10 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Actor createActor(Actor actor) {
+
+        if (!checkValidSoundForActor(actor.getAssociatedPinyinSound(), actor.getFamily())) {
+            return null;
+        }
 
         ActorEntity actorEntity = ActorEntity.builder()
                 .name(actor.getName())
@@ -121,4 +123,19 @@ public class ActorServiceImpl implements ActorService {
 
     }
 
+    public boolean checkValidSoundForActor(String pinyinSound, ActorFamily actorFamily) {
+
+        String[] femaleSounds = new String[]{"y", "bi", "pi", "mi", "di", "ti", "ni", "li", "ji", "qi", "xi"};
+        String[] maleSounds = new String[]{"b", "p", "m", "f", "d", "t", "n", "l", "g", "k", "zh", "ch", "sh", "r", "z", "c", "s", "zhi", "chi", "shi", "ri", "zi", "ci", "si"};
+        String[] godSounds = new String[]{"yu", "nu", "lu", "ju", "qu", "xu"};
+        String[] fictionalSounds = new String[]{"w", "bu", "pu", "mu", "fu", "du", "tu", "nu", "lu", "gu", "ku", "hu", "zhu", "chu", "shu", "ru", "zu", "cu", "su"};
+
+        return switch (actorFamily) {
+            case FEMALE -> Arrays.asList(femaleSounds).contains(pinyinSound);
+            case MALE -> Arrays.asList(maleSounds).contains(pinyinSound);
+            case GOD -> Arrays.asList(godSounds).contains(pinyinSound);
+            case FICTIONAL -> Arrays.asList(fictionalSounds).contains(pinyinSound);
+        };
+
+    }
 }

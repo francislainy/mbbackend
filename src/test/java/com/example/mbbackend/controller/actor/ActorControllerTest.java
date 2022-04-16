@@ -114,6 +114,33 @@ class ActorControllerTest {
                 .andExpect(content().json(json1));
     }
 
+
+    @Test
+    void testCreateActor_Returns4xx_WrongFamily() throws Exception {
+
+        Actor actor = Actor.builder()
+                .name("anyName")
+                .associatedPinyinSound("anySound")
+                .family(ActorFamily.FEMALE)
+                .imageUrl("anyUrl")
+                .build();
+
+        String json = Utils.jsonStringFromObject(actor);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Actor actor1 = objectMapper.readValue(json, Actor.class);
+
+        UUID actorId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        actor1.setId(actorId);
+
+        when(actorService.createActor(actor)).thenReturn(null);
+
+        mockMvc.perform(post("/api/mb/actor")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
+    }
+
     @Test
     void testDeleteLocation() throws Exception {
 

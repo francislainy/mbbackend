@@ -37,6 +37,10 @@ public class ActorController {
     @PostMapping({"", "/"})
     public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
 
+        if (actorService.createActor(actor) == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(actorService.createActor(actor), HttpStatus.CREATED);
     }
 
