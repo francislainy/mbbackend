@@ -18,7 +18,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -113,6 +112,28 @@ class ActorServiceTest {
                 () -> assertEquals(actorEntity.getFamily(), actor.getFamily()),
                 () -> assertEquals(actorEntity.getImageUrl(), actor.getImageUrl()));
     }
+
+    @Test
+    void testCreateActor_WrongSound_ReturnsNull() {
+
+        UUID actorId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        ActorEntity actorEntity = ActorEntity.builder()
+                .id(actorId)
+                .name("anyName")
+                .associatedPinyinSound("wrongSound")
+                .family(ActorFamily.FEMALE)
+                .imageUrl("imageUrl")
+                .build();
+
+        Actor actor = actorService.createActor(Actor.builder()
+                .associatedPinyinSound(actorEntity.getAssociatedPinyinSound())
+                .family(actorEntity.getFamily())
+                .build());
+
+        assertNull(actor);
+    }
+
 
     @Test
     void testCheckActor() {
