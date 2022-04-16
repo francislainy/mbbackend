@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.util.Utils;
 import io.restassured.response.Response;
@@ -42,7 +43,7 @@ class PostCreateActorIT {
         DslPart bodyGiven = new PactDslJsonBody()
                 .stringType("name", "Shakira")
                 .stringType("associatedPinyinSound", "Shi")
-                .stringType("family", "Female I sound")
+                .stringType("family", "FEMALE")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();
 
@@ -50,7 +51,7 @@ class PostCreateActorIT {
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("name", "Shakira")
                 .stringType("associatedPinyinSound", "Shi")
-                .stringType("family", "Female I sound")
+                .stringType("family", "FEMALE")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();
 
@@ -74,7 +75,7 @@ class PostCreateActorIT {
         Actor actor = Actor.builder()
                 .name("South London")
                 .associatedPinyinSound("OU")
-                .family("Female I sound")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("http://anyimage.com")
                 .build();
 

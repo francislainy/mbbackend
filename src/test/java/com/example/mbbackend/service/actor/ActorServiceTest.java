@@ -1,5 +1,6 @@
 package com.example.mbbackend.service.actor;
 
+import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.repository.actor.ActorRepository;
@@ -38,7 +39,7 @@ class ActorServiceTest {
                 .id(locationId)
                 .name("Shakira")
                 .associatedPinyinSound("Ou")
-                .family("Female i sound")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
 
@@ -68,7 +69,7 @@ class ActorServiceTest {
                 .id(actorId)
                 .name("anyName")
                 .associatedPinyinSound("anySound")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build());
 
@@ -80,7 +81,7 @@ class ActorServiceTest {
                 () -> assertEquals(actorId.toString(), actor.getId().toString()),
                 () -> assertEquals("anyName", actor.getName()),
                 () -> assertEquals("anySound", actor.getAssociatedPinyinSound()),
-                () -> assertEquals("anyFamily", actor.getFamily()),
+                () -> assertEquals(ActorFamily.FEMALE, actor.getFamily()),
                 () -> assertEquals("anyUrl", actor.getImageUrl()));
     }
 
@@ -93,7 +94,7 @@ class ActorServiceTest {
                 .id(actorId)
                 .name("anyName")
                 .associatedPinyinSound("anySound")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("imageUrl")
                 .build();
 
@@ -139,7 +140,7 @@ class ActorServiceTest {
         ActorEntity locationEntity = ActorEntity.builder()
                 .id(locationId)
                 .name("anyName")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .associatedPinyinSound("Ou")
                 .imageUrl("anyUrl")
                 .build();
@@ -147,7 +148,7 @@ class ActorServiceTest {
         Optional<ActorEntity> locationEntity1 = Optional.ofNullable(ActorEntity.builder()
                 .id(locationId)
                 .name("anyName")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .associatedPinyinSound("Ou")
                 .imageUrl("anyUrl")
                 .build());
@@ -155,7 +156,7 @@ class ActorServiceTest {
         Actor actor0 = Actor.builder()
                 .id(locationId)
                 .name("anyName")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .associatedPinyinSound("Ou")
                 .imageUrl("anyUrl")
                 .build();

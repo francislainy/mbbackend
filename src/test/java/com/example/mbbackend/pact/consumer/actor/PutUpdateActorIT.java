@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.util.Utils;
 import io.restassured.response.Response;
@@ -42,7 +43,7 @@ class PutUpdateActorIT {
         DslPart bodyGiven = new PactDslJsonBody()
                 .stringType("name", "South London")
                 .stringType("associatedPinyinSound", "OU")
-                .stringType("family", "Female I")
+                .stringType("family", "OU")
                 .stringType("imageUrl", "anyUrl")
                 .close();
 
@@ -74,7 +75,7 @@ class PutUpdateActorIT {
         Actor actor = Actor.builder()
                 .name("South London")
                 .associatedPinyinSound("OU")
-                .family("Female I")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
 

@@ -1,5 +1,6 @@
 package com.example.mbbackend.entity.actor;
 
+import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,8 +26,9 @@ public class ActorEntity {
     private String name;
     @Column(name = "associatedPinyinSound")
     private String associatedPinyinSound;
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "family")
-    private String family;
+    private ActorFamily family;
     @Column(name = "imageUrl")
     private String imageUrl;
 

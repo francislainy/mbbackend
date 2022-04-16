@@ -1,5 +1,6 @@
 package com.example.mbbackend.controller.actor;
 
+import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.service.actor.ActorService;
 import com.example.mbbackend.util.Utils;
@@ -46,7 +47,7 @@ class ActorControllerTest {
                 .id(actorId)
                 .name("anyName")
                 .associatedPinyinSound("anySound")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
 
@@ -72,7 +73,7 @@ class ActorControllerTest {
                 .id(actorId)
                 .name("anyName")
                 .associatedPinyinSound("anySound")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
 
@@ -91,7 +92,7 @@ class ActorControllerTest {
         Actor actor = Actor.builder()
                 .name("anyName")
                 .associatedPinyinSound("anySound")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
 
@@ -135,7 +136,7 @@ class ActorControllerTest {
         Actor actor = Actor.builder()
                 .name("anyName")
                 .associatedPinyinSound("anySound")
-                .family("anyFamily")
+                .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
 

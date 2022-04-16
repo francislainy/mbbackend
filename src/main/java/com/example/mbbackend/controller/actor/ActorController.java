@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mb")
+@RequestMapping("/api/mb/actor")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ActorController {
 
     @Autowired
     ActorService actorService;
 
-    @GetMapping("/actor")
+    @GetMapping({"", "/"})
     public ResponseEntity<Object> getAllActors() {
 
         HashMap<String, List<Actor>> map = new HashMap<>();
@@ -28,26 +28,26 @@ public class ActorController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @GetMapping("/actor/{actorId}")
+    @GetMapping({"/{actorId}", "/{actorId}/"})
     public ResponseEntity<Object> getActor(@PathVariable UUID actorId) {
 
         return new ResponseEntity<>(actorService.getActor(actorId), HttpStatus.OK);
     }
 
-    @PostMapping("/actor")
+    @PostMapping({"", "/"})
     public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
 
         return new ResponseEntity<>(actorService.createActor(actor), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/actor/{actorId}")
+    @DeleteMapping("{actorId}")
     public ResponseEntity<Object> deleteActor(@PathVariable UUID actorId) throws Exception {
 
         actorService.deleteActor(actorId);
         return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
 
-    @PutMapping("/actor/{actorId}")
+    @PutMapping("{actorId}")
     public ResponseEntity<Object> updateActor(@PathVariable UUID actorId, @RequestBody Actor actor) {
 
         return new ResponseEntity<>(actorService.updateActor(actorId, actor), HttpStatus.OK);

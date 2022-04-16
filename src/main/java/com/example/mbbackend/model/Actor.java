@@ -1,5 +1,6 @@
 package com.example.mbbackend.model;
 
+import com.example.mbbackend.config.ActorFamily;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,7 @@ public class Actor {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String associatedPinyinSound;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String family;
+    private ActorFamily family;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String imageUrl;
 }
