@@ -8,8 +8,11 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.VerificationReports;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
+import com.example.mbbackend.util.ApiRequests;
 import org.apache.hc.core5.http.HttpRequest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +20,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.example.mbbackend.config.Constants.*;
 import static com.example.mbbackend.util.Utils.logCurlFromPact;
@@ -38,19 +40,28 @@ import static com.example.mbbackend.util.Utils.logCurlFromPact;
 //@PactBroker(url = BROKER_PACT_URL, authentication = @PactBrokerAuth(token = "${pactbroker.auth.token}"))
 @VerificationReports(value = {"markdown"}, reportDir = "target/pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProviderIT {
 
     @LocalServerPort
     int port;
+
+    ApiRequests apiRequests;
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactTestTemplate(PactVerificationContext context, HttpRequest request) {
 //        request.addHeader("Authorization", getAuthorizationToken());
 
-        logCurlFromPact(context, request, BASE_URI_LOCAL);
+        logCurlFromPact(context, request, BASE_URI_LOCAL + port);
 
         context.verifyInteraction();
+    }
+
+
+    @BeforeAll
+    void setUp() {
+        apiRequests = new ApiRequests(port);
     }
 
     @BeforeEach
@@ -62,19 +73,12 @@ class ProviderIT {
     @State("A request to retrieve a list of movies")
     void getMovies() {
 
-//        ApiRequests apiRequests = new ApiRequests();
-//        apiRequests.getCharacters();
-
-//        RequestSpecification rq = Utils.getRequestSpecification();
-//
-//        Response response = rq.get("http://localhost:" + port + "/api/mb/character");
-//        assertEquals(200, response.statusCode());
     }
 
     @State("A request to retrieve a movie")
     Map<String, Object> getMovie() {
         Map<String, Object> map = new HashMap<>();
-        map.put("movieId", UUID.fromString("6f6d4899-297f-4a02-b646-105a4208fe94"));
+        map.put("movieId", apiRequests.getFirstMovieFromList().getId());
         return map;
     }
 
@@ -86,14 +90,14 @@ class ProviderIT {
     @State("A request to update a movie")
     Map<String, Object> updateMovie() {
         Map<String, Object> map = new HashMap<>();
-        map.put("movieId", UUID.fromString("6f6d4899-297f-4a02-b646-105a4208fe94"));
+        map.put("movieId", apiRequests.getFirstMovieFromList().getId());
         return map;
     }
 
     @State("A request to delete a movie")
     Map<String, Object> deleteMovie() {
         Map<String, Object> map = new HashMap<>();
-        map.put("movieId", UUID.fromString("bdad926e-2db7-43b9-8b32-3650c7af5ced"));
+        map.put("movieId", apiRequests.getFirstMovieFromList().getId());
         return map;
     }
 
@@ -105,7 +109,7 @@ class ProviderIT {
     @State("A request to retrieve a location")
     Map<String, Object> getLocation() {
         Map<String, Object> map = new HashMap<>();
-        map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("locationId", apiRequests.getFirstLocationFromList().getId());
         return map;
     }
 
@@ -117,14 +121,14 @@ class ProviderIT {
     @State("A request to delete a location")
     Map<String, Object> deleteLocation() {
         Map<String, Object> map = new HashMap<>();
-        map.put("locationId", UUID.fromString("121dba90-338d-4d41-991d-6f43fcd9336e"));
+        map.put("locationId", apiRequests.getFirstLocationFromList().getId());
         return map;
     }
 
     @State("A request to update a location")
     Map<String, Object> updateLocation() {
         Map<String, Object> map = new HashMap<>();
-        map.put("locationId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("locationId", apiRequests.getFirstLocationFromList().getId());
         return map;
     }
 
@@ -136,7 +140,7 @@ class ProviderIT {
     @State("A request to retrieve an actor")
     Map<String, Object> getActor() {
         Map<String, Object> map = new HashMap<>();
-        map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("actorId", apiRequests.getFirstActorFromList().getId());
         return map;
     }
 
@@ -148,14 +152,14 @@ class ProviderIT {
     @State("A request to delete an actor")
     Map<String, Object> deleteActor() {
         Map<String, Object> map = new HashMap<>();
-        map.put("actorId", UUID.fromString("347e8d6c-34af-45a6-97e8-0b5545759b75"));
+        map.put("actorId", apiRequests.getFirstActorFromList().getId());
         return map;
     }
 
     @State("A request to update an actor")
     Map<String, Object> updateActor() {
         Map<String, Object> map = new HashMap<>();
-        map.put("actorId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("actorId", apiRequests.getFirstActorFromList().getId());
         return map;
     }
 
@@ -167,7 +171,7 @@ class ProviderIT {
     @State("A request to retrieve a room")
     Map<String, Object> getRoom() {
         Map<String, Object> map = new HashMap<>();
-        map.put("roomId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
         return map;
     }
 
@@ -179,14 +183,14 @@ class ProviderIT {
     @State("A request to update a room")
     Map<String, Object> updateRoom() {
         Map<String, Object> map = new HashMap<>();
-        map.put("roomId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
         return map;
     }
 
     @State("A request to delete a room")
     Map<String, Object> deleteRoom() {
         Map<String, Object> map = new HashMap<>();
-        map.put("roomId", UUID.fromString("55615bd0-bf1e-4826-8689-e9d2fb928451"));
+        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
         return map;
     }
 
@@ -198,7 +202,7 @@ class ProviderIT {
     @State("A request to retrieve a character")
     Map<String, Object> getCharacter() {
         Map<String, Object> map = new HashMap<>();
-        map.put("characterId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("characterId", apiRequests.getFirstCharacterFromList().getId());
         return map;
     }
 
@@ -210,14 +214,14 @@ class ProviderIT {
     @State("A request to update a character")
     Map<String, Object> updateCharacter() {
         Map<String, Object> map = new HashMap<>();
-        map.put("characterId", UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589"));
+        map.put("characterId", apiRequests.getFirstCharacterFromList().getId());
         return map;
     }
 
     @State("A request to delete a character")
     Map<String, Object> deleteCharacter() {
         Map<String, Object> map = new HashMap<>();
-        map.put("characterId", UUID.fromString("674b1aa7-a3b7-4b1f-9c15-a3083b99c40d"));
+        map.put("characterId", apiRequests.getFirstCharacterFromList().getId());
         return map;
     }
 

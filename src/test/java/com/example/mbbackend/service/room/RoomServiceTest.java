@@ -125,17 +125,12 @@ class RoomServiceTest {
                 .title("anyTitle")
                 .build();
 
-        Optional<RoomEntity> roomEntity1 = Optional.ofNullable(RoomEntity.builder()
-                .id(roomId)
-                .title("anyTitle")
-                .build());
-
         Room room0 = Room.builder()
                 .id(roomId)
                 .title("anyTitle")
                 .build();
 
-        when(roomRepository.findById(roomId)).thenReturn(roomEntity1);
+        when(roomRepository.findById(roomId)).thenReturn(Optional.ofNullable(roomEntity));
         when(roomRepository.save(any())).thenReturn(roomEntity);
 
         Room room = roomService.updateRoom(roomId, room0);

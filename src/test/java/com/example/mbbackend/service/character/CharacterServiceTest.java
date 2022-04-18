@@ -190,13 +190,6 @@ class CharacterServiceTest {
                 .meaning("anyMeaning")
                 .build();
 
-        Optional<CharacterEntity> characterEntity1 = Optional.ofNullable(CharacterEntity.builder()
-                .id(characterId)
-                .hanzi("anyHanzi")
-                .pinyin("anyPinyin")
-                .meaning("anyMeaning")
-                .build());
-
         Character character0 = Character.builder()
                 .id(characterId)
                 .hanzi("anyHanzi")
@@ -204,7 +197,7 @@ class CharacterServiceTest {
                 .meaning("anyMeaning")
                 .build();
 
-        when(characterRepository.findById(characterId)).thenReturn(characterEntity1);
+        when(characterRepository.findById(characterId)).thenReturn(Optional.ofNullable(characterEntity));
         when(characterRepository.save(any())).thenReturn(characterEntity);
 
         Character character = characterService.updateCharacter(characterId, character0);

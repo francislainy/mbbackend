@@ -132,19 +132,13 @@ class LocationServiceTest {
                 .associatedPinyinSound("anySound")
                 .build();
 
-        Optional<LocationEntity> locationEntity1 = Optional.ofNullable(LocationEntity.builder()
-                .id(locationId)
-                .title("anyTitle")
-                .associatedPinyinSound("anySound")
-                .build());
-
         Location location0 = Location.builder()
                 .id(locationId)
                 .title("anyTitle")
                 .associatedPinyinSound("anySound")
                 .build();
 
-        when(locationRepository.findById(locationId)).thenReturn(locationEntity1);
+        when(locationRepository.findById(locationId)).thenReturn(Optional.ofNullable(locationEntity));
         when(locationRepository.save(any())).thenReturn(locationEntity);
 
         Location location = locationService.updateLocation(locationId, location0);

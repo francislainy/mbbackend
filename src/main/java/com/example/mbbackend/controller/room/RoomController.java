@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mb")
+@RequestMapping("/api/mb/room")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RoomController {
 
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/room")
+    @GetMapping({"", "/"})
     public ResponseEntity<Object> getAllRoom() {
 
         HashMap<String, List<Room>> map = new HashMap<>();
@@ -28,26 +28,26 @@ public class RoomController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @GetMapping("/room/{roomId}")
+    @GetMapping({"/{roomId}", "/{roomId}/"})
     public ResponseEntity<Object> getSingleRoom(@PathVariable UUID roomId) {
 
         return new ResponseEntity<>(roomService.getRoom(roomId), HttpStatus.OK);
     }
 
-    @PostMapping("/room")
+    @PostMapping({"", "/"})
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
 
         return new ResponseEntity<>(roomService.createRoom(room), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/room/{roomId}")
+    @DeleteMapping({"/{roomId}", "/{roomId}/"})
     public ResponseEntity<Object> deleteRoom(@PathVariable UUID roomId) throws Exception {
 
         roomService.deleteRoom(roomId);
         return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
 
-    @PutMapping("/room/{roomId}")
+    @PutMapping({"/{roomId}", "/{roomId}/"})
     public ResponseEntity<Object> updateRoom(@PathVariable UUID roomId, @RequestBody Room room) {
 
         return new ResponseEntity<>(roomService.updateRoom(roomId, room), HttpStatus.OK);

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mb")
+@RequestMapping("/api/mb/movie")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MovieController {
 
@@ -23,7 +23,7 @@ public class MovieController {
     @Autowired
     CharacterRepository characterRepository;
 
-    @GetMapping("/movie")
+    @GetMapping({"", "/"})
     public ResponseEntity<Object> getAllMovies() {
 
         HashMap<String, List<Movie>> map = new HashMap<>();
@@ -32,13 +32,13 @@ public class MovieController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @GetMapping("/movie/{movieId}")
+    @GetMapping({"/{movieId}", "/{movieId}/"})
     public ResponseEntity<Object> getMovie(@PathVariable UUID movieId) {
 
         return new ResponseEntity<>(movieService.getMovie(movieId), HttpStatus.OK);
     }
 
-    @PostMapping("/movie")
+    @PostMapping({"", "/"})
     public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
 
         if (characterRepository.findCharacterEntityByHanzi(movie.getCharacter().getHanzi()).isPresent()) {
@@ -48,13 +48,13 @@ public class MovieController {
         return new ResponseEntity<>(movieService.createMovie(movie), HttpStatus.CREATED);
     }
 
-    @PutMapping("/movie/{movieId}")
+    @PutMapping({"/{movieId}", "/{movieId}/"})
     public ResponseEntity<Object> updateMovie(@PathVariable UUID movieId, @RequestBody Movie movie) {
 
         return new ResponseEntity<>(movieService.updateMovie(movieId, movie), HttpStatus.OK);
     }
 
-    @DeleteMapping("/movie/{movieId}")
+    @DeleteMapping({"/{movieId}", "/{movieId}/"})
     public ResponseEntity<Object> deleteMovie(@PathVariable UUID movieId) throws Exception {
 
         movieService.deleteMovie(movieId);

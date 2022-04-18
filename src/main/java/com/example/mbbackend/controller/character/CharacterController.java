@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mb")
+@RequestMapping("/api/mb/character")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CharacterController {
 
@@ -23,7 +23,7 @@ public class CharacterController {
     @Autowired
     CharacterRepository characterRepository;
 
-    @GetMapping("/character")
+    @GetMapping({"", "/"})
     public ResponseEntity<Object> getAllCharacter() {
 
         HashMap<String, List<Character>> map = new HashMap<>();
@@ -32,13 +32,13 @@ public class CharacterController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @GetMapping("/character/{characterId}")
+    @GetMapping({"/{characterId}", "/{characterId}/"})
     public ResponseEntity<Object> getSingleCharacter(@PathVariable UUID characterId) {
 
         return new ResponseEntity<>(characterService.getCharacter(characterId), HttpStatus.OK);
     }
 
-    @PostMapping("/character")
+    @PostMapping({"", "/"})
     public ResponseEntity<Character> createCharacter(@RequestBody Character character) {
 
         if (characterRepository.findCharacterEntityByHanzi(character.getHanzi()).isPresent()) {
@@ -48,14 +48,14 @@ public class CharacterController {
         return new ResponseEntity<>(characterService.createCharacter(character), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/character/{characterId}")
+    @DeleteMapping({"/{characterId}", "/{characterId}/"})
     public ResponseEntity<Object> deleteCharacter(@PathVariable UUID characterId) throws Exception {
 
         characterService.deleteCharacter(characterId);
         return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
 
-    @PutMapping("/character/{characterId}")
+    @PutMapping({"/{characterId}", "/{characterId}"})
     public ResponseEntity<Object> updateCharacter(@PathVariable UUID characterId, @RequestBody Character character) {
 
         return new ResponseEntity<>(characterService.updateCharacter(characterId, character), HttpStatus.OK);

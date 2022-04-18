@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mb")
+@RequestMapping("/api/mb/location")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LocationController {
 
     @Autowired
     LocationService locationService;
 
-    @GetMapping("/location")
+    @GetMapping({"", "/"})
     public ResponseEntity<Object> getAllLocation() {
 
         HashMap<String, List<Location>> map = new HashMap<>();
@@ -28,26 +28,26 @@ public class LocationController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @GetMapping("/location/{locationId}")
+    @GetMapping({"/{locationId}", "/{locationId}/"})
     public ResponseEntity<Object> getSingleLocation(@PathVariable UUID locationId) {
 
         return new ResponseEntity<>(locationService.getLocation(locationId), HttpStatus.OK);
     }
 
-    @PostMapping("/location")
+    @PostMapping({"", "/"})
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
 
         return new ResponseEntity<>(locationService.createLocation(location), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/location/{locationId}")
+    @DeleteMapping({"/{locationId}", "/{locationId}/"})
     public ResponseEntity<Object> deleteLocation(@PathVariable UUID locationId) throws Exception {
 
         locationService.deleteLocation(locationId);
         return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
 
-    @PutMapping("/location/{locationId}")
+    @PutMapping({"/{locationId}", "/{locationId}/"})
     public ResponseEntity<Object> updateLocation(@PathVariable UUID locationId, @RequestBody Location location) {
 
         return new ResponseEntity<>(locationService.updateLocation(locationId, location), HttpStatus.OK);

@@ -41,16 +41,16 @@ class PostCreateActorIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyGiven = new PactDslJsonBody()
-                .stringType("name", "Shakira")
-                .stringType("associatedPinyinSound", "Shi")
+                .stringType("name", "Jennie")
+                .stringType("associatedPinyinSound", "ji")
                 .stringType("family", "FEMALE")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .stringType("name", "Shakira")
-                .stringType("associatedPinyinSound", "Shi")
+                .stringType("name", "Jennie")
+                .stringType("associatedPinyinSound", "ji")
                 .stringType("family", "FEMALE")
                 .stringType("imageUrl", "http://anyimage.com")
                 .close();

@@ -18,6 +18,7 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpRequest;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
@@ -38,6 +39,34 @@ public class Utils {
             throw new RuntimeException(e.getMessage()); // NOSONAR
         }
         return jsonStr;
+    }
+
+    public static <T> T createClassFromMap(HashMap<T, T> map, Class<T> c) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(
+                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            return objectMapper
+                    .convertValue(map, objectMapper.getTypeFactory().constructType(c));
+        } catch (Exception e) {
+            log.error("converting failed! Map: {}, class: {}", "getJsonString(map)", c.getSimpleName(), e);
+        }
+        return null;
+    }
+
+    public static <T> T createClassFromObject(Object o, Class<T> c) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(
+                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            return objectMapper
+                    .convertValue(o, objectMapper.getTypeFactory().constructType(c));
+        } catch (Exception e) {
+            log.error("converting failed! Map: {}, class: {}", "getJsonString(map)", c.getSimpleName(), e);
+        }
+        return null;
     }
 
     public static RequestSpecification getRequestSpecification() {

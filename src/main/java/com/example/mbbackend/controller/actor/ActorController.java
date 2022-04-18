@@ -54,6 +54,10 @@ public class ActorController {
     @PutMapping("{actorId}")
     public ResponseEntity<Object> updateActor(@PathVariable UUID actorId, @RequestBody Actor actor) {
 
+        if (actorService.updateActor(actorId, actor) == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(actorService.updateActor(actorId, actor), HttpStatus.OK);
     }
 

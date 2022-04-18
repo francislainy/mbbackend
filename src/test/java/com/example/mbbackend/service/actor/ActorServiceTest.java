@@ -168,41 +168,33 @@ class ActorServiceTest {
 
         UUID locationId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        ActorEntity locationEntity = ActorEntity.builder()
+        ActorEntity actorEntity = ActorEntity.builder()
                 .id(locationId)
                 .name("anyName")
                 .family(ActorFamily.FEMALE)
-                .associatedPinyinSound("Ou")
+                .associatedPinyinSound("ji")
                 .imageUrl("anyUrl")
                 .build();
-
-        Optional<ActorEntity> locationEntity1 = Optional.ofNullable(ActorEntity.builder()
-                .id(locationId)
-                .name("anyName")
-                .family(ActorFamily.FEMALE)
-                .associatedPinyinSound("Ou")
-                .imageUrl("anyUrl")
-                .build());
 
         Actor actor0 = Actor.builder()
                 .id(locationId)
                 .name("anyName")
                 .family(ActorFamily.FEMALE)
-                .associatedPinyinSound("Ou")
+                .associatedPinyinSound("ji")
                 .imageUrl("anyUrl")
                 .build();
 
-        when(actorRepository.findById(locationId)).thenReturn(locationEntity1);
-        when(actorRepository.save(any())).thenReturn(locationEntity);
+        when(actorRepository.findById(locationId)).thenReturn(Optional.ofNullable(actorEntity));
+        when(actorRepository.save(any())).thenReturn(actorEntity);
 
         Actor actor = actorService.updateActor(locationId, actor0);
 
         assertAll(
                 () -> assertEquals(locationId.toString(), actor.getId().toString()),
-                () -> assertEquals(locationEntity.getName(), actor.getName()),
-                () -> assertEquals(locationEntity.getAssociatedPinyinSound(), actor.getAssociatedPinyinSound()),
-                () -> assertEquals(locationEntity.getFamily(), actor.getFamily()),
-                () -> assertEquals(locationEntity.getImageUrl(), actor.getImageUrl()));
+                () -> assertEquals(actorEntity.getName(), actor.getName()),
+                () -> assertEquals(actorEntity.getAssociatedPinyinSound(), actor.getAssociatedPinyinSound()),
+                () -> assertEquals(actorEntity.getFamily(), actor.getFamily()),
+                () -> assertEquals(actorEntity.getImageUrl(), actor.getImageUrl()));
     }
 
 }

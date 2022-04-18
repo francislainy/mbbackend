@@ -31,7 +31,7 @@ class ChooseActorTest {
         map.put("ong", "Gym");
         map.put("null", "Childhood home");
 
-        String pinyin = "er";
+        String pinyin = "zhi";
         String pinyinToCheck1 = pinyin.substring(0, 1);
         String pinyinToCheck2 = pinyin.substring(0, 2);
 
@@ -67,6 +67,10 @@ class ChooseActorTest {
                 String setLocation = map.get(pinyinEnd3);
 
                 System.out.println(setLocation);
+            }
+
+            else {
+                System.out.println(map.get("null"));
             }
         }
         else {

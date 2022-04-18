@@ -116,11 +116,11 @@ class ActorControllerTest {
 
 
     @Test
-    void testCreateActor_Returns4xx_WrongFamily() throws Exception {
+    void testCreateActor_Returns4xx_WrongFamilyVsSound() throws Exception {
 
         Actor actor = Actor.builder()
                 .name("anyName")
-                .associatedPinyinSound("anySound")
+                .associatedPinyinSound("wrongSound")
                 .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
@@ -183,5 +183,31 @@ class ActorControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().json(json1));
+    }
+
+    @Test
+    void testUpdateActor_Returns4xx_WrongFamilyVsSound() throws Exception {
+
+        Actor actor = Actor.builder()
+                .name("anyName")
+                .associatedPinyinSound("wrongSound")
+                .family(ActorFamily.FEMALE)
+                .imageUrl("anyUrl")
+                .build();
+
+        String json = Utils.jsonStringFromObject(actor);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Actor actor1 = objectMapper.readValue(json, Actor.class);
+
+        UUID actorId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        actor1.setId(actorId);
+
+        when(actorService.updateActor(actorId, actor)).thenReturn(null);
+
+        mockMvc.perform(put("/api/mb/actor/{actorId}", actorId)
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
     }
 }

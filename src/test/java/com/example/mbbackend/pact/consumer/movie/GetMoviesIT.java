@@ -39,8 +39,8 @@ class GetMoviesIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyReturned = new PactDslJsonBody()
-                .eachLike("movies", 30)
-                    .stringType("scene", "Kanye West talking to Shakira outside the front entrancehdjbfdjhjfgbshjfgfjhgbdj hjsgfhdfghfgdsh")
+                .eachLike("movies", 1)
+                    .stringType("scene", "Kanye West talking to Shakira outside the front entrance")
                     .stringType("imageUrl", "anyUrl")
                 .object("character")
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")

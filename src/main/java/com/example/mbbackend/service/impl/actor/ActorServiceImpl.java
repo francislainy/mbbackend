@@ -97,6 +97,10 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public Actor updateActor(UUID uuid, Actor actor) {
 
+        if (!checkValidSoundForActor(actor.getAssociatedPinyinSound(), actor.getFamily())) {
+            return null;
+        }
+
         Optional<ActorEntity> actorEntityOptional = actorRepository.findById(uuid);
 
         if (actorEntityOptional.isPresent()) {

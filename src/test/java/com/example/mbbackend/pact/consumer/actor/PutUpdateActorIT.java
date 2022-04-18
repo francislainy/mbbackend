@@ -41,17 +41,17 @@ class PutUpdateActorIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyGiven = new PactDslJsonBody()
-                .stringType("name", "South London")
-                .stringType("associatedPinyinSound", "OU")
-                .stringType("family", "OU")
+                .stringType("name", "Jennie")
+                .stringType("associatedPinyinSound", "ji")
+                .stringType("family", "FEMALE")
                 .stringType("imageUrl", "anyUrl")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .stringType("name", "South London")
-                .stringType("associatedPinyinSound", "OU")
-                .stringType("family", "Female I")
+                .stringType("name", "Jennie")
+                .stringType("associatedPinyinSound", "ji")
+                .stringType("family", "FEMALE")
                 .stringType("imageUrl", "anyUrl")
                 .close();
 
@@ -73,8 +73,8 @@ class PutUpdateActorIT {
     void runTest() {
 
         Actor actor = Actor.builder()
-                .name("South London")
-                .associatedPinyinSound("OU")
+                .name("Jennie")
+                .associatedPinyinSound("ji")
                 .family(ActorFamily.FEMALE)
                 .imageUrl("anyUrl")
                 .build();
