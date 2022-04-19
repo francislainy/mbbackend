@@ -45,7 +45,7 @@ class PostCreateMovieIT {
                 .stringType("scene", "Shakira talking to Kanye West outside the front entrance")
                 .stringType("imageUrl", "anyUrl")
                 .object("character")
-                .stringType("hanzi", "西")
+                .stringType("hanzi", "uniqueFromMoviePact")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .closeObject()

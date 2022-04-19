@@ -40,21 +40,21 @@ class PostCreateCharacterIT {
         headers.put("Content-Type", "application/json");
 
         DslPart bodyGiven = new PactDslJsonBody()
-                .stringType("hanzi", "西")
+                .stringType("hanzi", "uniqueFromPact")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .close();
 
         // @formatter:off
         DslPart bodyReturned = new PactDslJsonBody()
-                .stringType("hanzi", "西")
+                .stringType("hanzi", "uniqueFromPact")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .object("movie")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .object("character")
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                    .stringType("hanzi", "西")
+                    .stringType("hanzi", "uniqueFromPact")
                     .stringType("pinyin", "xi")
                     .stringType("meaning", "West")
                 .closeObject()
@@ -80,7 +80,7 @@ class PostCreateCharacterIT {
     void runTest() {
 
         Character character = Character.builder()
-                .hanzi("西")
+                .hanzi("uniqueFromPact")
                 .pinyin("xi")
                 .meaning("West")
                 .build();
