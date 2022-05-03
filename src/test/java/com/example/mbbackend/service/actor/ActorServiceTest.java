@@ -2,7 +2,9 @@ package com.example.mbbackend.service.actor;
 
 import com.example.mbbackend.config.ActorFamily;
 import com.example.mbbackend.entity.actor.ActorEntity;
+import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.model.Actor;
+import com.example.mbbackend.model.Movie;
 import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.service.impl.actor.ActorServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -11,10 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -195,6 +195,52 @@ class ActorServiceTest {
                 () -> assertEquals(actorEntity.getAssociatedPinyinSound(), actor.getAssociatedPinyinSound()),
                 () -> assertEquals(actorEntity.getFamily(), actor.getFamily()),
                 () -> assertEquals(actorEntity.getImageUrl(), actor.getImageUrl()));
+    }
+
+    @Test
+    void testGetActorWithMovies() {
+
+        UUID actorId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        MovieEntity movieEntity = MovieEntity.builder().id(UUID.randomUUID()).build();
+        Set<MovieEntity> movieEntitySet = new HashSet<>();
+        movieEntitySet.add(movieEntity);
+
+        Map<Object, Object> mapEntity = movieEntitySet.stream().collect(Collectors.toMap(x -> x, x -> 0));
+        Map.Entry<Object, Object> entryEntity = mapEntity.entrySet().iterator().next();
+        MovieEntity movieEntity1 = (MovieEntity) entryEntity.getKey();
+
+        ActorEntity actorEntity = ActorEntity.builder()
+                .id(actorId)
+                .name("anyName")
+                .family(ActorFamily.FEMALE)
+                .associatedPinyinSound("ji")
+                .imageUrl("anyUrl")
+                .movie(movieEntitySet)
+                .build();
+
+        Movie movie = Movie.builder().id(UUID.randomUUID()).build();
+        Set<Movie> movieSet = new HashSet<>();
+        movieSet.add(movie);
+
+        when(actorRepository.findById(actorId)).thenReturn(Optional.ofNullable(actorEntity));
+
+        Actor actor = actorService.getActorWithMovies(actorId);
+
+        Set<Movie> movie1 = actor.getMovieSet();
+        Map<Object, Object> map = movie1.stream().collect(Collectors.toMap(x -> x, x -> 0));
+        Map.Entry<Object, Object> entry = map.entrySet().iterator().next();
+        Movie movie0 = (Movie) entry.getKey();
+
+        assertAll(
+                () -> assertEquals(actorId.toString(), actor.getId().toString()),
+                () -> assertNotNull(actorEntity),
+                () -> assertEquals(actorEntity.getName(), actor.getName()),
+                () -> assertEquals(actorEntity.getAssociatedPinyinSound(), actor.getAssociatedPinyinSound()),
+                () -> assertEquals(actorEntity.getFamily(), actor.getFamily()),
+                () -> assertEquals(actorEntity.getImageUrl(), actor.getImageUrl()),
+                () -> assertEquals(movieEntity1.getId().toString(), movie0.getId().toString()));
+
     }
 
 }

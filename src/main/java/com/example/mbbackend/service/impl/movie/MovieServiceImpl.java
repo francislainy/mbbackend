@@ -64,6 +64,33 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Movie> getMoviesForActor(UUID actorId) {
+        List<Movie> movieList = new ArrayList<>();
+
+        movieRepository.findMoviesByActorId(actorId).forEach(movieEntity -> {
+
+            Character character = getCharacter(movieEntity);
+            Actor actor = getActor(movieEntity);
+            Location location = getLocation(movieEntity);
+            Room room = getRoom(movieEntity);
+
+            movieList.add(
+                    Movie.builder()
+                            .id(movieEntity.getId())
+                            .scene(movieEntity.getScene())
+                            .imageUrl(movieEntity.getImageUrl())
+                            .actor(actor)
+                            .character(character)
+                            .location(location)
+                            .room(room)
+                            .build());
+
+        });
+
+        return movieList;
+    }
+
+    @Override
     public Movie getMovie(UUID movieId) {
 
         Optional<MovieEntity> movieEntityOptional = movieRepository.findById(movieId);

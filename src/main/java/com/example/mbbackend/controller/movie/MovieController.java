@@ -32,6 +32,15 @@ public class MovieController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @GetMapping({"/actor/{actorId}", "/actor/{actorId}/"})
+    public ResponseEntity<Object> getMoviesForActor(@PathVariable UUID actorId) {
+
+        HashMap<String, List<Movie>> map = new HashMap<>();
+        map.put("movies", movieService.getMoviesForActor(actorId));
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     @GetMapping({"/{movieId}", "/{movieId}/"})
     public ResponseEntity<Object> getMovie(@PathVariable UUID movieId) {
 

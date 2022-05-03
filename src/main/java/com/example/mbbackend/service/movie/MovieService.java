@@ -11,8 +11,11 @@ public interface MovieService {
 
     Movie getMovie(UUID movieId);
 
+    List<Movie> getMoviesForActor(UUID actorId);
+
     void deleteMovie(UUID movieId) throws Exception;
 
     Movie createMovie(Movie movie);
 
-    Movie updateMovie(UUID id, Movie movie);}
+    Movie updateMovie(UUID id, Movie movie);
+}

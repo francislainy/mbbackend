@@ -87,6 +87,55 @@ class MovieControllerTest {
                 .andExpect(content().json(json));
     }
 
+
+    @Test
+    void testGetMoviesForActor() throws Exception {
+
+        UUID actorId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID characterId = UUID.fromString("2bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID locationId = UUID.fromString("3cfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID roomId = UUID.fromString("4dfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Actor actor = Actor.builder()
+                .id(actorId)
+                .build();
+
+        Character character = Character.builder()
+                .id(characterId)
+                .build();
+
+        Location location = Location.builder()
+                .id(locationId)
+                .build();
+
+        Room room = Room.builder()
+                .id(roomId)
+                .build();
+
+        Movie movie = Movie.builder()
+                .id(roomId)
+                .scene("anyScene")
+                .imageUrl("anyUrl")
+                .actor(actor)
+                .character(character)
+                .location(location)
+                .room(room)
+                .build();
+
+        List<Movie> movieList = new ArrayList<>();
+        movieList.add(movie);
+
+        HashMap<String, List<Movie>> map = new HashMap<>();
+        map.put("movies", movieList);
+
+        String json = Utils.jsonStringFromObject(map);
+        when(movieService.getMoviesForActor(actorId)).thenReturn(movieList);
+
+        mockMvc.perform(get("/api/mb/movie/actor/{actorId}", actorId))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().json(json));
+    }
+
     @Test
     void testGetMovie() throws Exception {
 

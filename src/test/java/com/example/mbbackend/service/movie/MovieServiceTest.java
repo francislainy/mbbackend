@@ -122,6 +122,80 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getRoom().getTitle(), movie.getRoom().getTitle()));
     }
 
+
+    @Test
+    void testGetMoviesForActor() {
+
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID characterId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID actorId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID locationId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID roomId = UUID.fromString("2afff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        CharacterEntity characterEntity = CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .build();
+
+        ActorEntity actorEntity = ActorEntity.builder()
+                .id(actorId)
+                .name("anyName")
+                .build();
+
+        LocationEntity locationEntity = LocationEntity.builder()
+                .id(locationId)
+                .title("anyTitle")
+                .associatedPinyinSound("anySound")
+                .build();
+
+        RoomEntity roomEntity = RoomEntity.builder()
+                .id(roomId)
+                .title("anyTitle")
+                .build();
+
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(movieId)
+                .scene("anyScene")
+                .imageUrl("anyUrl")
+                .actor(actorEntity)
+                .character(characterEntity)
+                .location(locationEntity)
+                .room(roomEntity)
+                .build();
+
+        List<MovieEntity> movieEntityList = new ArrayList<>();
+        movieEntityList.add(movieEntity);
+
+        when(actorRepository.findById(characterId)).thenReturn(Optional.ofNullable(actorEntity));
+        when(characterRepository.findById(characterId)).thenReturn(Optional.ofNullable(characterEntity));
+        when(locationRepository.findById(locationId)).thenReturn(Optional.ofNullable(locationEntity));
+        when(roomRepository.findById(roomId)).thenReturn(Optional.ofNullable(roomEntity));
+        when(movieRepository.findMoviesByActorId(actorId)).thenReturn(movieEntityList);
+
+        List<Movie> movieList = movieService.getMoviesForActor(actorId);
+
+        assertTrue(movieList.size() > 0);
+
+        Movie movie = movieList.get(0);
+
+        assertAll(
+                () -> assertEquals(movieEntity.getId().toString(), movie.getId().toString()),
+                () -> assertEquals(movieEntity.getScene(), movie.getScene()),
+                () -> assertEquals(movieEntity.getImageUrl(), movie.getImageUrl()),
+                () -> assertEquals(movieEntity.getCharacter().getId(), movie.getCharacter().getId()),
+                () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
+                () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
+                () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getActor().getId(), movie.getActor().getId()),
+                () -> assertEquals(movieEntity.getActor().getName(), movie.getActor().getName()),
+                () -> assertEquals(movieEntity.getLocation().getId(), movie.getLocation().getId()),
+                () -> assertEquals(movieEntity.getLocation().getTitle(), movie.getLocation().getTitle()),
+                () -> assertEquals(movieEntity.getRoom().getId(), movie.getRoom().getId()),
+                () -> assertEquals(movieEntity.getRoom().getTitle(), movie.getRoom().getTitle()));
+    }
+
     @Test
     void testGetAllMoviesWhenNullProperties() {
 

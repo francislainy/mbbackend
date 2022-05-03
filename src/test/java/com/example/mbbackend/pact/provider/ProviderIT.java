@@ -75,6 +75,13 @@ class ProviderIT {
 
     }
 
+    @State("A request to retrieve a list of movies for an actor")
+    Map<String, Object> getMoviesForActor() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("actorId", "549f26ac-151f-48df-abf2-ec36617be78e");
+        return map;
+    }
+
     @State("A request to retrieve a movie")
     Map<String, Object> getMovie() {
         Map<String, Object> map = new HashMap<>();
