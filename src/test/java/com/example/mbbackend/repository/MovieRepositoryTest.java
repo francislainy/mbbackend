@@ -1,8 +1,10 @@
 package com.example.mbbackend.repository;
 
 import com.example.mbbackend.entity.actor.ActorEntity;
+import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.repository.actor.ActorRepository;
+import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class CategoryRepositoryTest {
+class MovieRepositoryTest {
 
     @Autowired
     private MovieRepository movieRepository;
@@ -24,6 +26,8 @@ class CategoryRepositoryTest {
     @Autowired
     private ActorRepository actorRepository;
 
+    @Autowired
+    private CharacterRepository characterRepository;
 
     @Test
     void findOne() {
@@ -55,6 +59,22 @@ class CategoryRepositoryTest {
         movieEntity.setActor(actorEntity);
         movieEntity = movieRepository.save(movieEntity);
         List<MovieEntity> fetchedMovie = movieRepository.findMoviesByActorId(actorId);
+        assertNotNull(fetchedMovie);
+    }
+
+    @Test
+    void findMoviesByCharacterId() {
+
+        UUID characterId = UUID.fromString("02c903f7-7a55-470d-8449-cf7587f5a3fb");
+        CharacterEntity characterEntity = CharacterEntity.builder().id(characterId).build();
+
+        characterEntity = characterRepository.save(characterEntity);
+
+        MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setScene("anyScene");
+        movieEntity.setCharacter(characterEntity);
+        movieEntity = movieRepository.save(movieEntity);
+        List<MovieEntity> fetchedMovie = movieRepository.findMoviesByCharacterId(characterId);
         assertNotNull(fetchedMovie);
     }
 
