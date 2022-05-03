@@ -41,6 +41,9 @@ class GetCharacterIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .object("movie")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .closeObject()
                 .close();
 
         return builder

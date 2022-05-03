@@ -13,10 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,6 +36,16 @@ class CharacterServiceTest {
 
         List<CharacterEntity> characterEntityList = new ArrayList<>();
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+
+        Set<MovieEntity> movieEntitySet = new HashSet<>();
+        MovieEntity movieEntity = MovieEntity.builder()
+                .id(movieId)
+                .build();
+        movieEntitySet.add(movieEntity);
+        List<MovieEntity> movieEntityList = new ArrayList<>();
+        movieEntityList.add(movieEntity);
 
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .id(characterId)
@@ -46,11 +53,13 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .movie(movieEntitySet)
                 .build();
 
         characterEntityList.add(characterEntity);
 
         when(characterRepository.findAll()).thenReturn(characterEntityList);
+        when(movieRepository.findMoviesByCharacterId(characterId)).thenReturn(movieEntityList);
 
         List<Character> characterList = characterService.getAllCharacters();
 
@@ -63,11 +72,81 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
-                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
+                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertEquals(movieId.toString(), character.getMovie().getId().toString()));
+    }
+
+
+    @Test
+    void testGetAllCharactersWhenNoMovie() {
+
+        List<CharacterEntity> characterEntityList = new ArrayList<>();
+        UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        CharacterEntity characterEntity = CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
+                .build();
+
+        characterEntityList.add(characterEntity);
+
+        when(characterRepository.findAll()).thenReturn(characterEntityList);
+        when(movieRepository.findMoviesByCharacterId(characterId)).thenReturn(new ArrayList<>());
+
+        List<Character> characterList = characterService.getAllCharacters();
+
+        assertTrue(characterList.size() > 0);
+
+        Character character = characterList.get(0);
+
+        assertAll(
+                () -> assertEquals(characterEntity.getId().toString(), character.getId().toString()),
+                () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
+                () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
+                () -> assertEquals(characterEntity.getTone(), character.getTone()),
+                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertNull(character.getMovie()));
     }
 
     @Test
     void testGetCharacter() {
+
+        UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+        UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
+
+        Set<MovieEntity> movieEntitySet = new HashSet<>();
+        movieEntitySet.add(MovieEntity.builder()
+                .id(movieId)
+                .build());
+
+        Optional<CharacterEntity> optionalLocationEntity = Optional.ofNullable(CharacterEntity.builder()
+                .id(characterId)
+                .hanzi("anyHanzi")
+                .pinyin("anyPinyin")
+                .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
+                .movie(movieEntitySet)
+                .build());
+
+        when(characterRepository.findById(characterId)).thenReturn(optionalLocationEntity);
+
+        Character character = characterService.getCharacter(characterId);
+
+        assertAll(
+                () -> assertEquals(characterId.toString(), character.getId().toString()),
+                () -> assertEquals("anyHanzi", character.getHanzi()),
+                () -> assertEquals("anyPinyin", character.getPinyin()),
+                () -> assertEquals("FIRST", character.getTone().name()),
+                () -> assertEquals("anyMeaning", character.getMeaning()),
+                () -> assertEquals(movieId.toString(), character.getMovie().getId().toString())
+        );
+    }
+
+    @Test
+    void testGetCharacterWithNoMovie() {
 
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
@@ -88,7 +167,9 @@ class CharacterServiceTest {
                 () -> assertEquals("anyHanzi", character.getHanzi()),
                 () -> assertEquals("anyPinyin", character.getPinyin()),
                 () -> assertEquals("FIRST", character.getTone().name()),
-                () -> assertEquals("anyMeaning", character.getMeaning()));
+                () -> assertEquals("anyMeaning", character.getMeaning()),
+                () -> assertNull(character.getMovie())
+        );
     }
 
     @Test

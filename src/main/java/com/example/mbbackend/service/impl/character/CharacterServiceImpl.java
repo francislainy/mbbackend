@@ -26,14 +26,29 @@ public class CharacterServiceImpl implements CharacterService {
 
         List<Character> characterList = new ArrayList<>();
 
-        characterRepository.findAll().forEach(characterEntity -> characterList.add(
-                Character.builder()
-                        .id(characterEntity.getId())
-                        .hanzi(characterEntity.getHanzi())
-                        .pinyin(characterEntity.getPinyin())
-                        .meaning(characterEntity.getMeaning())
-                        .tone(characterEntity.getTone())
-                        .build()));
+        characterRepository.findAll().forEach(characterEntity -> {
+
+            List<MovieEntity> movieEntityList = movieRepository.findMoviesByCharacterId(characterEntity.getId());
+
+            Movie movie = null;
+                if (!movieEntityList.isEmpty()) {
+                movie = Movie.builder()
+                        .id(movieEntityList.get(0).getId())
+                        .build();
+            }
+
+            characterList.add(
+                    Character.builder()
+                            .id(characterEntity.getId())
+                            .hanzi(characterEntity.getHanzi())
+                            .pinyin(characterEntity.getPinyin())
+                            .meaning(characterEntity.getMeaning())
+                            .tone(characterEntity.getTone())
+                            .movie(movie)
+                            .build());
+
+
+        });
 
         return characterList;
     }
@@ -43,16 +58,24 @@ public class CharacterServiceImpl implements CharacterService {
 
         Optional<CharacterEntity> characterEntityOptional = characterRepository.findById(characterId);
 
+        List<MovieEntity> movieEntityList = movieRepository.findMoviesByCharacterId(characterId);
+
+        Movie movie = null;
+        if (!movieEntityList.isEmpty()) {
+            movie = Movie.builder()
+                    .id(movieEntityList.get(0).getId())
+                    .build();
+        }
+
         if (characterEntityOptional.isPresent()) {
-
             CharacterEntity characterEntity = characterEntityOptional.get();
-
             return Character.builder()
                     .id(characterEntity.getId())
                     .hanzi(characterEntity.getHanzi())
                     .pinyin(characterEntity.getPinyin())
                     .meaning(characterEntity.getMeaning())
                     .tone(characterEntity.getTone())
+                    .movie(movie)
                     .build();
         } else {
             return null;

@@ -13,8 +13,11 @@ import java.util.UUID;
 public interface MovieRepository extends JpaRepository<MovieEntity, UUID> {
 
     String queryMoviesByActorId = "SELECT * FROM movie WHERE actor_id = :actorId ORDER BY id";
+    String queryMoviesByCharacterId = "SELECT * FROM movie WHERE character_id = :characterId ORDER BY id";
 
     @Query(value = queryMoviesByActorId, nativeQuery = true)
     List<MovieEntity> findMoviesByActorId(UUID actorId);
 
+    @Query(value = queryMoviesByCharacterId, nativeQuery = true)
+    List<MovieEntity> findMoviesByCharacterId(UUID characterId);
 }
