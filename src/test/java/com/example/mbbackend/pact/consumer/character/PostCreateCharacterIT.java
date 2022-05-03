@@ -8,8 +8,13 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.model.Character;
+import com.example.mbbackend.model.Movie;
+import com.example.mbbackend.util.Util;
 import com.example.mbbackend.util.Utils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
@@ -22,9 +27,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * As per https://developers.google.com/classroom/reference/rest
- * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -43,6 +46,7 @@ class PostCreateCharacterIT {
                 .stringType("hanzi", "uniqueFromPact")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .stringType("tone", "FIRST")
                 .close();
 
         // @formatter:off
@@ -50,14 +54,9 @@ class PostCreateCharacterIT {
                 .stringType("hanzi", "uniqueFromPact")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .stringType("tone", "FIRST")
                 .object("movie")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .object("character")
-                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                    .stringType("hanzi", "uniqueFromPact")
-                    .stringType("pinyin", "xi")
-                    .stringType("meaning", "West")
-                .closeObject()
                 .closeObject()
                 .close();
         // @formatter:on
@@ -77,16 +76,19 @@ class PostCreateCharacterIT {
 
     @Test
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
-    void runTest() {
+    void runTest() throws JsonProcessingException {
 
         Character character = Character.builder()
                 .hanzi("uniqueFromPact")
                 .pinyin("xi")
                 .meaning("West")
+                .tone(CharacterTone.FIRST)
                 .build();
 
+        String json = Utils.jsonStringFromObject(character);
+
         //Mock url
-        RequestSpecification rq = Utils.getRequestSpecification().body(character).baseUri(MOCK_PACT_URL).headers(headers);
+        RequestSpecification rq = Utils.getRequestSpecification().body(json).baseUri(MOCK_PACT_URL).headers(headers);
 
         Response response = rq.post(path);
 

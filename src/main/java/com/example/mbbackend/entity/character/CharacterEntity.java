@@ -1,5 +1,6 @@
 package com.example.mbbackend.entity.character;
 
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,9 @@ public class CharacterEntity {
     private String pinyin;
     @Column(name = "meaning")
     private String meaning;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "tone")
+    private CharacterTone tone;
 
     @OneToMany(mappedBy = "character", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieEntity> movie;

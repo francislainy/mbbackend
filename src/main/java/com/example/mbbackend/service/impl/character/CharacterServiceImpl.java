@@ -32,6 +32,7 @@ public class CharacterServiceImpl implements CharacterService {
                         .hanzi(characterEntity.getHanzi())
                         .pinyin(characterEntity.getPinyin())
                         .meaning(characterEntity.getMeaning())
+                        .tone(characterEntity.getTone())
                         .build()));
 
         return characterList;
@@ -51,6 +52,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .hanzi(characterEntity.getHanzi())
                     .pinyin(characterEntity.getPinyin())
                     .meaning(characterEntity.getMeaning())
+                    .tone(characterEntity.getTone())
                     .build();
         } else {
             return null;
@@ -70,6 +72,7 @@ public class CharacterServiceImpl implements CharacterService {
                 .hanzi(character.getHanzi())
                 .pinyin(character.getPinyin())
                 .meaning(character.getMeaning())
+                .tone(character.getTone())
                 .build();
 
         MovieEntity movieEntity = MovieEntity.builder()
@@ -89,14 +92,9 @@ public class CharacterServiceImpl implements CharacterService {
                 .hanzi(characterEntity.getHanzi())
                 .pinyin(characterEntity.getPinyin())
                 .meaning(characterEntity.getMeaning())
+                .tone(characterEntity.getTone())
                 .movie(Movie.builder()
                         .id(movieEntity.getId())
-                        .character(Character.builder()
-                                .id(characterEntity.getId())
-                                .hanzi(characterEntity.getHanzi())
-                                .pinyin(characterEntity.getPinyin())
-                                .meaning(characterEntity.getMeaning())
-                                .build())
                         .build())
                 .build();
     }
@@ -127,6 +125,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .hanzi(character.getHanzi())
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
+                    .tone(character.getTone())
                     .build();
 
             characterEntity = characterRepository.save(characterEntity);
@@ -136,6 +135,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .hanzi(character.getHanzi())
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
+                    .tone(character.getTone())
                     .build();
         } else {
             return null;

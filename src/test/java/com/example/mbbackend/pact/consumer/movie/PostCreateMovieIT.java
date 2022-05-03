@@ -24,9 +24,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * As per https://developers.google.com/classroom/reference/rest
- * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -48,6 +46,7 @@ class PostCreateMovieIT {
                 .stringType("hanzi", "uniqueFromMoviePact")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .stringType("tone", "FIRST")
                 .closeObject()
                 .object("location")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
@@ -69,6 +68,7 @@ class PostCreateMovieIT {
                 .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .stringType("tone", "FIRST")
                 .closeObject()
                 .object("location")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")

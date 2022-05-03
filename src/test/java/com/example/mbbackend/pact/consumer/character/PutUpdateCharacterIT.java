@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.util.Utils;
 import io.restassured.response.Response;
@@ -22,9 +23,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * As per https://developers.google.com/classroom/reference/rest
- * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -43,6 +42,7 @@ class PutUpdateCharacterIT {
                 .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .stringType("tone", "FIRST")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
@@ -50,6 +50,7 @@ class PutUpdateCharacterIT {
                 .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
+                .stringType("tone", "FIRST")
                 .close();
 
         return builder
@@ -73,10 +74,13 @@ class PutUpdateCharacterIT {
                 .hanzi("西")
                 .pinyin("xi")
                 .meaning("West")
+                .tone(CharacterTone.FIFTY)
                 .build();
 
+        String json = Utils.jsonStringFromObject(character);
+
         //Mock url
-        RequestSpecification rq = Utils.getRequestSpecification().body(character).baseUri(MOCK_PACT_URL).headers(headers);
+        RequestSpecification rq = Utils.getRequestSpecification().body(json).baseUri(MOCK_PACT_URL).headers(headers);
 
         Response response = rq.put(path + "1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 

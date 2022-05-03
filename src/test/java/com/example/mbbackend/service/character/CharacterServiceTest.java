@@ -1,5 +1,6 @@
 package com.example.mbbackend.service.character;
 
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.model.Character;
@@ -44,6 +45,7 @@ class CharacterServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         characterEntityList.add(characterEntity);
@@ -60,6 +62,7 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getId().toString(), character.getId().toString()),
                 () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
+                () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
     }
 
@@ -73,6 +76,7 @@ class CharacterServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
                 .build());
 
         when(characterRepository.findById(characterId)).thenReturn(optionalLocationEntity);
@@ -83,6 +87,7 @@ class CharacterServiceTest {
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
                 () -> assertEquals("anyHanzi", character.getHanzi()),
                 () -> assertEquals("anyPinyin", character.getPinyin()),
+                () -> assertEquals("FIRST", character.getTone().name()),
                 () -> assertEquals("anyMeaning", character.getMeaning()));
     }
 
@@ -96,16 +101,11 @@ class CharacterServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(UUID.randomUUID())
-                .scene("")
-                .imageUrl("")
-                .character(characterEntity)
-                .actor(null)
-                .location(null)
-                .room(null)
                 .build();
 
         when(characterRepository.save(any())).thenReturn(characterEntity);
@@ -117,13 +117,10 @@ class CharacterServiceTest {
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
                 () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
+                () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
                 () -> assertNotNull(character.getMovie()),
-                () -> assertNotNull(character.getMovie().getId()),
-                () -> assertEquals(character.getId(), character.getMovie().getCharacter().getId()),
-                () -> assertEquals(characterEntity.getHanzi(), character.getMovie().getCharacter().getHanzi()),
-                () -> assertEquals(characterEntity.getPinyin(), character.getMovie().getCharacter().getPinyin()),
-                () -> assertEquals(characterEntity.getMeaning(), character.getMovie().getCharacter().getMeaning()));
+                () -> assertNotNull(character.getMovie().getId()));
     }
 
     @Test
@@ -134,18 +131,6 @@ class CharacterServiceTest {
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .id(characterId)
                 .hanzi("anyHanzi")
-                .pinyin("anyPinyin")
-                .meaning("anyMeaning")
-                .build();
-
-        MovieEntity movieEntity = MovieEntity.builder()
-                .id(UUID.randomUUID())
-                .scene("")
-                .imageUrl("")
-                .character(characterEntity)
-                .actor(null)
-                .location(null)
-                .room(null)
                 .build();
 
         when(characterRepository.findCharacterEntityByHanzi(any())).thenReturn(Optional.of(characterEntity));
@@ -188,6 +173,7 @@ class CharacterServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         Character character0 = Character.builder()
@@ -195,6 +181,7 @@ class CharacterServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         when(characterRepository.findById(characterId)).thenReturn(Optional.ofNullable(characterEntity));
@@ -206,7 +193,9 @@ class CharacterServiceTest {
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
                 () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
+                () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
+
     }
 
 }

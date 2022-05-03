@@ -21,9 +21,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * As per https://developers.google.com/classroom/reference/rest
- * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -43,6 +41,7 @@ class GetCharactersIT {
                     .stringType("hanzi", "西")
                     .stringType("pinyin", "xi")
                     .stringType("meaning", "West")
+                    .stringType("tone", "FIRST")
                 .closeArray()
                 .close();
 

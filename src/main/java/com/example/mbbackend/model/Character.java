@@ -1,6 +1,9 @@
 package com.example.mbbackend.model;
 
+import com.example.mbbackend.config.CharacterTone;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +25,9 @@ public class Character {
     private String pinyin;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String meaning;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CharacterTone tone;
+
+    @JsonIncludeProperties(value = "id")
     private Movie movie;
 }
