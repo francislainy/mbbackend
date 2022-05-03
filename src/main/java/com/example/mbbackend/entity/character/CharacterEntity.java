@@ -31,6 +31,8 @@ public class CharacterEntity {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "tone")
     private CharacterTone tone;
+    @Column(name = "prop")
+    private Boolean prop;
 
     @OneToMany(mappedBy = "character", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieEntity> movie;

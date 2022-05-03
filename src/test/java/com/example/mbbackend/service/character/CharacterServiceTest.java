@@ -38,7 +38,6 @@ class CharacterServiceTest {
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-
         Set<MovieEntity> movieEntitySet = new HashSet<>();
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(movieId)
@@ -53,6 +52,7 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .movie(movieEntitySet)
                 .build();
 
@@ -73,6 +73,7 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertTrue(character.isProp()),
                 () -> assertEquals(movieId.toString(), character.getMovie().getId().toString()));
     }
 
@@ -89,12 +90,12 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build();
 
         characterEntityList.add(characterEntity);
 
         when(characterRepository.findAll()).thenReturn(characterEntityList);
-        when(movieRepository.findMoviesByCharacterId(characterId)).thenReturn(new ArrayList<>());
 
         List<Character> characterList = characterService.getAllCharacters();
 
@@ -108,6 +109,7 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertTrue(character.isProp()),
                 () -> assertNull(character.getMovie()));
     }
 
@@ -118,9 +120,12 @@ class CharacterServiceTest {
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
         Set<MovieEntity> movieEntitySet = new HashSet<>();
-        movieEntitySet.add(MovieEntity.builder()
+        MovieEntity movieEntity = MovieEntity.builder()
                 .id(movieId)
-                .build());
+                .build();
+        movieEntitySet.add(movieEntity);
+        List<MovieEntity> movieEntityList = new ArrayList<>();
+        movieEntityList.add(movieEntity);
 
         Optional<CharacterEntity> optionalLocationEntity = Optional.ofNullable(CharacterEntity.builder()
                 .id(characterId)
@@ -128,10 +133,12 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .movie(movieEntitySet)
                 .build());
 
         when(characterRepository.findById(characterId)).thenReturn(optionalLocationEntity);
+        when(movieRepository.findMoviesByCharacterId(characterId)).thenReturn(movieEntityList);
 
         Character character = characterService.getCharacter(characterId);
 
@@ -141,6 +148,7 @@ class CharacterServiceTest {
                 () -> assertEquals("anyPinyin", character.getPinyin()),
                 () -> assertEquals("FIRST", character.getTone().name()),
                 () -> assertEquals("anyMeaning", character.getMeaning()),
+                () -> assertTrue(character.isProp()),
                 () -> assertEquals(movieId.toString(), character.getMovie().getId().toString())
         );
     }
@@ -156,6 +164,7 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build());
 
         when(characterRepository.findById(characterId)).thenReturn(optionalLocationEntity);
@@ -168,6 +177,7 @@ class CharacterServiceTest {
                 () -> assertEquals("anyPinyin", character.getPinyin()),
                 () -> assertEquals("FIRST", character.getTone().name()),
                 () -> assertEquals("anyMeaning", character.getMeaning()),
+                () -> assertTrue(character.isProp()),
                 () -> assertNull(character.getMovie())
         );
     }
@@ -183,6 +193,7 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build();
 
         MovieEntity movieEntity = MovieEntity.builder()
@@ -200,6 +211,7 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertTrue(character.isProp()),
                 () -> assertNotNull(character.getMovie()),
                 () -> assertNotNull(character.getMovie().getId()));
     }
@@ -255,6 +267,7 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build();
 
         Character character0 = Character.builder()
@@ -263,6 +276,7 @@ class CharacterServiceTest {
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build();
 
         when(characterRepository.findById(characterId)).thenReturn(Optional.ofNullable(characterEntity));
@@ -275,7 +289,8 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getHanzi(), character.getHanzi()),
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
-                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()));
+                () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
+                () -> assertTrue(characterEntity.getProp()));
 
     }
 

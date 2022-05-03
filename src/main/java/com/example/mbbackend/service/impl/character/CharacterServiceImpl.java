@@ -44,6 +44,7 @@ public class CharacterServiceImpl implements CharacterService {
                             .pinyin(characterEntity.getPinyin())
                             .meaning(characterEntity.getMeaning())
                             .tone(characterEntity.getTone())
+                            .prop(characterEntity.getProp())
                             .movie(movie)
                             .build());
 
@@ -75,6 +76,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .pinyin(characterEntity.getPinyin())
                     .meaning(characterEntity.getMeaning())
                     .tone(characterEntity.getTone())
+                    .prop(characterEntity.getProp())
                     .movie(movie)
                     .build();
         } else {
@@ -96,6 +98,7 @@ public class CharacterServiceImpl implements CharacterService {
                 .pinyin(character.getPinyin())
                 .meaning(character.getMeaning())
                 .tone(character.getTone())
+                .prop(character.isProp())
                 .build();
 
         MovieEntity movieEntity = MovieEntity.builder()
@@ -116,6 +119,7 @@ public class CharacterServiceImpl implements CharacterService {
                 .pinyin(characterEntity.getPinyin())
                 .meaning(characterEntity.getMeaning())
                 .tone(characterEntity.getTone())
+                .prop(characterEntity.getProp())
                 .movie(Movie.builder()
                         .id(movieEntity.getId())
                         .build())
@@ -149,6 +153,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
                     .tone(character.getTone())
+                    .prop(character.isProp())
                     .build();
 
             characterEntity = characterRepository.save(characterEntity);
@@ -159,6 +164,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
                     .tone(character.getTone())
+                    .prop(character.isProp())
                     .build();
         } else {
             return null;

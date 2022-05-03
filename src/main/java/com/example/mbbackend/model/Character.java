@@ -27,6 +27,8 @@ public class Character {
     private String meaning;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CharacterTone tone;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private boolean prop;
 
     @JsonIncludeProperties(value = "id")
     private Movie movie;
