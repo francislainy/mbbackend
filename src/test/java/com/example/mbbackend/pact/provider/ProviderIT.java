@@ -25,11 +25,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static com.example.mbbackend.util.Utils.logCurlFromPact;
 
 /**
- * As per https://developers.google.com/classroom/reference/rest
- * And
- * https://hapi.int.hmhco.com/edcore/viaduct-service/swagger-ui/index.html?url=/edcore/viaduct-service/v3/api-docs
- * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.provider.*EdIT integration-test -DtestEnvt=int -Dpactbroker.auth.token=Ziqryvt7vncQKSo8dHOkDg
+ * mvn -Dtest=com.example.mbbackend.pact.provider.*IT integration-test -DtestEnvt=int -Dpactbroker.auth.token=myToken
  */
 
 /* ✨👇 Uncomment this and comment @PactBroker to test locally by pasting a .json file for the contract under the target/pacts folder (use import au.com.dius.pact.provider.junit.loader.PactFolder;) ✨*/
