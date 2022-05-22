@@ -38,11 +38,9 @@ class CharacterServiceTest {
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        Set<MovieEntity> movieEntitySet = new HashSet<>();
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(movieId)
                 .build();
-        movieEntitySet.add(movieEntity);
         List<MovieEntity> movieEntityList = new ArrayList<>();
         movieEntityList.add(movieEntity);
 
@@ -53,7 +51,7 @@ class CharacterServiceTest {
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
                 .prop(true)
-                .movie(movieEntitySet)
+                .movie(movieEntity)
                 .build();
 
         characterEntityList.add(characterEntity);
@@ -119,11 +117,9 @@ class CharacterServiceTest {
         UUID characterId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
         UUID movieId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
-        Set<MovieEntity> movieEntitySet = new HashSet<>();
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(movieId)
                 .build();
-        movieEntitySet.add(movieEntity);
         List<MovieEntity> movieEntityList = new ArrayList<>();
         movieEntityList.add(movieEntity);
 
@@ -134,7 +130,7 @@ class CharacterServiceTest {
                 .meaning("anyMeaning")
                 .tone(CharacterTone.FIRST)
                 .prop(true)
-                .movie(movieEntitySet)
+                .movie(movieEntity)
                 .build());
 
         when(characterRepository.findById(characterId)).thenReturn(optionalLocationEntity);
@@ -291,7 +287,6 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
                 () -> assertTrue(characterEntity.getProp()));
-
     }
 
 }

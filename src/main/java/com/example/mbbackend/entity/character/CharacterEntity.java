@@ -34,6 +34,6 @@ public class CharacterEntity {
     @Column(name = "prop")
     private Boolean prop;
 
-    @OneToMany(mappedBy = "character", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MovieEntity> movie;
+    @OneToOne(mappedBy = "character", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private MovieEntity movie;
 }

@@ -26,7 +26,7 @@ public class MovieEntity {
     @Column(name = "imageUrl")
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "character_id", referencedColumnName = "id")
     private CharacterEntity character;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
