@@ -1,5 +1,6 @@
 package com.example.mbbackend.model;
 
+import com.example.mbbackend.entity.movie.MovieEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,19 @@ public class Movie {
     private String imageUrl;
 
     private Character character;
-    private Location location;
     private Actor actor;
+    private Location location;
     private Room room;
+
+    public static Movie convertMovie(MovieEntity movieEntity) {
+        return Movie.builder()
+                .id(movieEntity.getId())
+                .scene(movieEntity.getScene())
+                .imageUrl(movieEntity.getImageUrl())
+                .character(Character.convertCharacter(movieEntity.getCharacter()))
+                .actor(Actor.convertActor(movieEntity.getActor()))
+                .location(Location.convertLocation(movieEntity.getLocation()))
+                .room(Room.convertRoom(movieEntity.getRoom()))
+                .build();
+    }
 }

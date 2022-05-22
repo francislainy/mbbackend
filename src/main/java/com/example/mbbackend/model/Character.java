@@ -1,7 +1,7 @@
 package com.example.mbbackend.model;
 
 import com.example.mbbackend.config.CharacterTone;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.mbbackend.entity.character.CharacterEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
@@ -32,4 +32,17 @@ public class Character {
 
     @JsonIncludeProperties(value = "id")
     private Movie movie;
+
+    public static Character convertCharacter(CharacterEntity characterEntity) {
+        return Character.builder()
+                .id(characterEntity.getId())
+                .hanzi(characterEntity.getHanzi())
+                .pinyin(characterEntity.getPinyin())
+                .meaning(characterEntity.getMeaning())
+                .tone(characterEntity.getTone())
+                .prop(characterEntity.getProp())
+                .movie(Movie.convertMovie(characterEntity.getMovie()))
+                .build();
+    }
+
 }

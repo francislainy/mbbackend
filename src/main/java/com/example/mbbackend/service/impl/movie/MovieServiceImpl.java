@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -107,6 +108,12 @@ public class MovieServiceImpl implements MovieService {
         }
 
         return movies;
+
+        //todo: fix stackoverflow exception
+//        return this.movieCustomRepository.find(movieId, scene)
+//                .stream()
+//                .map(Movie::convertMovie)
+//                .collect(Collectors.toList());
     }
 
     @Override
@@ -117,13 +124,9 @@ public class MovieServiceImpl implements MovieService {
         if (movieEntityOptional.isPresent()) {
 
             MovieEntity movieEntity = movieEntityOptional.get();
-
             Character character = getCharacter(movieEntity);
-
             Actor actor = getActor(movieEntity);
-
             Location location = getLocation(movieEntity);
-
             Room room = getRoom(movieEntity);
 
             return Movie.builder()

@@ -1,6 +1,7 @@
 package com.example.mbbackend.model;
 
 import com.example.mbbackend.config.ActorFamily;
+import com.example.mbbackend.entity.actor.ActorEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,14 @@ public class Actor {
     private ActorFamily family;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String imageUrl;
+
+    public static Actor convertActor(ActorEntity actorEntity) {
+        return Actor.builder()
+                .id(actorEntity.getId())
+                .name(actorEntity.getName())
+                .associatedPinyinSound(actorEntity.getAssociatedPinyinSound())
+                .family(actorEntity.getFamily())
+                .imageUrl(actorEntity.getImageUrl())
+                .build();
+    }
 }

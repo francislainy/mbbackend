@@ -1,5 +1,6 @@
 package com.example.mbbackend.model;
 
+import com.example.mbbackend.entity.room.RoomEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,4 +19,11 @@ public class Room {
     private UUID id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String title;
+
+    public static Room convertRoom(RoomEntity roomEntity) {
+        return Room.builder()
+                .id(roomEntity.getId())
+                .title(roomEntity.getTitle())
+                .build();
+    }
 }
