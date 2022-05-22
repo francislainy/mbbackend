@@ -69,4 +69,12 @@ public class MovieController {
         movieService.deleteMovie(movieId);
         return new ResponseEntity<>(HttpStatus.PARTIAL_CONTENT);
     }
+
+    @GetMapping({"/filter/custom", "/filter/custom/"})
+    public List<Movie> findPersonByCustom(
+            @RequestParam(value = "id", required = false) UUID id,
+            @RequestParam(value = "scene", required = false) String scene
+    ) {
+        return movieService.getMoviesWithCustomFilter(id, scene);
+    }
 }

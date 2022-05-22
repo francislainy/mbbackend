@@ -10,6 +10,7 @@ import com.example.mbbackend.model.*;
 import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.repository.location.LocationRepository;
+import com.example.mbbackend.repository.movie.MovieCustomRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.repository.room.RoomRepository;
 import com.example.mbbackend.service.movie.MovieService;
@@ -23,6 +24,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    MovieCustomRepository movieCustomRepository;
 
     @Autowired
     CharacterRepository characterRepository;
@@ -88,6 +92,21 @@ public class MovieServiceImpl implements MovieService {
         });
 
         return movieList;
+    }
+
+    @Override
+    public List<Movie> getMoviesWithCustomFilter(UUID movieId, String scene) {
+        List<MovieEntity> movieEntity = movieCustomRepository.find(movieId, scene);
+        List<Movie> movies = new ArrayList<>();
+        for (MovieEntity m : movieEntity) {
+            Movie movie = Movie.builder()
+                    .id(m.getId())
+                    .scene(m.getScene())
+                    .build();
+            movies.add(movie);
+        }
+
+        return movies;
     }
 
     @Override

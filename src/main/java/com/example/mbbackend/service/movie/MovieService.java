@@ -13,9 +13,12 @@ public interface MovieService {
 
     List<Movie> getMoviesForActor(UUID actorId);
 
+    List<Movie> getMoviesWithCustomFilter(UUID movieId, String scene);
+
     void deleteMovie(UUID movieId) throws Exception;
 
     Movie createMovie(Movie movie);
 
-    Movie updateMovie(UUID id, Movie movie);
+    Movie updateMovie(UUID movieId, Movie movie);
+
 }
