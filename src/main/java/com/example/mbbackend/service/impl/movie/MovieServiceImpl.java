@@ -103,6 +103,10 @@ public class MovieServiceImpl implements MovieService {
             Movie movie = Movie.builder()
                     .id(m.getId())
                     .scene(m.getScene())
+                    .character(Character.convertCharacter(m.getCharacter()))
+                    .actor(Actor.convertActor(m.getActor()))
+                    .location(Location.convertLocation(m.getLocation()))
+                    .room(Room.convertRoom(m.getRoom()))
                     .build();
             movies.add(movie);
         }

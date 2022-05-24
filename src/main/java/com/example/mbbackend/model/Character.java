@@ -30,6 +30,7 @@ public class Character {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean prop;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIncludeProperties(value = "id")
     private Movie movie;
 
@@ -41,7 +42,7 @@ public class Character {
                 .meaning(characterEntity.getMeaning())
                 .tone(characterEntity.getTone())
                 .prop(characterEntity.getProp())
-                .movie(Movie.convertMovie(characterEntity.getMovie()))
+//                .movie(Movie.convertMovie(characterEntity.getMovie()))
                 .build();
     }
 
