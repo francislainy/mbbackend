@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class MovieRepositoryTest {
 
     @Autowired
-    private MovieRepository movieRepository;
+    MovieRepository movieRepository;
 
     @Autowired
-    private ActorRepository actorRepository;
+    ActorRepository actorRepository;
 
     @Autowired
-    private CharacterRepository characterRepository;
+    CharacterRepository characterRepository;
 
     @Test
     void findOne() {

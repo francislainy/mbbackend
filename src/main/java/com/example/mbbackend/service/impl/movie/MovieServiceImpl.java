@@ -97,27 +97,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getMoviesWithCustomFilter(UUID movieId, String scene) {
-        List<MovieEntity> movieEntity = movieCustomRepository.find(movieId, scene);
-        List<Movie> movies = new ArrayList<>();
-        for (MovieEntity m : movieEntity) {
-            Movie movie = Movie.builder()
-                    .id(m.getId())
-                    .scene(m.getScene())
-                    .character(Character.convertCharacter(m.getCharacter()))
-                    .actor(Actor.convertActor(m.getActor()))
-                    .location(Location.convertLocation(m.getLocation()))
-                    .room(Room.convertRoom(m.getRoom()))
-                    .build();
-            movies.add(movie);
-        }
-
-        return movies;
-
-        //todo: fix stackoverflow exception
-//        return this.movieCustomRepository.find(movieId, scene)
-//                .stream()
-//                .map(Movie::convertMovie)
-//                .collect(Collectors.toList());
+        return this.movieCustomRepository.find(movieId, scene)
+                .stream()
+                .map(Movie::convertMovie)
+                .toList();
     }
 
     @Override

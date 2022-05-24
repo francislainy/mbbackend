@@ -288,5 +288,4 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
                 () -> assertTrue(characterEntity.getProp()));
     }
-
 }
