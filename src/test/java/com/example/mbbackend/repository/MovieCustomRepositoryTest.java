@@ -32,15 +32,12 @@ class MovieCustomRepositoryTest {
 
     @Test
     void findMoviesWithCustomFilter() {
-        UUID movieId = UUID.fromString("02c903f7-7a55-470d-8449-cf7587f5a3fb");
         MovieEntity movieEntity = new MovieEntity();
-        movieEntity.setId(movieId);
         movieEntity.setScene("anyScene");
         movieEntity = movieRepository.save(movieEntity);
-        entityManager.persist(movieEntity);
-        List<MovieEntity> fetchedMovie = movieCustomRepository.find(movieId, "anyScene");
+        List<MovieEntity> fetchedMovie = movieCustomRepository.find(movieEntity.getId(), "anyScene");
         assertNotNull(fetchedMovie);
-//        assertTrue(fetchedMovie.size() > 0);
+        assertTrue(fetchedMovie.size() > 0);
     }
 
 }

@@ -13,9 +13,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
-import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -53,36 +53,33 @@ class MovieRepositoryTest {
     @Test
     void findMoviesForActor() {
 
-        UUID actorId = UUID.fromString("02c903f7-7a55-470d-8449-cf7587f5a3fb");
-        ActorEntity actorEntity = ActorEntity.builder().id(actorId).build();
-
+        ActorEntity actorEntity = ActorEntity.builder().build();
         actorEntity = actorRepository.save(actorEntity);
 
         MovieEntity movieEntity = new MovieEntity();
         movieEntity.setScene("anyScene");
         movieEntity.setActor(actorEntity);
-        movieEntity.setId(actorId);
         movieEntity = movieRepository.save(movieEntity);
-        entityManager.persist(movieEntity);
-        List<MovieEntity> fetchedMovie = movieRepository.findMoviesByActorId(actorId);
-        assertNotNull(fetchedMovie);
-//        assertTrue(fetchedMovie.size() > 0);
+
+        List<MovieEntity> fetchedMovieList = movieRepository.findMoviesByActorId(actorEntity.getId());
+        assertNotNull(fetchedMovieList);
+        assertTrue(fetchedMovieList.size() > 0);
     }
 
     @Test
     void findMoviesByCharacterId() {
 
-        UUID characterId = UUID.fromString("02c903f7-7a55-470d-8449-cf7587f5a3fb");
-        CharacterEntity characterEntity = CharacterEntity.builder().id(characterId).build();
-
+        CharacterEntity characterEntity = CharacterEntity.builder().build();
         characterEntity = characterRepository.save(characterEntity);
 
         MovieEntity movieEntity = new MovieEntity();
         movieEntity.setScene("anyScene");
         movieEntity.setCharacter(characterEntity);
         movieEntity = movieRepository.save(movieEntity);
-        List<MovieEntity> fetchedMovie = movieRepository.findMoviesByCharacterId(characterId);
-        assertNotNull(fetchedMovie);
+
+        List<MovieEntity> fetchedMovieList = movieRepository.findMoviesByCharacterId(characterEntity.getId());
+        assertNotNull(fetchedMovieList);
+        assertTrue(fetchedMovieList.size() > 0);
     }
 
 }
