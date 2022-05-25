@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -36,8 +37,10 @@ class MovieCustomRepositoryTest {
         movieEntity.setId(movieId);
         movieEntity.setScene("anyScene");
         movieEntity = movieRepository.save(movieEntity);
+        entityManager.persist(movieEntity);
         List<MovieEntity> fetchedMovie = movieCustomRepository.find(movieId, "anyScene");
         assertNotNull(fetchedMovie);
+//        assertTrue(fetchedMovie.size() > 0);
     }
 
 }

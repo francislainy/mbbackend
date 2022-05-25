@@ -6,6 +6,7 @@ import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -14,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -28,6 +29,9 @@ class MovieRepositoryTest {
 
     @Autowired
     CharacterRepository characterRepository;
+
+    @Autowired
+    EntityManager entityManager;
 
     @Test
     void findOne() {
@@ -57,9 +61,12 @@ class MovieRepositoryTest {
         MovieEntity movieEntity = new MovieEntity();
         movieEntity.setScene("anyScene");
         movieEntity.setActor(actorEntity);
+        movieEntity.setId(actorId);
         movieEntity = movieRepository.save(movieEntity);
+        entityManager.persist(movieEntity);
         List<MovieEntity> fetchedMovie = movieRepository.findMoviesByActorId(actorId);
         assertNotNull(fetchedMovie);
+//        assertTrue(fetchedMovie.size() > 0);
     }
 
     @Test
