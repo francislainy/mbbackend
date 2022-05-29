@@ -73,10 +73,11 @@ public class MovieController {
     @GetMapping({"/filter/custom", "/filter/custom/"})
     public ResponseEntity<Object> findPersonByCustom(
             @RequestParam(value = "id", required = false) UUID id,
-            @RequestParam(value = "scene", required = false) String scene) {
+            @RequestParam(value = "scene", required = false) String scene,
+            @RequestParam(value = "actorId", required = false) UUID actorId) {
 
         HashMap<String, List<Movie>> map = new HashMap<>();
-        map.put("movies", movieService.getMoviesWithCustomFilter(id, scene));
+        map.put("movies", movieService.getMoviesWithCustomFilter(id, scene, actorId));
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

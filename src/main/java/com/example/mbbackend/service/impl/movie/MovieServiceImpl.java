@@ -96,8 +96,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMoviesWithCustomFilter(UUID movieId, String scene) {
-        return this.movieCustomRepository.find(movieId, scene)
+    public List<Movie> getMoviesWithCustomFilter(UUID movieId, String scene, UUID actorId) {
+        return this.movieCustomRepository.find(movieId, scene, actorId)
                 .stream()
                 .map(Movie::convertMovie)
                 .toList();
