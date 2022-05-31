@@ -16,7 +16,7 @@ public class MovieCustomRepository {
         this.em = em;
     }
 
-    public List<MovieEntity> find(UUID id, String scene, UUID actorId) {
+    public List<MovieEntity> find(UUID id, String scene, UUID actorId, UUID locationId, UUID roomId) {
 
         String query = "select M from MovieEntity as M";
         String condition = " where";
@@ -33,6 +33,16 @@ public class MovieCustomRepository {
 
         if (actorId != null) {
             query += condition + " M.actor.id =:actorId";
+            condition = " and ";
+        }
+
+        if (locationId != null) {
+            query += condition + " M.location.id =:locationId";
+            condition = " and ";
+        }
+
+        if (roomId != null) {
+            query += condition + " M.room.id =:roomId";
         }
 
         var q = em.createQuery(query, MovieEntity.class);
@@ -47,6 +57,14 @@ public class MovieCustomRepository {
 
         if (actorId != null) {
             q.setParameter("actorId", actorId);
+        }
+
+        if (locationId != null) {
+            q.setParameter("locationId", locationId);
+        }
+
+        if (roomId != null) {
+            q.setParameter("roomId", roomId);
         }
 
         return q.getResultList();

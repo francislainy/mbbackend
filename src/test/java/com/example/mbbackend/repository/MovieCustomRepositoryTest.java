@@ -35,7 +35,7 @@ class MovieCustomRepositoryTest {
         MovieEntity movieEntity = new MovieEntity();
         movieEntity.setScene("anyScene");
         movieEntity = movieRepository.save(movieEntity);
-        List<MovieEntity> fetchedMovie = movieCustomRepository.find(movieEntity.getId(), "anyScene", UUID.randomUUID());
+        List<MovieEntity> fetchedMovie = movieCustomRepository.find(movieEntity.getId(), "anyScene", UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
         assertNotNull(fetchedMovie);
         assertTrue(fetchedMovie.size() > 0);
     }

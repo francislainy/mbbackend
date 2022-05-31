@@ -130,7 +130,7 @@ class MovieControllerTest {
         map.put("movies", movieList);
 
         String json = Utils.jsonStringFromObject(map);
-        when(movieService.getMoviesWithCustomFilter(any(), any(), any())).thenReturn(movieList);
+        when(movieService.getMoviesWithCustomFilter(any(), any(), any(), any(), any())).thenReturn(movieList);
 
         mockMvc.perform(get("/api/mb/movie/filter/custom?scene=anyScene"))
                 .andExpect(status().is2xxSuccessful())
