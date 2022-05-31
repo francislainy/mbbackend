@@ -28,6 +28,7 @@ public class MovieCustomRepository {
 
         if (scene != null) {
             query += condition + " M.scene =:scene";
+            condition = " and ";
         }
 
         if (actorId != null) {
@@ -47,7 +48,6 @@ public class MovieCustomRepository {
         if (actorId != null) {
             q.setParameter("actorId", actorId);
         }
-
 
         return q.getResultList();
     }
