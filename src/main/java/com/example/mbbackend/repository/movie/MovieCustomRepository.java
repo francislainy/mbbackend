@@ -16,13 +16,28 @@ public class MovieCustomRepository {
         this.em = em;
     }
 
-    public List<MovieEntity> find(UUID id, String scene, UUID actorId, UUID locationId, UUID roomId) {
+    public List<MovieEntity> find(UUID id, UUID characterId, String hanzi, String pinyin, String scene, UUID actorId, UUID locationId, UUID roomId) {
 
         String query = "select M from MovieEntity as M";
         String condition = " where";
 
         if (id != null) {
             query += condition + " M.id = :id";
+            condition = " and ";
+        }
+
+        if (characterId != null) {
+            query += condition + " M.character.id = :characterId";
+            condition = " and ";
+        }
+
+        if (hanzi != null) {
+            query += condition + " M.character.hanzi =:hanzi";
+            condition = " and ";
+        }
+
+        if (pinyin != null) {
+            query += condition + " M.character.pinyin =:pinyin";
             condition = " and ";
         }
 
@@ -49,6 +64,18 @@ public class MovieCustomRepository {
 
         if (id != null) {
             q.setParameter("id", id);
+        }
+
+        if (characterId != null) {
+            q.setParameter("characterId", characterId);
+        }
+
+        if (hanzi != null) {
+            q.setParameter("hanzi", hanzi);
+        }
+
+        if (pinyin != null) {
+            q.setParameter("pinyin", pinyin);
         }
 
         if (scene != null) {

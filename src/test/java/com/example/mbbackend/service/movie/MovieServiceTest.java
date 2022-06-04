@@ -296,9 +296,9 @@ class MovieServiceTest {
         List<MovieEntity> movieEntityList = new ArrayList<>();
         movieEntityList.add(movieEntity);
 
-        when(movieCustomRepository.find(any(), any(), any(), any(), any())).thenReturn(movieEntityList);
+        when(movieCustomRepository.find(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(movieEntityList);
 
-        List<Movie> movieList = movieService.getMoviesWithCustomFilter(movieId, "anyScene", UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+        List<Movie> movieList = movieService.getMoviesWithCustomFilter(movieId, UUID.randomUUID(),"anyHanzi", "anyScene", "anyScene", UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
 
         assertTrue(movieList.size() > 0);
 
