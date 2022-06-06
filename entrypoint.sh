@@ -93,17 +93,6 @@ start_docker() {
 
   local docker_opts="${DOCKER_OPTS:-}"
 
-  # Pass through `--garden-mtu` from gardian container
-  if [[ "${docker_opts}" != *'--mtu'* ]]; then
-    local mtu="$(cat /sys/class/net/$(ip route get 8.8.8.8|awk '{ print $5 }')/mtu)"
-    docker_opts+=" --mtu ${mtu}"
-  fi
-
-  # Use Concourse's scratch volume to bypass the graph filesystem by default
-  if [[ "${docker_opts}" != *'--data-root'* ]] && [[ "${docker_opts}" != *'--graph'* ]]; then
-    docker_opts+=' --data-root /scratch/docker'
-  fi
-
   rm -f "${DOCKERD_PID_FILE}"
   touch "${DOCKERD_LOG_FILE}"
 
