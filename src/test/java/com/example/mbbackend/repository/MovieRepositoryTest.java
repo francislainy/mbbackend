@@ -1,5 +1,6 @@
 package com.example.mbbackend.repository;
 
+import com.example.mbbackend.config.BaseIntegrationTest;
 import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class MovieRepositoryTest {
+class MovieRepositoryTest extends BaseIntegrationTest {
 
     @Autowired
     MovieRepository movieRepository;
