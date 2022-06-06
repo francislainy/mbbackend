@@ -25,6 +25,8 @@
         <http.client.version>5.1.2</http.client.version>
         <curl.logger.version>2.1.0</curl.logger.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
+        <test-containers.version>1.16.2</test-containers.version>
+        <test-containers.postgres.version>1.16.2</test-containers.postgres.version>
     </properties>
     <dependencies>
         <dependency>
@@ -100,6 +102,36 @@
             <groupId>com.github.dzieciou.testing</groupId>
             <artifactId>curl-logger</artifactId>
             <version>${curl.logger.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${test-containers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${test-containers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>vault</artifactId>
+            <version>${test-containers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>localstack</artifactId>
+            <version>${test-containers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${test-containers.postgres.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
