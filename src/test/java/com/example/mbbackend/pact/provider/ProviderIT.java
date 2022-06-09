@@ -8,6 +8,7 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.VerificationReports;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
+import com.example.mbbackend.config.BaseIntegrationTest;
 import com.example.mbbackend.util.ApiRequests;
 import org.apache.hc.core5.http.HttpRequest;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.example.mbbackend.config.Constants.*;
 import static com.example.mbbackend.util.Utils.logCurlFromPact;
@@ -37,7 +39,7 @@ import static com.example.mbbackend.util.Utils.logCurlFromPact;
 @VerificationReports(value = {"markdown"}, reportDir = "target/pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ProviderIT {
+class ProviderIT extends BaseIntegrationTest {
 
     @LocalServerPort
     int port;
@@ -174,7 +176,8 @@ class ProviderIT {
     @State("A request to retrieve a room")
     Map<String, Object> getRoom() {
         Map<String, Object> map = new HashMap<>();
-        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
+//        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
+        map.put("roomId", UUID.fromString("a1f26f24-4e74-4549-b5c3-d5e222aaec7e"));
         return map;
     }
 

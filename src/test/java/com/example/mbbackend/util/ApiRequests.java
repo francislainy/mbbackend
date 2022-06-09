@@ -42,7 +42,7 @@ public class ApiRequests {
         return Utils.createClassFromObject(getRoomList().get(0), Room.class);
     }
 
-    List<Location> getLocationList() {
+    public List<Location> getLocationList() {
 
         RequestSpecification rq = Utils.getRequestSpecification();
 
@@ -55,7 +55,7 @@ public class ApiRequests {
         return Utils.createClassFromObject(getLocationList().get(0), Location.class);
     }
 
-    List<Actor> getActorList() {
+    public List<Actor> getActorList() {
 
         RequestSpecification rq = Utils.getRequestSpecification();
 
