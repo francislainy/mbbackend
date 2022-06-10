@@ -177,7 +177,7 @@ class ProviderIT extends BaseIntegrationTest {
     Map<String, Object> getRoom() {
         Map<String, Object> map = new HashMap<>();
 //        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
-        map.put("roomId", UUID.fromString("a1f26f24-4e74-4549-b5c3-d5e222aaec7e"));
+        map.put("roomId", UUID.fromString("b1f26f24-4e74-4549-b5c3-d5e222aaec7e"));
         return map;
     }
 

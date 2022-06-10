@@ -1,9 +1,10 @@
 package com.example.mbbackend.config;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Container;
 
-//@Testcontainers
+@ActiveProfiles("test")
 public class BaseIntegrationTest {
 
     @Container
