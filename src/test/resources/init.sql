@@ -1,2 +1,5 @@
 INSERT INTO room (id, title)
-VALUES ('b1f26f24-4e74-4549-b5c3-d5e222aaec7e', 'anyTitle');
+VALUES ('3ffff94a-b70e-4b39-bd2a-be1c0f898589', 'anyTitle');
+
+INSERT INTO location(id, title, associated_pinyin_sound)
+VALUES ('1bfff94a-b70e-4b39-bd2a-be1c0f898589', 'anyTitle', 'OU')

@@ -38,7 +38,7 @@ class GetLocationIT {
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
-                .stringType("title", "South London")
+                .stringType("title", "anyTitle")
                 .stringType("associatedPinyinSound", "OU")
                 .close();
 

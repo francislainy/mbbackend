@@ -10,6 +10,7 @@ import au.com.dius.pact.provider.junitsupport.VerificationReports;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import com.example.mbbackend.config.BaseIntegrationTest;
 import com.example.mbbackend.util.ApiRequests;
+import jakarta.transaction.Transactional;
 import org.apache.hc.core5.http.HttpRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,7 @@ import java.util.UUID;
 
 import static com.example.mbbackend.config.Constants.*;
 import static com.example.mbbackend.util.Utils.logCurlFromPact;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 
 /**
  * mvn -Dtest=com.example.mbbackend.pact.provider.*IT integration-test -DtestEnvt=int -Dpactbroker.auth.token=myToken
@@ -39,6 +42,8 @@ import static com.example.mbbackend.util.Utils.logCurlFromPact;
 @VerificationReports(value = {"markdown"}, reportDir = "target/pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Sql(scripts = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:clean-up.sql", executionPhase = AFTER_TEST_METHOD)
 class ProviderIT extends BaseIntegrationTest {
 
     @LocalServerPort
@@ -176,8 +181,7 @@ class ProviderIT extends BaseIntegrationTest {
     @State("A request to retrieve a room")
     Map<String, Object> getRoom() {
         Map<String, Object> map = new HashMap<>();
-//        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
-        map.put("roomId", UUID.fromString("b1f26f24-4e74-4549-b5c3-d5e222aaec7e"));
+        map.put("roomId", apiRequests.getFirstRoomFromList().getId());
         return map;
     }
 
