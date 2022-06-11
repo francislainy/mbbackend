@@ -20,8 +20,8 @@ jobs:
       run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mbbackend
+      run: docker build . --file Dockerfile --tag mbbackend:${{steps.vars.outputs.tag}}
     - name: Push the docker image
-      run: docker push mbbackend
+      run: docker push mbbackend:${{steps.vars.outputs.tag}}
     - name: Run tests
       run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project mbbackend ./mvnw test
