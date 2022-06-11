@@ -14,7 +14,7 @@ public class BaseIntegrationTest {
     public static void init() {
 
         postgres.start();
-        System.setProperty("spring.datasource.url", postgres.getJdbcUrl());
+        System.setProperty("spring.datasource.url", String.format("jdbc:tc:postgresql://localhost:%s/%s", postgres.getFirstMappedPort(), postgres.getDatabaseName()));
         System.setProperty("spring.datasource.username", postgres.getUsername());
         System.setProperty("spring.datasource.password", postgres.getPassword());
         System.setProperty("spring.datasource.port", postgres.getFirstMappedPort().toString());

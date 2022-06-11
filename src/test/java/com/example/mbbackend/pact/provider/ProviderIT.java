@@ -61,7 +61,6 @@ class ProviderIT extends BaseIntegrationTest {
         context.verifyInteraction();
     }
 
-
     @BeforeAll
     void setUp() {
         apiRequests = new ApiRequests(port);

@@ -68,6 +68,7 @@ class MovieServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .prop(true)
                 .build();
 
         ActorEntity actorEntity = ActorEntity.builder()
@@ -119,6 +120,7 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
                 () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
                 () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getCharacter().getProp(), movie.getCharacter().isProp()),
                 () -> assertEquals(movieEntity.getActor().getId(), movie.getActor().getId()),
                 () -> assertEquals(movieEntity.getActor().getName(), movie.getActor().getName()),
                 () -> assertEquals(movieEntity.getLocation().getId(), movie.getLocation().getId()),
@@ -142,6 +144,7 @@ class MovieServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .prop(true)
                 .build();
 
         ActorEntity actorEntity = ActorEntity.builder()
@@ -193,6 +196,7 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
                 () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
                 () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getCharacter().getProp(), movie.getCharacter().isProp()),
                 () -> assertEquals(movieEntity.getActor().getId(), movie.getActor().getId()),
                 () -> assertEquals(movieEntity.getActor().getName(), movie.getActor().getName()),
                 () -> assertEquals(movieEntity.getLocation().getId(), movie.getLocation().getId()),
@@ -212,6 +216,7 @@ class MovieServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .prop(true)
                 .build();
 
         MovieEntity movieEntity = MovieEntity.builder()
@@ -244,6 +249,7 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
                 () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
                 () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getCharacter().getProp(), movie.getCharacter().isProp()),
                 () -> assertNull(movieEntity.getActor()),
                 () -> assertNull(movieEntity.getLocation()),
                 () -> assertNull(movieEntity.getRoom()));
@@ -298,7 +304,7 @@ class MovieServiceTest {
 
         when(movieCustomRepository.find(any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(movieEntityList);
 
-        List<Movie> movieList = movieService.getMoviesWithCustomFilter(movieId, UUID.randomUUID(),"anyHanzi", "anyScene", "anyScene", UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+        List<Movie> movieList = movieService.getMoviesWithCustomFilter(movieId, UUID.randomUUID(), "anyHanzi", "anyScene", "anyScene", UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
 
         assertTrue(movieList.size() > 0);
 
@@ -312,6 +318,7 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
                 () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
                 () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getCharacter().getProp(), movie.getCharacter().isProp()),
                 () -> assertEquals(movieEntity.getActor().getId(), movie.getActor().getId()),
                 () -> assertEquals(movieEntity.getActor().getName(), movie.getActor().getName()),
                 () -> assertEquals(movieEntity.getLocation().getId(), movie.getLocation().getId()),
@@ -334,6 +341,7 @@ class MovieServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .prop(true)
                 .build());
 
         Optional<ActorEntity> optionalActorEntity = Optional.ofNullable(ActorEntity.builder()
@@ -365,6 +373,7 @@ class MovieServiceTest {
                         .hanzi("anyHanzi")
                         .meaning("anyMeaning")
                         .pinyin("anyPinyin")
+                        .prop(true)
                         .build())
                 .location(LocationEntity.builder()
                         .id(locationId)
@@ -395,6 +404,7 @@ class MovieServiceTest {
                 () -> assertEquals("anyHanzi", movie.getCharacter().getHanzi()),
                 () -> assertEquals("anyPinyin", movie.getCharacter().getPinyin()),
                 () -> assertEquals("anyMeaning", movie.getCharacter().getMeaning()),
+                () -> assertTrue(movie.getCharacter().isProp()),
                 () -> assertEquals(locationId.toString(), movie.getLocation().getId().toString()),
                 () -> assertEquals("anyTitle", movie.getLocation().getTitle()),
                 () -> assertEquals("anySound", movie.getLocation().getAssociatedPinyinSound()),
@@ -416,6 +426,7 @@ class MovieServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .prop(true)
                 .build());
 
         CharacterEntity characterEntity = optionalCharacterEntity.get();
@@ -429,6 +440,7 @@ class MovieServiceTest {
                         .hanzi(characterEntity.getHanzi())
                         .pinyin(characterEntity.getPinyin())
                         .meaning(characterEntity.getMeaning())
+                        .prop(characterEntity.getProp())
                         .build())
                 .actor(ActorEntity.builder()
                         .id(actorId)
@@ -483,6 +495,7 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
                 () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
                 () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getCharacter().getProp(), movie.getCharacter().isProp()),
                 () -> assertEquals(movieEntity.getLocation().getId().toString(), movie.getLocation().getId().toString()),
                 () -> assertEquals(movieEntity.getLocation().getTitle(), movie.getLocation().getTitle()),
                 () -> assertEquals(movieEntity.getLocation().getAssociatedPinyinSound(), movie.getLocation().getAssociatedPinyinSound()),
@@ -586,6 +599,7 @@ class MovieServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
+                .prop(true)
                 .build();
 
         MovieEntity movieEntity = MovieEntity.builder()
@@ -607,6 +621,7 @@ class MovieServiceTest {
                         .hanzi(characterEntity.getHanzi())
                         .pinyin(characterEntity.getPinyin())
                         .meaning(characterEntity.getMeaning())
+                        .prop(characterEntity.getProp())
                         .build())
                 .actor(Actor.builder().id(actorId).build())
                 .location(Location.builder().id(locationId).build())
@@ -629,6 +644,7 @@ class MovieServiceTest {
                 () -> assertEquals(movieEntity.getCharacter().getHanzi(), movie.getCharacter().getHanzi()),
                 () -> assertEquals(movieEntity.getCharacter().getPinyin(), movie.getCharacter().getPinyin()),
                 () -> assertEquals(movieEntity.getCharacter().getMeaning(), movie.getCharacter().getMeaning()),
+                () -> assertEquals(movieEntity.getCharacter().getProp(), movie.getCharacter().isProp()),
                 () -> assertEquals(movieEntity.getActor().getId(), movie.getActor().getId()),
                 () -> assertEquals(movieEntity.getLocation().getId(), movie.getLocation().getId()),
                 () -> assertEquals(movieEntity.getRoom().getId(), movie.getRoom().getId()));

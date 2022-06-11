@@ -57,6 +57,7 @@ class MovieCustomRepositoryTest extends BaseIntegrationTest {
         CharacterEntity characterEntity = CharacterEntity.builder()
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
+                .prop(true)
                 .build();
         characterRepository.save(characterEntity);
 
