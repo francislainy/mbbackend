@@ -27,9 +27,18 @@ jobs:
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    
+
     - name: Run tests
-      run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend ./mvnw test
+      uses: addnab/docker-run-action@v3
+      with:
+        image: francislainy/mbbackend:latest
+        run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend ./mvnw test
+
+    
+    
+    
+#    - name: Run tests
+#      run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend ./mvnw test
 
 
 
