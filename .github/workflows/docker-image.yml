@@ -27,6 +27,11 @@ jobs:
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+    - name: Run tests
+     run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project mbbackend:test ./mvnw test
+
+
 
 #    - name: Build the Docker image
 #      run: docker build . --file Dockerfile --tag mbbackend:test
