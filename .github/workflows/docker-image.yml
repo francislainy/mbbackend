@@ -24,6 +24,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v4
       with: 
         image: francislainy/mbbackend
+        tags: v1, latest
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -32,7 +33,7 @@ jobs:
       uses: addnab/docker-run-action@v3
       with:
         image: francislainy/mbbackend:latest
-        run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend:master-a786d3c ./mvnw test
+        run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend:latest ./mvnw test
 
     
     
