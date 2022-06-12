@@ -159,6 +159,8 @@ public class MovieServiceImpl implements MovieService {
                 .hanzi(movie.getCharacter().getHanzi())
                 .pinyin(movie.getCharacter().getPinyin())
                 .meaning(movie.getCharacter().getMeaning())
+                .tone(movie.getCharacter().getTone())
+                .prop(movie.getCharacter().isProp())
                 .build();
 
         characterEntity = characterRepository.save(characterEntity);
@@ -195,6 +197,8 @@ public class MovieServiceImpl implements MovieService {
                         .hanzi(movieEntity.getCharacter().getHanzi())
                         .pinyin(movieEntity.getCharacter().getPinyin())
                         .meaning(movieEntity.getCharacter().getMeaning())
+                        .tone(movieEntity.getCharacter().getTone())
+                        .prop(movieEntity.getCharacter().isProp())
                         .build())
                 .actor(Actor.builder()
                         .id(movieEntity.getActor().getId())
@@ -259,12 +263,7 @@ public class MovieServiceImpl implements MovieService {
                 .id(movieEntity.getId())
                 .scene(movieEntity.getScene())
                 .imageUrl(movieEntity.getImageUrl())
-                .character(Character.builder()
-                        .id(movieEntity.getCharacter().getId())
-                        .hanzi(movieEntity.getCharacter().getHanzi())
-                        .pinyin(movieEntity.getCharacter().getPinyin())
-                        .meaning(movieEntity.getCharacter().getMeaning())
-                        .build())
+                .character(Character.convertCharacter(movieEntity.getCharacter()))
                 .actor(Actor.builder().id(movieEntity.getActor().getId()).build())
                 .location(Location.builder().id(movieEntity.getLocation().getId()).build())
                 .room(Room.builder().id(movieEntity.getRoom().getId()).build())
@@ -331,18 +330,19 @@ public class MovieServiceImpl implements MovieService {
 
     private Character getCharacter(MovieEntity movieEntity) {
 
-        Character character = Character.builder()
-                .id(movieEntity.getCharacter().getId())
-                .build();
+        Optional<CharacterEntity> characterEntityOptional = characterRepository.findById(movieEntity.getCharacter().getId());
 
-        Optional<CharacterEntity> characterEntityOptional = characterRepository.findById(character.getId());
-
+        Character character = null;
         if (characterEntityOptional.isPresent()) {
             CharacterEntity characterEntity = characterEntityOptional.get();
-
-            character.setHanzi(characterEntity.getHanzi());
-            character.setPinyin(characterEntity.getPinyin());
-            character.setMeaning(characterEntity.getMeaning());
+            character = Character.builder()
+                    .id(movieEntity.getCharacter().getId())
+                    .hanzi(characterEntity.getHanzi())
+                    .pinyin(characterEntity.getPinyin())
+                    .meaning(characterEntity.getMeaning())
+                    .tone(characterEntity.getTone())
+                    .prop(characterEntity.isProp())
+                    .build();
         }
         return character;
     }

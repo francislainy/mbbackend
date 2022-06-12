@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.model.*;
 import com.example.mbbackend.util.Utils;
@@ -24,7 +25,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -47,15 +48,16 @@ class PostCreateMovieIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .booleanType("prop", true)
                 .closeObject()
                 .object("location")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .object("actor")
-                .uuid("id", "4efff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .object("room")
-                .uuid("id", "3afff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
                 .close();
 
@@ -64,23 +66,23 @@ class PostCreateMovieIT {
                 .stringType("scene", "Shakira talking to Kanye West outside the front entrance")
                 .stringType("imageUrl", "anyUrl")
                 .object("character")
-                .uuid("id", "2dfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("hanzi", "西")
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .booleanType("prop", true)
                 .closeObject()
                 .object("location")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("title", "Childhood home")
-                .stringType("associatedPinyinSound", "Shi")
                 .closeObject()
                 .object("actor")
-                .uuid("id", "4efff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("name", "Shakira")
                 .closeObject()
                 .object("room")
-                .uuid("id", "3afff94a-b70e-4b39-bd2a-be1c0f898589")
+                .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("title", "Bedroom")
                 .closeObject()
                 .close();
@@ -102,13 +104,15 @@ class PostCreateMovieIT {
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
     void runTest() {
 
-        Actor actor = Actor.builder().id(UUID.fromString("4efff94a-b70e-4b39-bd2a-be1c0f898589")).build();
-        Room room = Room.builder().id(UUID.fromString("3afff94a-b70e-4b39-bd2a-be1c0f898589")).build();
+        Actor actor = Actor.builder().id(UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589")).build();
+        Room room = Room.builder().id(UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589")).build();
         Location location = Location.builder().id(UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589")).build();
         Character character = Character.builder()
                 .hanzi("西")
                 .pinyin("xi")
                 .meaning("meaning")
+                .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build();
 
         Movie movie = Movie.builder()

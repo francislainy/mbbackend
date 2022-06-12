@@ -28,6 +28,7 @@ import java.util.UUID;
 import static com.example.mbbackend.config.Constants.*;
 import static com.example.mbbackend.util.Utils.logCurlFromPact;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 /**
  * mvn -Dtest=com.example.mbbackend.pact.provider.*IT integration-test -DtestEnvt=int -Dpactbroker.auth.token=myToken
@@ -42,7 +43,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TES
 @VerificationReports(value = {"markdown"}, reportDir = "target/pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Sql(scripts = "classpath:init.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:init.sql", executionPhase = BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:clean-up.sql", executionPhase = AFTER_TEST_METHOD)
 class ProviderIT extends BaseIntegrationTest {
 

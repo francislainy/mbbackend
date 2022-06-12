@@ -27,7 +27,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -47,6 +47,7 @@ class PostCreateCharacterIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .booleanType("prop", true)
                 .close();
 
         // @formatter:off
@@ -55,6 +56,7 @@ class PostCreateCharacterIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .booleanType("prop", true)
                 .object("movie")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()
@@ -76,13 +78,14 @@ class PostCreateCharacterIT {
 
     @Test
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
-    void runTest() throws JsonProcessingException {
+    void runTest() {
 
         Character character = Character.builder()
                 .hanzi("uniqueFromPact")
                 .pinyin("xi")
                 .meaning("West")
                 .tone(CharacterTone.FIRST)
+                .prop(true)
                 .build();
 
         String json = Utils.jsonStringFromObject(character);

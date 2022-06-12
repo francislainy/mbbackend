@@ -24,7 +24,7 @@ import static com.example.mbbackend.util.Utils.getRequestSpecification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)

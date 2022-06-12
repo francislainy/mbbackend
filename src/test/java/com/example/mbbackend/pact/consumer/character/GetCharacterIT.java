@@ -21,7 +21,7 @@ import static com.example.mbbackend.util.Utils.getRequestSpecification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -41,7 +41,7 @@ class GetCharacterIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
-                .booleanType("isProp", true)
+                .booleanType("prop", true)
                 .object("movie")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .closeObject()

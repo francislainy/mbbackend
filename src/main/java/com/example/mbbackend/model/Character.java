@@ -28,7 +28,11 @@ public class Character {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CharacterTone tone;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private boolean prop;
+    private Boolean prop;
+
+    public Boolean isProp() {
+        return prop;
+    }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIncludeProperties(value = "id")
@@ -41,7 +45,7 @@ public class Character {
                 .pinyin(characterEntity.getPinyin())
                 .meaning(characterEntity.getMeaning())
                 .tone(characterEntity.getTone())
-                .prop(characterEntity.getProp())
+                .prop(characterEntity.isProp())
 //                .movie(Movie.convertMovie(characterEntity.getMovie()))
                 .build();
     }

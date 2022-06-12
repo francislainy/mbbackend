@@ -23,7 +23,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -43,6 +43,7 @@ class PutUpdateCharacterIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .booleanType("prop", true)
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
@@ -51,6 +52,7 @@ class PutUpdateCharacterIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
+                .booleanType("prop", true)
                 .close();
 
         return builder
@@ -75,6 +77,7 @@ class PutUpdateCharacterIT {
                 .pinyin("xi")
                 .meaning("West")
                 .tone(CharacterTone.FIFTY)
+                .prop(true)
                 .build();
 
         String json = Utils.jsonStringFromObject(character);

@@ -21,7 +21,7 @@ import static com.example.mbbackend.config.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -42,7 +42,7 @@ class GetCharactersIT {
                 .stringType("pinyin", "xi")
                 .stringType("meaning", "West")
                 .stringType("tone", "FIRST")
-                .booleanType("isProd", true)
+                .booleanType("prop", true)
                 .closeArray()
                 .close();
 

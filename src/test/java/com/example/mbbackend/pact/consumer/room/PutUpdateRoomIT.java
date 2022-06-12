@@ -12,6 +12,7 @@ import com.example.mbbackend.model.Room;
 import com.example.mbbackend.util.Utils;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * As per https://developers.google.com/classroom/reference/rest
  * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)

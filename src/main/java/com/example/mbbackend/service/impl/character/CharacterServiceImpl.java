@@ -31,7 +31,7 @@ public class CharacterServiceImpl implements CharacterService {
             List<MovieEntity> movieEntityList = movieRepository.findMoviesByCharacterId(characterEntity.getId());
 
             Movie movie = null;
-                if (!movieEntityList.isEmpty()) {
+            if (!movieEntityList.isEmpty()) {
                 movie = Movie.builder()
                         .id(movieEntityList.get(0).getId())
                         .build();
@@ -44,11 +44,9 @@ public class CharacterServiceImpl implements CharacterService {
                             .pinyin(characterEntity.getPinyin())
                             .meaning(characterEntity.getMeaning())
                             .tone(characterEntity.getTone())
-                            .prop(characterEntity.getProp())
+                            .prop(characterEntity.isProp())
                             .movie(movie)
                             .build());
-
-
         });
 
         return characterList;
@@ -76,7 +74,7 @@ public class CharacterServiceImpl implements CharacterService {
                     .pinyin(characterEntity.getPinyin())
                     .meaning(characterEntity.getMeaning())
                     .tone(characterEntity.getTone())
-                    .prop(characterEntity.getProp())
+                    .prop(characterEntity.isProp())
                     .movie(movie)
                     .build();
         } else {
@@ -119,7 +117,7 @@ public class CharacterServiceImpl implements CharacterService {
                 .pinyin(characterEntity.getPinyin())
                 .meaning(characterEntity.getMeaning())
                 .tone(characterEntity.getTone())
-                .prop(characterEntity.getProp())
+                .prop(characterEntity.isProp())
                 .movie(Movie.builder()
                         .id(movieEntity.getId())
                         .build())

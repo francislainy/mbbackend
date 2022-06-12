@@ -10,6 +10,7 @@ import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -21,7 +22,7 @@ import static com.example.mbbackend.util.Utils.getRequestSpecification;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * mvn -Dtest=com.example.mbbackend.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.example.mbbackend.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -29,8 +30,9 @@ class GetMoviesForActorIT {
 
     Map<String, String> headers = new HashMap<>();
 
-    String path = "/api/mb/movie/actor";
+    String path = "/api/mb/movie/actor/";
 
+    @Disabled
     @Pact(provider = PACT_PROVIDER, consumer = PACT_CONSUMER)
     public RequestResponsePact createPact(PactDslWithProvider builder) {
 
@@ -59,6 +61,7 @@ class GetMoviesForActorIT {
                 .toPact();
     }
 
+    @Disabled("Requires clarification on what to do")
     @Test
     @PactTestFor(providerName = PACT_PROVIDER, port = PACT_PORT, pactVersion = PactSpecVersion.V3)
     void runTest() {

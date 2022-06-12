@@ -286,6 +286,6 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getPinyin(), character.getPinyin()),
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
-                () -> assertTrue(characterEntity.getProp()));
+                () -> assertTrue(characterEntity.isProp()));
     }
 }

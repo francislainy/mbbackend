@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * As per https://developers.google.com/classroom/reference/rest
  * <p>
- * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*IT integration-test
+ * mvn -Dtest=com.hmhco.viaductservice.pact.consumer.*.*IT integration-test
  */
 
 @ExtendWith(PactConsumerTestExt.class)
