@@ -36,7 +36,7 @@ jobs:
       with:
         image: francislainy/mbbackend:latest
         run: |
-             docker run -it --entrypoint francislainy/mbbackend:latest
+             docker run -it --entrypoint=entrypoint.sh francislainy/mbbackend:latest
              docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend:latest ../mvnw test
           
 
