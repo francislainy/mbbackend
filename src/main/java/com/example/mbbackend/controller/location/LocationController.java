@@ -20,7 +20,7 @@ public class LocationController {
     LocationService locationService;
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Object> getAllLocation() {
+    public ResponseEntity<Object> getAllLocations() {
 
         HashMap<String, List<Location>> map = new HashMap<>();
         map.put("locations", locationService.getAllLocations());

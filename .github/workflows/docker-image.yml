@@ -35,7 +35,7 @@ jobs:
       uses: addnab/docker-run-action@v3
       with:
         image: francislainy/mbbackend:latest
-        run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend:latest ./mvnw test
+        run: docker run --privileged --entrypoint=entrypoint.sh --rm -v ${PWD}:/project francislainy/mbbackend:latest ../mvnw test
 
     
     
