@@ -1,53 +1,38 @@
 package com.example.mbbackend.controller.room;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.example.mbbackend.config.BaseIntegrationTest;
-import com.example.mbbackend.model.Location;
 import com.example.mbbackend.model.Room;
-import com.example.mbbackend.service.room.RoomService;
 import com.example.mbbackend.util.Utils;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.*;
-
-import static com.example.mbbackend.config.Constants.MOCK_PACT_URL;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
 @AutoConfigureMockMvc
-//@Sql(scripts = "classpath:init.sql", executionPhase = BEFORE_TEST_METHOD)
-//@Sql(scripts = "classpath:clean-up.sql", executionPhase = AFTER_TEST_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RoomControllerIT extends BaseIntegrationTest {
 
     @LocalServerPort
@@ -56,38 +41,116 @@ class RoomControllerIT extends BaseIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-//    @MockBean
-//    RoomService roomService;
+    RequestSpecification rq;
+
+    ObjectMapper objectMapper;
 
     @BeforeAll
-    static void test() {
-        //
+    void test() {
+
+        objectMapper = new ObjectMapper();
+
+        Map<String, String> headers = new HashMap<>();
+        rq = Utils.getRequestSpecification().baseUri("http://localhost:" + port)
+                .headers(headers);
+    }
+
+    @AfterEach
+    void cleanUp() {
+        deleteAllRooms();
     }
 
     @Test
     void testGetAllRooms() {
 
-        Room room = new Room();
-        room.setTitle("anyRoomTitle");
-
-        Map<String, String> headers = new HashMap<>();
-        RequestSpecification rq = Utils.getRequestSpecification().baseUri("http://localhost:" + port).headers(headers);
-        Response response = rq.body(room).post("/api/mb/room");
-
-        assertEquals(201, response.getStatusCode());
-
-        response = rq.get("/api/mb/room");
-
-        List<Room> list = response.jsonPath().getList("rooms");
-        assertEquals(200, response.getStatusCode());
+        createRoom();
+        List<Room> list = getRoomList();
         assertEquals(1, list.size());
     }
 
-//    @Test
-//    void testGetAllRooms() throws Exception {
-//
-//        mockMvc.perform(get("/api/mb/room"))
-//                .andExpect(status().is2xxSuccessful());
-//    }
+    @Test
+    void testGetRoom() {
+
+        createRoom();
+        List<Room> list = getRoomList();
+
+        Room room = objectMapper.convertValue(list.get(0), Room.class);
+        UUID roomId = room.getId();
+
+        Response response = rq.get("/api/mb/room/" + roomId);
+        assertEquals(200, response.getStatusCode());
+
+        Room room1 = objectMapper.convertValue(response.jsonPath().get(), Room.class);
+        assertEquals("anyRoomTitle", room1.getTitle());
+    }
+
+    @Test
+    void testCreateRoom() {
+        createRoom();
+    }
+
+    @Test
+    void testUpdateRoom() {
+
+        createRoom();
+
+        List<Room> list = getRoomList();
+
+        Room room = getFirstRoomFromList(list);
+        room.setTitle("updatedTitle");
+        UUID roomId = room.getId();
+        
+        Response response = rq.body(room).put("/api/mb/room/" + roomId);
+        Room updatedRoom = objectMapper.convertValue(response.jsonPath().get(), Room.class);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("updatedTitle", updatedRoom.getTitle());
+
+        response = rq.get("/api/mb/room/" + roomId);
+        assertEquals(200, response.getStatusCode());
+        Room room1 = objectMapper.convertValue(response.jsonPath().get(), Room.class);
+        assertEquals("updatedTitle", room1.getTitle());
+    }
+    
+    // Helpers
+    private Room getFirstRoomFromList(List<Room> list) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.convertValue(list.get(0), Room.class);
+    }
+
+    private List<Room> getRoomList() {
+        Response response = rq.get("/api/mb/room");
+        List<Room> list = response.jsonPath().getList("rooms");
+        assertEquals(200, response.getStatusCode());
+        return list;
+    }
+
+    private void createRoom() {
+
+        Room room = new Room();
+        room.setTitle("anyRoomTitle");
+        Response response = rq.body(room).post("/api/mb/room");
+        assertEquals(201, response.getStatusCode());
+    }
+
+    private void deleteAllRooms() {
+
+        Response response = rq.get("/api/mb/room");
+        List<Room> list = response.jsonPath().getList("rooms");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Room> roomList = objectMapper.convertValue(
+                list,
+                new TypeReference<>() {
+                });
+
+        for (Room r : roomList) {
+            deleteRoom(r);
+        }
+    }
+
+    private void deleteRoom(Room room) {
+        Response response = rq.body(room).delete("/api/mb/room/" + room.getId());
+        assertEquals(206, response.getStatusCode());
+    }
 
 }

@@ -24,6 +24,6 @@ public class RoomEntity {
     @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<MovieEntity> movie;
 }

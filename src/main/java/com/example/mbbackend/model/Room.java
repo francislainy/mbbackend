@@ -1,6 +1,7 @@
 package com.example.mbbackend.model;
 
 import com.example.mbbackend.entity.room.RoomEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

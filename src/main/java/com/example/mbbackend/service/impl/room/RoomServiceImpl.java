@@ -89,6 +89,7 @@ public class RoomServiceImpl implements RoomService {
         if (roomEntityOptional.isPresent()) {
 
             RoomEntity roomEntity = RoomEntity.builder()
+                    .id(room.getId())
                     .title(room.getTitle())
                     .build();
 

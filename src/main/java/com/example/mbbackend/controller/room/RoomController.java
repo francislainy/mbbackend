@@ -20,7 +20,7 @@ public class RoomController {
     RoomService roomService;
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Object> getAllRoom() {
+    public ResponseEntity<Object> getAllRooms() {
 
         HashMap<String, List<Room>> map = new HashMap<>();
         map.put("rooms", roomService.getAllRooms());
@@ -29,7 +29,7 @@ public class RoomController {
     }
 
     @GetMapping({"/{roomId}", "/{roomId}/"})
-    public ResponseEntity<Object> getSingleRoom(@PathVariable UUID roomId) {
+    public ResponseEntity<Object> getRoom(@PathVariable UUID roomId) {
 
         return new ResponseEntity<>(roomService.getRoom(roomId), HttpStatus.OK);
     }
