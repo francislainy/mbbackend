@@ -92,6 +92,7 @@ public class LocationServiceImpl implements LocationService {
         if (locationEntityOptional.isPresent()) {
 
             LocationEntity locationEntity = LocationEntity.builder()
+                    .id(location.getId())
                     .title(location.getTitle())
                     .associatedPinyinSound(location.getAssociatedPinyinSound())
                     .build();

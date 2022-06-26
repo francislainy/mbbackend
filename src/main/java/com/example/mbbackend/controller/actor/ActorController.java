@@ -37,11 +37,13 @@ public class ActorController {
     @PostMapping({"", "/"})
     public ResponseEntity<Actor> createActor(@RequestBody Actor actor) {
 
-        if (actorService.createActor(actor) == null) {
+        actor = actorService.createActor(actor);
+
+        if (actor == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(actorService.createActor(actor), HttpStatus.CREATED);
+        return new ResponseEntity<>(actor, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{actorId}")
@@ -54,11 +56,13 @@ public class ActorController {
     @PutMapping("{actorId}")
     public ResponseEntity<Object> updateActor(@PathVariable UUID actorId, @RequestBody Actor actor) {
 
-        if (actorService.updateActor(actorId, actor) == null) {
+        actor = actorService.updateActor(actorId, actor);
+        
+        if (actor == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(actorService.updateActor(actorId, actor), HttpStatus.OK);
+        return new ResponseEntity<>(actor, HttpStatus.OK);
     }
 
 }

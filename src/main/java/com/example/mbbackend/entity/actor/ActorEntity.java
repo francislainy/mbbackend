@@ -32,6 +32,6 @@ public class ActorEntity {
     @Column(name = "imageUrl")
     private String imageUrl;
 
-    @OneToMany(mappedBy = "actor", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "actor", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<MovieEntity> movie;
 }

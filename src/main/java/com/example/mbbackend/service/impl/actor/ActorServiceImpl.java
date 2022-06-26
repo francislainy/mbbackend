@@ -106,6 +106,7 @@ public class ActorServiceImpl implements ActorService {
         if (actorEntityOptional.isPresent()) {
 
             ActorEntity actorEntity = ActorEntity.builder()
+                    .id(actor.getId())
                     .name(actor.getName())
                     .associatedPinyinSound(actor.getAssociatedPinyinSound())
                     .family(actor.getFamily())
