@@ -37,7 +37,13 @@ public class RoomController {
     @PostMapping({"", "/"})
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
 
-        return new ResponseEntity<>(roomService.createRoom(room), HttpStatus.CREATED);
+        room = roomService.createRoom(room);
+
+        if (room == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
 
     @DeleteMapping({"/{roomId}", "/{roomId}/"})
@@ -50,7 +56,13 @@ public class RoomController {
     @PutMapping({"/{roomId}", "/{roomId}/"})
     public ResponseEntity<Object> updateRoom(@PathVariable UUID roomId, @RequestBody Room room) {
 
-        return new ResponseEntity<>(roomService.updateRoom(roomId, room), HttpStatus.OK);
+        room = roomService.updateRoom(roomId, room);
+
+        if (room == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(room, HttpStatus.OK);
     }
 
 }

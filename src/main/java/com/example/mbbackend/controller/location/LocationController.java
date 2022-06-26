@@ -20,7 +20,7 @@ public class LocationController {
     LocationService locationService;
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Object> getAllLocations() {
+    public ResponseEntity<Object> getLocations() {
 
         HashMap<String, List<Location>> map = new HashMap<>();
         map.put("locations", locationService.getAllLocations());
@@ -29,7 +29,7 @@ public class LocationController {
     }
 
     @GetMapping({"/{locationId}", "/{locationId}/"})
-    public ResponseEntity<Object> getSingleLocation(@PathVariable UUID locationId) {
+    public ResponseEntity<Object> getLocation(@PathVariable UUID locationId) {
 
         return new ResponseEntity<>(locationService.getLocation(locationId), HttpStatus.OK);
     }
@@ -37,7 +37,14 @@ public class LocationController {
     @PostMapping({"", "/"})
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
 
-        return new ResponseEntity<>(locationService.createLocation(location), HttpStatus.CREATED);
+        location = locationService.createLocation(location);
+
+        if (location == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(location, HttpStatus.CREATED);
+
     }
 
     @DeleteMapping({"/{locationId}", "/{locationId}/"})
@@ -50,7 +57,15 @@ public class LocationController {
     @PutMapping({"/{locationId}", "/{locationId}/"})
     public ResponseEntity<Object> updateLocation(@PathVariable UUID locationId, @RequestBody Location location) {
 
-        return new ResponseEntity<>(locationService.updateLocation(locationId, location), HttpStatus.OK);
+
+        location = locationService.updateLocation(locationId, location);
+
+        if (location == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(location, HttpStatus.OK);
+
     }
 
 }
