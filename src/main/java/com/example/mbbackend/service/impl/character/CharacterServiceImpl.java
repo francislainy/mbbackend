@@ -147,6 +147,7 @@ public class CharacterServiceImpl implements CharacterService {
         if (characterEntityOptional.isPresent()) {
 
             CharacterEntity characterEntity = CharacterEntity.builder()
+                    .id(uuid)
                     .hanzi(character.getHanzi())
                     .pinyin(character.getPinyin())
                     .meaning(character.getMeaning())
