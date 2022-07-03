@@ -1,5 +1,6 @@
 package com.example.mbbackend.entity.room;
 
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,8 @@ public class RoomEntity {
     private UUID id;
     @Column(name = "title")
     private String title;
+    @Column(name = "tone")
+    private CharacterTone tone;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<MovieEntity> movie;

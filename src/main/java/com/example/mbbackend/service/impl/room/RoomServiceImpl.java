@@ -27,6 +27,7 @@ public class RoomServiceImpl implements RoomService {
                 Room.builder()
                         .id(roomEntity.getId())
                         .title(roomEntity.getTitle())
+                        .tone(roomEntity.getTone())
                         .build()));
 
         return roomList;
@@ -44,6 +45,7 @@ public class RoomServiceImpl implements RoomService {
             return Room.builder()
                     .id(roomEntity.getId())
                     .title(roomEntity.getTitle())
+                    .tone(roomEntity.getTone())
                     .build();
         } else {
             return null;
@@ -55,6 +57,7 @@ public class RoomServiceImpl implements RoomService {
 
         RoomEntity roomEntity = RoomEntity.builder()
                 .title(room.getTitle())
+                .tone(room.getTone())
                 .build();
 
         roomEntity = roomRepository.save(roomEntity);
@@ -62,6 +65,7 @@ public class RoomServiceImpl implements RoomService {
         return Room.builder()
                 .id(roomEntity.getId())
                 .title(roomEntity.getTitle())
+                .tone(roomEntity.getTone())
                 .build();
     }
 
@@ -91,6 +95,7 @@ public class RoomServiceImpl implements RoomService {
             RoomEntity roomEntity = RoomEntity.builder()
                     .id(room.getId())
                     .title(room.getTitle())
+                    .tone(room.getTone())
                     .build();
 
             roomEntity = roomRepository.save(roomEntity);
@@ -98,6 +103,7 @@ public class RoomServiceImpl implements RoomService {
             return Room.builder()
                     .id(roomEntity.getId())
                     .title(roomEntity.getTitle())
+                    .tone(roomEntity.getTone())
                     .build();
         } else {
             return null;

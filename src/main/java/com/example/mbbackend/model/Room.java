@@ -1,5 +1,6 @@
 package com.example.mbbackend.model;
 
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.entity.room.RoomEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,11 +21,14 @@ public class Room {
     private UUID id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String title;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CharacterTone tone;
 
     public static Room convertRoom(RoomEntity roomEntity) {
         return Room.builder()
                 .id(roomEntity.getId())
                 .title(roomEntity.getTitle())
+                .tone(roomEntity.getTone())
                 .build();
     }
 }

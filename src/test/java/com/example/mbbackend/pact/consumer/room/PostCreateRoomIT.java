@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.model.Room;
 import com.example.mbbackend.util.Utils;
 import io.restassured.response.Response;
@@ -39,11 +40,13 @@ class PostCreateRoomIT {
 
         DslPart bodyGiven = new PactDslJsonBody()
                 .stringType("title", "Bedroom")
+                .stringType("tone", "FIRST")
                 .close();
 
         DslPart bodyReturned = new PactDslJsonBody()
                 .uuid("id", "2cfff94a-b70e-4b39-bd2a-be1c0f898589")
                 .stringType("title", "Bedroom")
+                .stringType("tone", "FIRST")
                 .close();
 
         return builder
@@ -65,6 +68,7 @@ class PostCreateRoomIT {
 
         Room room = Room.builder()
                 .title("Bedroom")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         //Mock url

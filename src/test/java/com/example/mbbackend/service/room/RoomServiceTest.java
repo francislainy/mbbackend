@@ -1,5 +1,6 @@
 package com.example.mbbackend.service.room;
 
+import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.entity.room.RoomEntity;
 import com.example.mbbackend.model.Room;
 import com.example.mbbackend.repository.room.RoomRepository;
@@ -29,7 +30,7 @@ class RoomServiceTest {
     RoomRepository roomRepository;
 
     @Test
-    void testGetAllRooms() {
+    void testGetRooms() {
 
         List<RoomEntity> roomEntityList = new ArrayList<>();
         UUID roomId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
@@ -37,6 +38,7 @@ class RoomServiceTest {
         RoomEntity roomEntity = RoomEntity.builder()
                 .id(roomId)
                 .title("anyTitle")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         roomEntityList.add(roomEntity);
@@ -51,18 +53,20 @@ class RoomServiceTest {
 
         assertAll(
                 () -> assertEquals(roomEntity.getId().toString(), room.getId().toString()),
-                () -> assertEquals(roomEntity.getTitle(), room.getTitle()));
+                () -> assertEquals(roomEntity.getTitle(), room.getTitle()),
+                () -> assertEquals(roomEntity.getTone(), room.getTone()));
 
     }
 
     @Test
-    void testGetSingleRoom() {
+    void testGetRoom() {
 
         UUID roomId = UUID.fromString("1bfff94a-b70e-4b39-bd2a-be1c0f898589");
 
         Optional<RoomEntity> optionalLocationEntity = Optional.ofNullable(RoomEntity.builder()
                 .id(roomId)
                 .title("anyRoom")
+                .tone(CharacterTone.FIRST)
                 .build());
 
         when(roomRepository.findById(roomId)).thenReturn(optionalLocationEntity);
@@ -71,7 +75,8 @@ class RoomServiceTest {
 
         assertAll(
                 () -> assertEquals(roomId.toString(), room.getId().toString()),
-                () -> assertEquals("anyRoom", room.getTitle()));
+                () -> assertEquals("anyRoom", room.getTitle()),
+                () -> assertEquals("FIRST", room.getTone().toString()));
     }
 
     @Test
@@ -82,6 +87,7 @@ class RoomServiceTest {
         RoomEntity roomEntity = RoomEntity.builder()
                 .id(roomId)
                 .title("anyTitle")
+                .tone(CharacterTone.FIRST)
                 .build();
 
         when(roomRepository.save(any())).thenReturn(roomEntity);
@@ -90,7 +96,8 @@ class RoomServiceTest {
 
         assertAll(
                 () -> assertEquals(roomId.toString(), room.getId().toString()),
-                () -> assertEquals(roomEntity.getTitle(), room.getTitle()));
+                () -> assertEquals(roomEntity.getTitle(), room.getTitle()),
+                () -> assertEquals(roomEntity.getTone(), room.getTone()));
     }
 
     @Test
@@ -123,21 +130,24 @@ class RoomServiceTest {
         RoomEntity roomEntity = RoomEntity.builder()
                 .id(roomId)
                 .title("anyTitle")
+                .tone(CharacterTone.FIRST)
                 .build();
 
-        Room room0 = Room.builder()
+        Room roomUpdated = Room.builder()
                 .id(roomId)
-                .title("anyTitle")
+                .title("anyUpdatedTitle")
+                .tone(CharacterTone.FIFTY)
                 .build();
 
         when(roomRepository.findById(roomId)).thenReturn(Optional.ofNullable(roomEntity));
         when(roomRepository.save(any())).thenReturn(roomEntity);
 
-        Room room = roomService.updateRoom(roomId, room0);
+        Room room = roomService.updateRoom(roomId, roomUpdated);
 
         assertAll(
                 () -> assertEquals(roomId.toString(), room.getId().toString()),
-                () -> assertEquals(roomEntity.getTitle(), room.getTitle()));
+                () -> assertEquals(roomEntity.getTitle(), room.getTitle()),
+                () -> assertEquals(roomEntity.getTone(), room.getTone()));
     }
 
 }

@@ -40,6 +40,7 @@ class GetRoomsIT {
                 .eachLike("rooms", 2)
                     .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
                     .stringType("title", "Bedroom")
+                    .stringType("tone", "FIRST")
                 .closeArray()
                 .close();
 

@@ -71,7 +71,7 @@ public class MovieController {
     }
 
     @GetMapping({"/filter/custom", "/filter/custom/"})
-    public ResponseEntity<Object> findPersonByCustom(
+    public ResponseEntity<Object> findMovieByCustom(
             @RequestParam(value = "id", required = false) UUID id,
             @RequestParam(value = "characterId", required = false) UUID characterId,
             @RequestParam(value = "hanzi", required = false) String hanzi,

@@ -23,7 +23,7 @@ public class PostgresSqlContainer extends PostgreSQLContainer<PostgresSqlContain
 
     public static PostgresSqlContainer getInstance() {
         if (container == null) {
-            container = new PostgresSqlContainer();//.withInitScript("db-table-structure.sql");
+            container = new PostgresSqlContainer().withReuse(true);//.withInitScript("db-table-structure.sql");
         }
         return container;
     }
