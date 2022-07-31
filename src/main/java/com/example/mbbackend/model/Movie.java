@@ -19,6 +19,7 @@ public class Movie {
     private UUID id;
     private String scene;
     private String imageUrl;
+    private Boolean suggestedMovie;
 
     private Character character;
     private Actor actor;
@@ -34,6 +35,7 @@ public class Movie {
                 .actor(Actor.convertActor(movieEntity.getActor()))
                 .location(Location.convertLocation(movieEntity.getLocation()))
                 .room(Room.convertRoom(movieEntity.getRoom()))
+                .suggestedMovie(movieEntity.getSuggestedMovie())
                 .build();
     }
 }

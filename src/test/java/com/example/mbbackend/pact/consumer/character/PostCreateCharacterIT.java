@@ -42,6 +42,7 @@ class PostCreateCharacterIT {
 
         headers.put("Content-Type", "application/json");
 
+        // @formatter:off
         DslPart bodyGiven = new PactDslJsonBody()
                 .stringType("hanzi", "uniqueFromPact")
                 .stringType("pinyin", "xi")
@@ -49,8 +50,7 @@ class PostCreateCharacterIT {
                 .stringType("tone", "FIRST")
                 .booleanType("prop", true)
                 .close();
-
-        // @formatter:off
+        
         DslPart bodyReturned = new PactDslJsonBody()
                 .stringType("hanzi", "uniqueFromPact")
                 .stringType("pinyin", "xi")
@@ -59,6 +59,19 @@ class PostCreateCharacterIT {
                 .booleanType("prop", true)
                 .object("movie")
                 .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                .booleanType("isSuggestedMovie", true)
+                    .object("location")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                    .stringType("title", "Childhood home")
+                    .closeObject()
+                    .object("actor")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                    .stringType("title", "Shakira")
+                    .closeObject()
+                    .object("room")
+                    .uuid("id", "1bfff94a-b70e-4b39-bd2a-be1c0f898589")
+                    .stringType("title", "bedroom")
+                    .closeObject()
                 .closeObject()
                 .close();
         // @formatter:on

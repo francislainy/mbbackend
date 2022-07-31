@@ -25,6 +25,8 @@ public class MovieEntity {
     private String scene;
     @Column(name = "imageUrl")
     private String imageUrl;
+    @Column(name="suggested_movie") 
+    private Boolean suggestedMovie;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "character_id", referencedColumnName = "id")

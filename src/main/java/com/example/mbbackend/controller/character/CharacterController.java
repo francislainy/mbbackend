@@ -24,7 +24,7 @@ public class CharacterController {
     CharacterRepository characterRepository;
 
     @GetMapping({"", "/"})
-    public ResponseEntity<Object> getAllCharacter() {
+    public ResponseEntity<Object> getCharacterList() {
 
         HashMap<String, List<Character>> map = new HashMap<>();
         map.put("characters", characterService.getAllCharacters());
@@ -33,7 +33,7 @@ public class CharacterController {
     }
 
     @GetMapping({"/{characterId}", "/{characterId}/"})
-    public ResponseEntity<Object> getSingleCharacter(@PathVariable UUID characterId) {
+    public ResponseEntity<Object> getCharacter(@PathVariable UUID characterId) {
 
         return new ResponseEntity<>(characterService.getCharacter(characterId), HttpStatus.OK);
     }

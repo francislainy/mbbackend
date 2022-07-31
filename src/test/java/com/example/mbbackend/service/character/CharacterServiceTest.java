@@ -1,9 +1,11 @@
 package com.example.mbbackend.service.character;
 
 import com.example.mbbackend.config.CharacterTone;
+import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.model.Character;
+import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.service.impl.character.CharacterServiceImpl;
@@ -30,6 +32,9 @@ class CharacterServiceTest {
 
     @Mock
     MovieRepository movieRepository;
+
+    @Mock
+    ActorRepository actorRepository;
 
     @Test
     void testGetAllCharacters() {
@@ -194,12 +199,27 @@ class CharacterServiceTest {
 
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(UUID.randomUUID())
+                .suggestedMovie(true)
+                .scene("")
+                .imageUrl("")
+                .character(characterEntity)
+                .actor(ActorEntity.builder()
+                        .id(UUID.randomUUID())
+                        .name("Ji")
+                        .associatedPinyinSound("ji")
+                        .build())
+                .location(null)
+                .room(null)
                 .build();
 
         when(characterRepository.save(any())).thenReturn(characterEntity);
         when(movieRepository.save(any())).thenReturn(movieEntity);
 
-        Character character = characterService.createCharacter(new Character());
+        Character character = characterService.createCharacter(Character.builder()
+                .meaning("anyMeaning")
+                .hanzi("ji")
+                .pinyin("ji")
+                .build());
 
         assertAll(
                 () -> assertEquals(characterId.toString(), character.getId().toString()),
@@ -209,7 +229,16 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
                 () -> assertTrue(character.isProp()),
                 () -> assertNotNull(character.getMovie()),
-                () -> assertNotNull(character.getMovie().getId()));
+                () -> assertNotNull(character.getMovie()),
+                () -> assertNotNull(character.getMovie().getId()),
+//                () -> assertNotNull(character.getMovie().getScene()),
+                () -> assertNotNull(character.getMovie().getActor().getId()),
+                () -> assertNotNull(character.getMovie().getActor().getName()),
+                () -> assertEquals("Ji", character.getMovie().getActor().getName()),
+                () -> assertEquals("ji", character.getMovie().getActor().getAssociatedPinyinSound()))
+//                () -> assertNotNull(character.getMovie().getLocation()),
+//                () -> assertNotNull(character.getMovie().getRoom()))
+        ;
     }
 
     @Test
@@ -287,5 +316,38 @@ class CharacterServiceTest {
                 () -> assertEquals(characterEntity.getTone(), character.getTone()),
                 () -> assertEquals(characterEntity.getMeaning(), character.getMeaning()),
                 () -> assertTrue(characterEntity.isProp()));
+    }
+
+    @Test
+    void testGetActorFromCharacter() {
+        
+//        b-, p-, m-, f-, d-, t-, n-, l-, g-, k-, h-, zh-, ch-, sh-, r-, z-, c-, s-
+//        y-, bi, pi, mi-, di-, ti-, ni-, li-, ji-, qi-, xi-
+//        w-, bu-, pu, mu-, fu-, du-, tu-, nu-, lu-, gu-, ku-, hu-, zhu-, chu-, shu-, ru-, zu-, cu-, su-
+//        yu-, nü-, lü-, ju-, qu-, xu-
+
+        List<ActorEntity> actorEntityList = new ArrayList<>();
+        actorEntityList.add(ActorEntity.builder().name("jennie").associatedPinyinSound("ji").build());
+        actorEntityList.add(ActorEntity.builder().name("jackie chan").associatedPinyinSound("void").build());
+        actorEntityList.add(ActorEntity.builder().name("shakira").associatedPinyinSound("xi").build());
+        actorEntityList.add(ActorEntity.builder().name("fidel castro").associatedPinyinSound("f").build());
+        actorEntityList.add(ActorEntity.builder().name("brad pitt").associatedPinyinSound("b").build());
+        actorEntityList.add(ActorEntity.builder().name("li zi qing").associatedPinyinSound("li").build());
+        actorEntityList.add(ActorEntity.builder().name("lex luthor").associatedPinyinSound("lu").build());
+        actorEntityList.add(ActorEntity.builder().name("yasser arafat").associatedPinyinSound("yu").build());
+
+        when(actorRepository.findAll()).thenReturn(actorEntityList);
+        when(actorRepository.findActorEntityByAssociatedPinyinSound("void")).thenReturn(Optional.of(ActorEntity.builder().name("jackie chan").associatedPinyinSound("void").build()));
+
+        assertAll(
+                () -> assertEquals("jennie", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("jiang").build()).getName()),
+                () -> assertEquals("shakira", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("xian").build()).getName()),
+                () -> assertEquals("fidel castro", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("fei").build()).getName()),
+                () -> assertEquals("brad pitt", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("bang").build()).getName()),
+                () -> assertEquals("lex luthor", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("luo").build()).getName()),
+                () -> assertEquals("yasser arafat", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("yuan").build()).getName()),
+                () -> assertEquals("li zi qing", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("liang").build()).getName()),
+                () -> assertEquals("jackie chan", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("e").build()).getName())
+        );
     }
 }

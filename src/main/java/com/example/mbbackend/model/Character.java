@@ -35,7 +35,7 @@ public class Character {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIncludeProperties(value = "id")
+    @JsonIncludeProperties(value= {"id", "actor"})
     private Movie movie;
 
     public static Character convertCharacter(CharacterEntity characterEntity) {

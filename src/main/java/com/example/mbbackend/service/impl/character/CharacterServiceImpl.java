@@ -1,16 +1,22 @@
 package com.example.mbbackend.service.impl.character;
 
+import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
+import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.model.Movie;
+import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
 import com.example.mbbackend.service.character.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
@@ -20,6 +26,9 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
 
     @Override
     public List<Character> getAllCharacters() {
@@ -103,7 +112,7 @@ public class CharacterServiceImpl implements CharacterService {
                 .scene("")
                 .imageUrl("")
                 .character(characterEntity)
-                .actor(null)
+                .actor(getActorFromCharacter(characterEntity))
                 .location(null)
                 .room(null)
                 .build();
@@ -120,6 +129,11 @@ public class CharacterServiceImpl implements CharacterService {
                 .prop(characterEntity.isProp())
                 .movie(Movie.builder()
                         .id(movieEntity.getId())
+                        .actor(Actor.builder()
+                                .id(movieEntity.getActor().getId())
+                                .name(movieEntity.getActor().getName())
+                                .associatedPinyinSound(movieEntity.getActor().getAssociatedPinyinSound())
+                                .build())
                         .build())
                 .build();
     }
@@ -168,6 +182,49 @@ public class CharacterServiceImpl implements CharacterService {
         } else {
             return null;
         }
+    }
+
+    public ActorEntity getActorFromCharacter(CharacterEntity characterEntity) {
+
+        List<String> threeCharacters = new ArrayList<>();
+        List<String> twoCharacters = new ArrayList<>();
+        List<String> oneCharacter = new ArrayList<>();
+
+        if (characterEntity.getPinyin().length() == 1) {
+            return actorRepository.findActorEntityByAssociatedPinyinSound("void").orElse(null);
+        }
+
+        List<ActorEntity> actorEntityList = actorRepository.findAll();
+
+        for (ActorEntity actorEntity : actorEntityList) {
+
+            if (actorEntity.getAssociatedPinyinSound().length() >= 3) {
+                threeCharacters.add(actorEntity.getAssociatedPinyinSound());
+            } else if (actorEntity.getAssociatedPinyinSound().length() >= 2) {
+                twoCharacters.add(actorEntity.getAssociatedPinyinSound());
+            } else if (actorEntity.getAssociatedPinyinSound().length() >= 1) {
+                oneCharacter.add(actorEntity.getAssociatedPinyinSound());
+            }
+        }
+        
+        String pinyin = characterEntity.getPinyin();
+        String pinyinSubstring = "";
+
+        if (pinyin.length() >= 3 && threeCharacters.contains(pinyin.substring(0, 3))) {
+            pinyinSubstring = pinyin.substring(0, 3);
+        } else if (pinyin.length() >= 2 && twoCharacters.contains(pinyin.substring(0, 2))) {
+            pinyinSubstring = pinyin.substring(0, 2);
+        } else if (oneCharacter.contains(pinyin.substring(0, 1))) {
+            pinyinSubstring = pinyin.substring(0, 1);
+        }
+
+        for (ActorEntity actor : actorEntityList) {
+            if (actor.getAssociatedPinyinSound().equals(pinyinSubstring)) {
+                return actor;
+            }
+        }
+
+        return null;
     }
 
 }
