@@ -2,13 +2,17 @@ package com.example.mbbackend.service.impl.character;
 
 import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.entity.character.CharacterEntity;
+import com.example.mbbackend.entity.location.LocationEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
+import com.example.mbbackend.entity.room.RoomEntity;
 import com.example.mbbackend.model.Actor;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.model.Movie;
 import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
+import com.example.mbbackend.repository.location.LocationRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
+import com.example.mbbackend.repository.room.RoomRepository;
 import com.example.mbbackend.service.character.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
@@ -29,6 +34,12 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Autowired
     ActorRepository actorRepository;
+
+    @Autowired
+    LocationRepository locationRepository;
+
+    @Autowired
+    RoomRepository roomRepository;
 
     @Override
     public List<Character> getAllCharacters() {
@@ -186,45 +197,69 @@ public class CharacterServiceImpl implements CharacterService {
 
     public ActorEntity getActorFromCharacter(CharacterEntity characterEntity) {
 
-        List<String> threeCharacters = new ArrayList<>();
-        List<String> twoCharacters = new ArrayList<>();
-        List<String> oneCharacter = new ArrayList<>();
-
         if (characterEntity.getPinyin().length() == 1) {
             return actorRepository.findActorEntityByAssociatedPinyinSound("void").orElse(null);
         }
 
         List<ActorEntity> actorEntityList = actorRepository.findAll();
+        List<String> actorSounds = actorRepository.findAll().stream().map(ActorEntity::getAssociatedPinyinSound)
+                .toList();
 
-        for (ActorEntity actorEntity : actorEntityList) {
-
-            if (actorEntity.getAssociatedPinyinSound().length() >= 3) {
-                threeCharacters.add(actorEntity.getAssociatedPinyinSound());
-            } else if (actorEntity.getAssociatedPinyinSound().length() >= 2) {
-                twoCharacters.add(actorEntity.getAssociatedPinyinSound());
-            } else if (actorEntity.getAssociatedPinyinSound().length() >= 1) {
-                oneCharacter.add(actorEntity.getAssociatedPinyinSound());
-            }
-        }
-        
         String pinyin = characterEntity.getPinyin();
         String pinyinSubstring = "";
 
-        if (pinyin.length() >= 3 && threeCharacters.contains(pinyin.substring(0, 3))) {
+        if (pinyin.length() >= 3 && actorSounds.contains(pinyin.substring(0, 3))) {
             pinyinSubstring = pinyin.substring(0, 3);
-        } else if (pinyin.length() >= 2 && twoCharacters.contains(pinyin.substring(0, 2))) {
+        } else if (pinyin.length() >= 2 && actorSounds.contains(pinyin.substring(0, 2))) {
             pinyinSubstring = pinyin.substring(0, 2);
-        } else if (oneCharacter.contains(pinyin.substring(0, 1))) {
+        } else if (actorSounds.contains(pinyin.substring(0, 1))) {
             pinyinSubstring = pinyin.substring(0, 1);
         }
 
-        for (ActorEntity actor : actorEntityList) {
-            if (actor.getAssociatedPinyinSound().equals(pinyinSubstring)) {
-                return actor;
-            }
-        }
-
-        return null;
+        String finalPinyinSubstring = pinyinSubstring;
+        return actorEntityList.stream()
+                .filter(actorEntity -> actorEntity.getAssociatedPinyinSound().equals(finalPinyinSubstring))
+                .findFirst().orElse(null);
     }
 
+    public int getActorLengthFromCharacter(CharacterEntity characterEntity) {
+
+        List<String> actorSounds = actorRepository.findAll().stream().map(ActorEntity::getAssociatedPinyinSound).toList();
+        String pinyin = characterEntity.getPinyin();
+
+        if (pinyin.length() >= 3 && actorSounds.contains(pinyin.substring(0, 3))) {
+            return 3;
+        } else if (pinyin.length() >= 2 && actorSounds.contains(pinyin.substring(0, 2))) {
+            return 2;
+        } else if (actorSounds.contains(pinyin.substring(0, 1)) || pinyin.length() == 1) {
+            return 1;
+        }
+
+        return -1;
+    }
+
+    public LocationEntity getLocationFromCharacter(CharacterEntity characterEntity) {
+
+//        -a, -o, -e, -ai, -ei, -ao, -ou, -an, -ang, -(e)n, -(e)ng, -ong & Ø Null
+
+        int lengthActor = getActorLengthFromCharacter(characterEntity);
+
+        if (characterEntity.getPinyin().length() == 1) {
+            return locationRepository.findLocationEntityByAssociatedPinyinSound("void").orElse(null);
+        }
+
+        String locationSubstring = characterEntity.getPinyin().substring(lengthActor);
+        List<LocationEntity> locationEntityList = locationRepository.findAll();
+        return locationEntityList.stream()
+                .filter(locationEntity -> locationEntity.getAssociatedPinyinSound().equals(locationSubstring))
+                .findFirst().orElse(null);
+    }
+    
+    public RoomEntity getRoomFromCharacter(CharacterEntity characterEntity) {
+
+        List<RoomEntity> roomEntityList = roomRepository.findAll();
+        return roomEntityList.stream()
+                .filter(roomEntity -> roomEntity.getTone().equals(characterEntity.getTone()))
+                .findFirst().orElse(null);
+    }
 }

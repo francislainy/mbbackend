@@ -11,5 +11,4 @@ import java.util.UUID;
 public interface ActorRepository extends JpaRepository<ActorEntity, UUID> {
 
     Optional<ActorEntity> findActorEntityByAssociatedPinyinSound(String pinyinSound);
-
 }

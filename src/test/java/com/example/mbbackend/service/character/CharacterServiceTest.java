@@ -3,11 +3,15 @@ package com.example.mbbackend.service.character;
 import com.example.mbbackend.config.CharacterTone;
 import com.example.mbbackend.entity.actor.ActorEntity;
 import com.example.mbbackend.entity.character.CharacterEntity;
+import com.example.mbbackend.entity.location.LocationEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
+import com.example.mbbackend.entity.room.RoomEntity;
 import com.example.mbbackend.model.Character;
 import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
+import com.example.mbbackend.repository.location.LocationRepository;
 import com.example.mbbackend.repository.movie.MovieRepository;
+import com.example.mbbackend.repository.room.RoomRepository;
 import com.example.mbbackend.service.impl.character.CharacterServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +19,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,6 +43,12 @@ class CharacterServiceTest {
     @Mock
     ActorRepository actorRepository;
 
+    @Mock
+    LocationRepository locationRepository;
+    
+    @Mock
+    RoomRepository roomRepository;
+    
     @Test
     void testGetAllCharacters() {
 
@@ -79,8 +92,7 @@ class CharacterServiceTest {
                 () -> assertTrue(character.isProp()),
                 () -> assertEquals(movieId.toString(), character.getMovie().getId().toString()));
     }
-
-
+    
     @Test
     void testGetAllCharactersWhenNoMovie() {
 
@@ -335,6 +347,8 @@ class CharacterServiceTest {
         actorEntityList.add(ActorEntity.builder().name("li zi qing").associatedPinyinSound("li").build());
         actorEntityList.add(ActorEntity.builder().name("lex luthor").associatedPinyinSound("lu").build());
         actorEntityList.add(ActorEntity.builder().name("yasser arafat").associatedPinyinSound("yu").build());
+        actorEntityList.add(ActorEntity.builder().name("chitaozinho").associatedPinyinSound("ch").build());
+        actorEntityList.add(ActorEntity.builder().name("prince").associatedPinyinSound("p").build());
 
         when(actorRepository.findAll()).thenReturn(actorEntityList);
         when(actorRepository.findActorEntityByAssociatedPinyinSound("void")).thenReturn(Optional.of(ActorEntity.builder().name("jackie chan").associatedPinyinSound("void").build()));
@@ -347,7 +361,75 @@ class CharacterServiceTest {
                 () -> assertEquals("lex luthor", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("luo").build()).getName()),
                 () -> assertEquals("yasser arafat", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("yuan").build()).getName()),
                 () -> assertEquals("li zi qing", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("liang").build()).getName()),
+                () -> assertEquals("prince", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("pa").build()).getName()),
+                () -> assertEquals("chitaozinho", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("chou").build()).getName()),
                 () -> assertEquals("jackie chan", characterService.getActorFromCharacter(CharacterEntity.builder().pinyin("e").build()).getName())
         );
     }
+    
+    @Test
+    void testGetLocationFromCharacter() {
+
+        List<ActorEntity> actorEntityList = new ArrayList<>();
+        actorEntityList.add(ActorEntity.builder().name("jennie").associatedPinyinSound("ji").build());
+        actorEntityList.add(ActorEntity.builder().name("jackie chan").associatedPinyinSound("void").build());
+        actorEntityList.add(ActorEntity.builder().name("shakira").associatedPinyinSound("xi").build());
+        actorEntityList.add(ActorEntity.builder().name("fidel castro").associatedPinyinSound("f").build());
+        actorEntityList.add(ActorEntity.builder().name("brad pitt").associatedPinyinSound("b").build());
+        actorEntityList.add(ActorEntity.builder().name("li zi qing").associatedPinyinSound("li").build());
+        actorEntityList.add(ActorEntity.builder().name("lex luthor").associatedPinyinSound("lu").build());
+        actorEntityList.add(ActorEntity.builder().name("yasser arafat").associatedPinyinSound("yu").build());
+        actorEntityList.add(ActorEntity.builder().name("strong man").associatedPinyinSound("o").build());
+        actorEntityList.add(ActorEntity.builder().name("chitaozinho").associatedPinyinSound("ch").build());
+        actorEntityList.add(ActorEntity.builder().name("prince").associatedPinyinSound("p").build());
+        actorEntityList.add(ActorEntity.builder().name("mike tyson").associatedPinyinSound("m").build());
+        
+        when(actorRepository.findAll()).thenReturn(actorEntityList);
+        
+        List<LocationEntity> locationEntity = new ArrayList<>();
+        locationEntity.add(LocationEntity.builder().title("south london").associatedPinyinSound("ou").build());
+        locationEntity.add(LocationEntity.builder().title("england").associatedPinyinSound("ang").build());
+        locationEntity.add(LocationEntity.builder().title("adailton's house").associatedPinyinSound("ei").build());
+        locationEntity.add(LocationEntity.builder().title("lonnier's house").associatedPinyinSound("ai").build());
+        locationEntity.add(LocationEntity.builder().title("aunt's house").associatedPinyinSound("an").build());
+        locationEntity.add(LocationEntity.builder().title("gym").associatedPinyinSound("ong").build());
+        locationEntity.add(LocationEntity.builder().title("amie's house").associatedPinyinSound("a").build());
+        locationEntity.add(LocationEntity.builder().title("childhood home").associatedPinyinSound("void").build());
+
+        when(locationRepository.findAll()).thenReturn(locationEntity);
+        when(locationRepository.findLocationEntityByAssociatedPinyinSound("void")).thenReturn(Optional.of(LocationEntity.builder().title("childhood home").associatedPinyinSound("void").build()));
+
+        assertAll(
+                () -> assertEquals("south london", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("chou").build()).getTitle()),
+                () -> assertEquals("england", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("jiang").build()).getTitle()),
+                () -> assertEquals("aunt's house", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("xian").build()).getTitle()),
+                () -> assertEquals("aunt's house", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("yuan").build()).getTitle()),
+                () -> assertEquals("england", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("bang").build()).getTitle()),
+                () -> assertEquals("amie's house", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("pa").build()).getTitle()),
+                () -> assertEquals("childhood home", characterService.getLocationFromCharacter(CharacterEntity.builder().pinyin("e").build()).getTitle())
+        );
+    }
+    
+    @Test
+    void testGetRoomFromCharacter() {
+
+        List<RoomEntity> roomEntityList = new ArrayList<>();
+        roomEntityList.add(RoomEntity.builder().title("outside the front entrance").tone(CharacterTone.FIRST).build());
+        roomEntityList.add(RoomEntity.builder().title("kitchen").tone(CharacterTone.SECOND).build());
+        roomEntityList.add(RoomEntity.builder().title("bedroom").tone(CharacterTone.THIRD).build());
+        roomEntityList.add(RoomEntity.builder().title("bathroom").tone(CharacterTone.FOURTH).build());
+        roomEntityList.add(RoomEntity.builder().title("roof").tone(CharacterTone.FIFTY).build());
+        
+        when(roomRepository.findAll()).thenReturn(roomEntityList);
+        
+        assertAll(
+                () -> assertEquals("outside the front entrance", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FIRST).build()).getTitle()),
+                () -> assertEquals("kitchen", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.SECOND).build()).getTitle()),
+                () -> assertEquals("bedroom", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.THIRD).build()).getTitle()),
+                () -> assertEquals("bathroom", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FOURTH).build()).getTitle()),
+                () -> assertEquals("roof", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FIFTY).build()).getTitle())
+        );
+        
+    }
+    
 }
