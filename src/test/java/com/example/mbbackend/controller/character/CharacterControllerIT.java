@@ -130,7 +130,7 @@ class CharacterControllerIT extends BaseIntegrationTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
-                .tone(CharacterTone.FIFTY)
+                .tone(CharacterTone.FIFTH)
                 .prop(true)
                 .build();
 

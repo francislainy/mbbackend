@@ -136,7 +136,7 @@ class RoomServiceTest {
         Room roomUpdated = Room.builder()
                 .id(roomId)
                 .title("anyUpdatedTitle")
-                .tone(CharacterTone.FIFTY)
+                .tone(CharacterTone.FIFTH)
                 .build();
 
         when(roomRepository.findById(roomId)).thenReturn(Optional.ofNullable(roomEntity));

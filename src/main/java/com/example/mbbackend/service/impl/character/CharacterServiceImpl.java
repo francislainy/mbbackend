@@ -5,9 +5,8 @@ import com.example.mbbackend.entity.character.CharacterEntity;
 import com.example.mbbackend.entity.location.LocationEntity;
 import com.example.mbbackend.entity.movie.MovieEntity;
 import com.example.mbbackend.entity.room.RoomEntity;
-import com.example.mbbackend.model.Actor;
+import com.example.mbbackend.model.*;
 import com.example.mbbackend.model.Character;
-import com.example.mbbackend.model.Movie;
 import com.example.mbbackend.repository.actor.ActorRepository;
 import com.example.mbbackend.repository.character.CharacterRepository;
 import com.example.mbbackend.repository.location.LocationRepository;
@@ -122,10 +121,11 @@ public class CharacterServiceImpl implements CharacterService {
         MovieEntity movieEntity = MovieEntity.builder()
                 .scene("")
                 .imageUrl("")
+                .suggestedMovie(true)
                 .character(characterEntity)
                 .actor(getActorFromCharacter(characterEntity))
-                .location(null)
-                .room(null)
+                .location(getLocationFromCharacter(characterEntity))
+                .room(getRoomFromCharacter(characterEntity))
                 .build();
 
         characterEntity = characterRepository.save(characterEntity);
@@ -140,12 +140,25 @@ public class CharacterServiceImpl implements CharacterService {
                 .prop(characterEntity.isProp())
                 .movie(Movie.builder()
                         .id(movieEntity.getId())
+                        .suggestedMovie(movieEntity.getSuggestedMovie())
+                        .scene(movieEntity.getScene())
                         .actor(Actor.builder()
                                 .id(movieEntity.getActor().getId())
                                 .name(movieEntity.getActor().getName())
                                 .associatedPinyinSound(movieEntity.getActor().getAssociatedPinyinSound())
                                 .build())
-                        .build())
+                        .location(Location.builder()
+                                .id(movieEntity.getLocation().getId())
+                                .title(movieEntity.getLocation().getTitle())
+                                .associatedPinyinSound(movieEntity.getLocation().getAssociatedPinyinSound())
+                                .build())
+                        .room(Room.builder()
+                                .id(movieEntity.getRoom().getId())
+                                .title(movieEntity.getRoom().getTitle())
+                                .tone(movieEntity.getRoom().getTone())
+                                .build())
+                        .build()
+                )
                 .build();
     }
 
@@ -240,21 +253,21 @@ public class CharacterServiceImpl implements CharacterService {
 
     public LocationEntity getLocationFromCharacter(CharacterEntity characterEntity) {
 
-//        -a, -o, -e, -ai, -ei, -ao, -ou, -an, -ang, -(e)n, -(e)ng, -ong & Ø Null
+       //  -a, -o, -e, -ai, -ei, -ao, -ou, -an, -ang, -(e)n, -(e)ng, -ong & Ø Null
 
-        int lengthActor = getActorLengthFromCharacter(characterEntity);
+        int actorLength = getActorLengthFromCharacter(characterEntity);
 
         if (characterEntity.getPinyin().length() == 1) {
             return locationRepository.findLocationEntityByAssociatedPinyinSound("void").orElse(null);
         }
 
-        String locationSubstring = characterEntity.getPinyin().substring(lengthActor);
+        String locationSubstring = characterEntity.getPinyin().substring(actorLength);
         List<LocationEntity> locationEntityList = locationRepository.findAll();
         return locationEntityList.stream()
-                .filter(locationEntity -> locationEntity.getAssociatedPinyinSound().equals(locationSubstring))
+                .filter(locationEntity -> locationEntity.getAssociatedPinyinSound().toLowerCase().equals(locationSubstring))
                 .findFirst().orElse(null);
     }
-    
+
     public RoomEntity getRoomFromCharacter(CharacterEntity characterEntity) {
 
         List<RoomEntity> roomEntityList = roomRepository.findAll();

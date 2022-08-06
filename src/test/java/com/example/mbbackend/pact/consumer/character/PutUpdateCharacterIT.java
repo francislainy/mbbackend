@@ -76,7 +76,7 @@ class PutUpdateCharacterIT {
                 .hanzi("西")
                 .pinyin("xi")
                 .meaning("West")
-                .tone(CharacterTone.FIFTY)
+                .tone(CharacterTone.FIFTH)
                 .prop(true)
                 .build();
 
