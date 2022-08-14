@@ -3,13 +3,14 @@ package com.example.mbbackend.config;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 @Converter(autoApply = true)
-public class TypeToneConverter implements AttributeConverter<CharacterTone, String> {
+public class TypeToneConverter implements AttributeConverter<CharacterTone, Integer> {
 
     @Override
-    public String convertToDatabaseColumn(CharacterTone tone) {
+    public Integer convertToDatabaseColumn(CharacterTone tone) {
         if (tone == null) {
             return null;
         }
@@ -17,15 +18,30 @@ public class TypeToneConverter implements AttributeConverter<CharacterTone, Stri
     }
 
     @Override
-    public CharacterTone convertToEntityAttribute(String tone) {
+    public CharacterTone convertToEntityAttribute(Integer tone) {
         if (tone == null) {
             return null;
         }
 
-        return Stream
-                .of(CharacterTone.values())
-                .filter(c -> c.getTone().equals(tone))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+        int i = 0;
+        List<CharacterTone> list = List.of(CharacterTone.values());
+        for (CharacterTone characterTone : list) {
+            if (characterTone.getTone().equals(tone+1)) {
+                return list.get(i);
+            }
+            i++;
+        }
+
+        return null;
     }
 }
+        
+//        CharacterTone characterTone = Stream
+//                .of(CharacterTone.values())
+//                .filter(c -> c.getTone().equals(tone))
+//                .findFirst()
+//                .orElseThrow(IllegalArgumentException::new);
+
+//        return characterTone;
+//    }
+//}

@@ -253,7 +253,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     public LocationEntity getLocationFromCharacter(CharacterEntity characterEntity) {
 
-       //  -a, -o, -e, -ai, -ei, -ao, -ou, -an, -ang, -(e)n, -(e)ng, -ong & Ø Null
+        //  -a, -o, -e, -ai, -ei, -ao, -ou, -an, -ang, -(e)n, -(e)ng, -ong & Ø Null
 
         int actorLength = getActorLengthFromCharacter(characterEntity);
 
@@ -269,10 +269,10 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     public RoomEntity getRoomFromCharacter(CharacterEntity characterEntity) {
-
-        List<RoomEntity> roomEntityList = roomRepository.findAll();
-        return roomEntityList.stream()
-                .filter(roomEntity -> roomEntity.getTone().equals(characterEntity.getTone()))
-                .findFirst().orElse(null);
+        RoomEntity roomEntity = roomRepository.findRoomByTone(characterEntity.getTone().getTone().toString()).get(0);
+        
+        roomEntity.setTone(characterEntity.getTone());
+        
+        return roomEntity;
     }
 }

@@ -27,7 +27,7 @@ public class CharacterEntity {
     private String pinyin;
     @Column(name = "meaning")
     private String meaning;
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.ORDINAL)
     @Column(name = "tone")
     private CharacterTone tone;
     @Column(name = "prop")

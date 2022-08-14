@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public enum CharacterTone {
 
-    FIRST("1"), SECOND("2"), THIRD("3"), FOURTH("4"), FIFTH("5");
+    FIRST(1), SECOND(2), THIRD(3), FOURTH(4), FIFTH(5);
 
-    private final String tone;
+    private final Integer tone;
 
-    CharacterTone(String tone) {
+    CharacterTone(Integer tone) {
         this.tone = tone;
     }
 }
