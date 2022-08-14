@@ -420,25 +420,24 @@ class CharacterServiceTest {
     @Test
     void testGetRoomFromCharacter() {
 
-        List<RoomEntity> roomEntityList = new ArrayList<>();
         RoomEntity firstRoom = RoomEntity.builder().title("first room").tone(CharacterTone.FIRST).build();
-        roomEntityList.add(firstRoom);
-        roomEntityList.add(RoomEntity.builder().title("second room").tone(CharacterTone.SECOND).build());
-        roomEntityList.add(RoomEntity.builder().title("third room").tone(CharacterTone.THIRD).build());
-        roomEntityList.add(RoomEntity.builder().title("fourth room").tone(CharacterTone.FOURTH).build());
-        roomEntityList.add(RoomEntity.builder().title("fifth room").tone(CharacterTone.FIFTH).build());
-        
-        
+        RoomEntity secondRoom = RoomEntity.builder().title("second room").tone(CharacterTone.SECOND).build();
+        RoomEntity thirdRoom = RoomEntity.builder().title("third room").tone(CharacterTone.THIRD).build();
+        RoomEntity fourthRoom = RoomEntity.builder().title("fourth room").tone(CharacterTone.FOURTH).build();
+        RoomEntity fifthRoom = RoomEntity.builder().title("fifth room").tone(CharacterTone.FIFTH).build();
 
-        when(roomRepository.findRoomByTone("1")).thenReturn(roomEntityList);
-
+        when(roomRepository.findRoomByTone("1")).thenReturn(firstRoom);
+        when(roomRepository.findRoomByTone("2")).thenReturn(secondRoom);
+        when(roomRepository.findRoomByTone("3")).thenReturn(thirdRoom);
+        when(roomRepository.findRoomByTone("4")).thenReturn(fourthRoom);
+        when(roomRepository.findRoomByTone("5")).thenReturn(fifthRoom);
 
         assertAll(
-                () -> assertEquals("first room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FIRST).build()).getTitle())
-//                () -> assertEquals("second room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.SECOND).build()).getTitle()),
-//                () -> assertEquals("third room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.THIRD).build()).getTitle()),
-//                () -> assertEquals("fourth room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FOURTH).build()).getTitle()),
-//                () -> assertEquals("fifth room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FIFTH).build()).getTitle())
+                () -> assertEquals("first room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FIRST).build()).getTitle()),
+                () -> assertEquals("second room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.SECOND).build()).getTitle()),
+                () -> assertEquals("third room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.THIRD).build()).getTitle()),
+                () -> assertEquals("fourth room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FOURTH).build()).getTitle()),
+                () -> assertEquals("fifth room", characterService.getRoomFromCharacter(CharacterEntity.builder().tone(CharacterTone.FIFTH).build()).getTitle())
         );
 
     }

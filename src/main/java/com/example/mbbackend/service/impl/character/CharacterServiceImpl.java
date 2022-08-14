@@ -269,10 +269,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     public RoomEntity getRoomFromCharacter(CharacterEntity characterEntity) {
-        RoomEntity roomEntity = roomRepository.findRoomByTone(characterEntity.getTone().getTone().toString()).get(0);
-        
+
+        RoomEntity roomEntity = roomRepository.findRoomByTone(characterEntity.getTone().getTone().toString());
         roomEntity.setTone(characterEntity.getTone());
-        
         return roomEntity;
     }
 }
