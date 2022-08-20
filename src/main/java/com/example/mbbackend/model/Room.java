@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -25,10 +26,16 @@ public class Room {
     private CharacterTone tone;
 
     public static Room convertRoom(RoomEntity roomEntity) {
-        return Room.builder()
-                .id(roomEntity.getId())
-                .title(roomEntity.getTitle())
-                .tone(roomEntity.getTone())
-                .build();
+
+        if (roomEntity != null) {
+
+            return Room.builder()
+                    .id(roomEntity.getId())
+                    .title(roomEntity.getTitle())
+                    .tone(roomEntity.getTone())
+                    .build();
+        } else {
+            return null;
+        }
     }
 }

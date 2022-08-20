@@ -23,10 +23,18 @@ public class Location {
     private String associatedPinyinSound;
 
     public static Location convertLocation(LocationEntity locationEntity) {
-        return Location.builder()
-                .id(locationEntity.getId())
-                .title(locationEntity.getTitle())
-                .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
-                .build();
+        
+        if (locationEntity != null) {
+
+            return Location.builder()
+                    .id(locationEntity.getId())
+                    .title(locationEntity.getTitle())
+                    .associatedPinyinSound(locationEntity.getAssociatedPinyinSound())
+                    .build();
+        }
+        
+        else {
+            return null;
+        }
     }
 }

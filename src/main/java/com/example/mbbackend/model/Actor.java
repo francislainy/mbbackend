@@ -28,12 +28,20 @@ public class Actor {
     private String imageUrl;
 
     public static Actor convertActor(ActorEntity actorEntity) {
-        return Actor.builder()
-                .id(actorEntity.getId())
-                .name(actorEntity.getName())
-                .associatedPinyinSound(actorEntity.getAssociatedPinyinSound())
-                .family(actorEntity.getFamily())
-                .imageUrl(actorEntity.getImageUrl())
-                .build();
+        
+        if (actorEntity != null) {
+
+            return Actor.builder()
+                    .id(actorEntity.getId())
+                    .name(actorEntity.getName())
+                    .associatedPinyinSound(actorEntity.getAssociatedPinyinSound())
+                    .family(actorEntity.getFamily())
+                    .imageUrl(actorEntity.getImageUrl())
+                    .build();
+        }
+        
+        else {
+            return null;
+        }
     }
 }

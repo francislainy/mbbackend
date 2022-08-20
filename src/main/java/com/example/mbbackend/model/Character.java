@@ -39,6 +39,7 @@ public class Character {
     private Movie movie;
 
     public static Character convertCharacter(CharacterEntity characterEntity) {
+        
         return Character.builder()
                 .id(characterEntity.getId())
                 .hanzi(characterEntity.getHanzi())
