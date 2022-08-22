@@ -4,7 +4,6 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Converter(autoApply = true)
 public class TypeToneConverter implements AttributeConverter<CharacterTone, Integer> {
@@ -26,7 +25,8 @@ public class TypeToneConverter implements AttributeConverter<CharacterTone, Inte
         int i = 0;
         List<CharacterTone> list = List.of(CharacterTone.values());
         for (CharacterTone characterTone : list) {
-            if (characterTone.getTone().equals(tone+1)) {
+//            if (characterTone.getTone().equals(tone+1)) {
+            if (characterTone.getTone().equals(tone)) {
                 return list.get(i);
             }
             i++;

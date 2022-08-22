@@ -206,7 +206,7 @@ class CharacterServiceTest {
                 .hanzi("anyHanzi")
                 .pinyin("anyPinyin")
                 .meaning("anyMeaning")
-                .tone(CharacterTone.FIRST)
+                .tone(CharacterTone.SECOND)
                 .prop(true)
                 .build();
 
@@ -227,8 +227,8 @@ class CharacterServiceTest {
                         .build())
                 .room(RoomEntity.builder()
                         .id(UUID.randomUUID())
-                        .title("fourth room")
-                        .tone(CharacterTone.FOURTH)
+                        .title("second room")
+                        .tone(CharacterTone.SECOND)
                         .build())
                 .build();
 
@@ -239,7 +239,7 @@ class CharacterServiceTest {
         roomEntityList.add(RoomEntity.builder().title("fourth room").tone(CharacterTone.FOURTH).build());
         roomEntityList.add(RoomEntity.builder().title("fifth room").tone(CharacterTone.FIFTH).build());
 
-        when(roomRepository.findAll()).thenReturn(roomEntityList);
+        when(roomRepository.findRoomByTone(any())).thenReturn(RoomEntity.builder().title("second room").tone(CharacterTone.SECOND).build());
 
         when(characterRepository.save(any())).thenReturn(characterEntity);
         when(movieRepository.save(any())).thenReturn(movieEntity);
@@ -250,7 +250,7 @@ class CharacterServiceTest {
                 .meaning("anyMeaning")
                 .hanzi("anyHanzi")
                 .pinyin("ji")
-                .tone(CharacterTone.FOURTH)
+                .tone(CharacterTone.SECOND)
                 .build());
 
         assertAll(
@@ -269,8 +269,8 @@ class CharacterServiceTest {
                 () -> assertEquals("anyName", character.getMovie().getActor().getName()),
                 () -> assertEquals("ji", character.getMovie().getActor().getAssociatedPinyinSound()),
                 () -> assertNotNull(character.getMovie().getLocation()),
-                () -> assertEquals("fourth room", character.getMovie().getRoom().getTitle()),
-                () -> assertEquals(CharacterTone.FOURTH, character.getMovie().getRoom().getTone()),
+                () -> assertEquals("second room", character.getMovie().getRoom().getTitle()),
+                () -> assertEquals(CharacterTone.SECOND, character.getMovie().getRoom().getTone()),
                 () -> assertNotNull(character.getMovie().getRoom()))
         ;
     }
